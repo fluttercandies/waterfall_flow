@@ -48,6 +48,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    //Viewport
+    //ListView()
+    //SingleChildScrollView
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -68,8 +71,10 @@ class _MyHomePageState extends State<MyHomePage> {
             decoration: BoxDecoration(border: Border.all(color: Colors.black)),
             alignment: Alignment.center,
             child: Text("$index"),
+            height: ((index % 3) + 1) * 100.0,
           );
         },
+        itemCount: 10,
       ),
     );
   }
