@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:math' as math;
-
+import 'sliver.dart';
 import 'sliver_waterfall_flow.dart';
 
 ///
@@ -20,7 +19,7 @@ import 'sliver_waterfall_flow.dart';
 ///    array.
 ///  * [RenderSliverFixedExtentList], which places its children in a linear
 ///    array with a fixed extent in the main axis.
-class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor {
+class RenderSliverWaterfallFlow extends RenderSliverWaterfallFlowMultiBoxAdaptor {
   /// Creates a sliver that contains multiple box children that whose size and
   /// position are determined by a delegate.
   ///

@@ -1,6 +1,119 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 
+/// A delegate used by [RenderSliverMultiBoxAdaptor] to manage its children.
+///
+/// [RenderSliverMultiBoxAdaptor] objects reify their children lazily to avoid
+/// spending resources on children that are not visible in the viewport. This
+/// delegate lets these objects create and remove children as well as estimate
+/// the total scroll offset extent occupied by the full child list.
+abstract class RenderSliverWaterfallFlowBoxChildManager {
+  /// Called during layout when a new child is needed. The child should be
+  /// inserted into the child list in the appropriate position, after the
+  /// `after` child (at the start of the list if `after` is null). Its index and
+  /// scroll offsets will automatically be set appropriately.
+  ///
+  /// The `index` argument gives the index of the child to show. It is possible
+  /// for negative indices to be requested. For example: if the user scrolls
+  /// from child 0 to child 10, and then those children get much smaller, and
+  /// then the user scrolls back up again, this method will eventually be asked
+  /// to produce a child for index -1.
+  ///
+  /// If no child corresponds to `index`, then do nothing.
+  ///
+  /// Which child is indicated by index zero depends on the [GrowthDirection]
+  /// specified in the [RenderSliverMultiBoxAdaptor.constraints]. For example
+  /// if the children are the alphabet, then if
+  /// [SliverConstraints.growthDirection] is [GrowthDirection.forward] then
+  /// index zero is A, and index 25 is Z. On the other hand if
+  /// [SliverConstraints.growthDirection] is [GrowthDirection.reverse]
+  /// then index zero is Z, and index 25 is A.
+  ///
+  /// During a call to [createChild] it is valid to remove other children from
+  /// the [RenderSliverMultiBoxAdaptor] object if they were not created during
+  /// this frame and have not yet been updated during this frame. It is not
+  /// valid to add any other children to this render object.
+  ///
+  /// If this method does not create a child for a given `index` greater than or
+  /// equal to zero, then [computeMaxScrollOffset] must be able to return a
+  /// precise value.
+  void createChild(int index, {@required RenderBox after});
+
+  /// Remove the given child from the child list.
+  ///
+  /// Called by [RenderSliverMultiBoxAdaptor.collectGarbage], which itself is
+  /// called from [RenderSliverMultiBoxAdaptor.performLayout].
+  ///
+  /// The index of the given child can be obtained using the
+  /// [RenderSliverMultiBoxAdaptor.indexOf] method, which reads it from the
+  /// [SliverMultiBoxAdaptorParentData.index] field of the child's
+  /// [RenderObject.parentData].
+  void removeChild(RenderBox child);
+
+  /// Called to estimate the total scrollable extents of this object.
+  ///
+  /// Must return the total distance from the start of the child with the
+  /// earliest possible index to the end of the child with the last possible
+  /// index.
+  double estimateMaxScrollOffset(
+    SliverConstraints constraints, {
+    int firstIndex,
+    int lastIndex,
+    double leadingScrollOffset,
+    double trailingScrollOffset,
+  });
+
+  /// Called to obtain a precise measure of the total number of children.
+  ///
+  /// Must return the number that is one greater than the greatest `index` for
+  /// which `createChild` will actually create a child.
+  ///
+  /// This is used when [createChild] cannot add a child for a positive `index`,
+  /// to determine the precise dimensions of the sliver. It must return an
+  /// accurate and precise non-null value. It will not be called if
+  /// [createChild] is always able to create a child (e.g. for an infinite
+  /// list).
+  int get childCount;
+
+  /// Called during [RenderSliverMultiBoxAdaptor.adoptChild] or
+  /// [RenderSliverMultiBoxAdaptor.move].
+  ///
+  /// Subclasses must ensure that the [SliverMultiBoxAdaptorParentData.index]
+  /// field of the child's [RenderObject.parentData] accurately reflects the
+  /// child's index in the child list after this function returns.
+  void didAdoptChild(RenderBox child);
+
+  /// Called during layout to indicate whether this object provided insufficient
+  /// children for the [RenderSliverMultiBoxAdaptor] to fill the
+  /// [SliverConstraints.remainingPaintExtent].
+  ///
+  /// Typically called unconditionally at the start of layout with false and
+  /// then later called with true when the [RenderSliverMultiBoxAdaptor]
+  /// fails to create a child required to fill the
+  /// [SliverConstraints.remainingPaintExtent].
+  ///
+  /// Useful for subclasses to determine whether newly added children could
+  /// affect the visible contents of the [RenderSliverMultiBoxAdaptor].
+  void setDidUnderflow(bool value);
+
+  /// Called at the beginning of layout to indicate that layout is about to
+  /// occur.
+  void didStartLayout() {}
+
+  /// Called at the end of layout to indicate that layout is now complete.
+  void didFinishLayout() {}
+
+  /// In debug mode, asserts that this manager is not expecting any
+  /// modifications to the [RenderSliverMultiBoxAdaptor]'s child list.
+  ///
+  /// This function always returns true.
+  ///
+  /// The manager is not required to track whether it is expecting modifications
+  /// to the [RenderSliverMultiBoxAdaptor]'s child list and can simply return
+  /// true without making any assertions.
+  bool debugAssertChildListLocked() => true;
+}
+
 /// A sliver with multiple box children.
 ///
 /// [RenderSliverWaterfallFlowMultiBoxAdaptor] is a base class for slivers that have multiple
@@ -309,6 +422,23 @@ abstract class RenderSliverWaterfallFlowMultiBoxAdaptor extends RenderSliver
     return null;
   }
 
+  ///zmt
+  @protected
+  RenderBox insertAndLayoutLeadingChildWithIndex(
+    BoxConstraints childConstraints,
+    int index, {
+    bool parentUsesSize = false,
+  }) {
+    assert(_debugAssertChildListLocked());
+    _createOrObtainChild(index - 1, after: null);
+    if (indexOf(firstChild) == index - 1) {
+      firstChild.layout(childConstraints, parentUsesSize: parentUsesSize);
+      return firstChild;
+    }
+    childManager.setDidUnderflow(true);
+    return null;
+  }
+
   /// Called during layout to create, add, and layout the child after
   /// the given child.
   ///
@@ -362,6 +492,50 @@ abstract class RenderSliverWaterfallFlowMultiBoxAdaptor extends RenderSliver
         _destroyOrCacheChild(lastChild);
         trailingGarbage -= 1;
       }
+      // Ask the child manager to remove the children that are no longer being
+      // kept alive. (This should cause _keepAliveBucket to change, so we have
+      // to prepare our list ahead of time.)
+      _keepAliveBucket.values
+          .where((RenderBox child) {
+            final SliverMultiBoxAdaptorParentData childParentData =
+                child.parentData;
+            return !childParentData.keepAlive;
+          })
+          .toList()
+          .forEach(_childManager.removeChild);
+      assert(_keepAliveBucket.values.where((RenderBox child) {
+        final SliverMultiBoxAdaptorParentData childParentData =
+            child.parentData;
+        return !childParentData.keepAlive;
+      }).isEmpty);
+    });
+  }
+
+  ///zmt
+  /// Called after layout with the number of children that can be garbage
+  /// collected at the head and tail of the child list.
+  ///
+  /// Children whose [SliverMultiBoxAdaptorParentData.keepAlive] property is
+  /// set to true will be removed to a cache instead of being dropped.
+  ///
+  /// This method also collects any children that were previously kept alive but
+  /// are now no longer necessary. As such, it should be called every time
+  /// [performLayout] is run, even if the arguments are both zero.
+  @protected
+  void collectGarbageByIndex(int index) {
+    assert(_debugAssertChildListLocked());
+    assert(childCount > index && index >= 0);
+    invokeLayoutCallback<SliverConstraints>((SliverConstraints constraints) {
+      
+      //_destroyOrCacheChild(childManager[index]);
+      // while (leadingGarbage > 0) {
+      //   _destroyOrCacheChild(firstChild);
+      //   leadingGarbage -= 1;
+      // }
+      // while (trailingGarbage > 0) {
+      //   _destroyOrCacheChild(lastChild);
+      //   trailingGarbage -= 1;
+      // }
       // Ask the child manager to remove the children that are no longer being
       // kept alive. (This should cause _keepAliveBucket to change, so we have
       // to prepare our list ahead of time.)

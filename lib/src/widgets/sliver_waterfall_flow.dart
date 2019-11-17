@@ -2,6 +2,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:waterfall_flow/src/rendering/render_sliver_waterfall_flow.dart';
 
+import 'sliver.dart';
+
 ///
 ///  create by zmtzawqlp on 2019/11/9
 ///
@@ -14,7 +16,7 @@ import 'package:waterfall_flow/src/rendering/render_sliver_waterfall_flow.dart';
 ///  * [SliverPrototypeExtentList], which is similar to [SliverFixedExtentList]
 ///    except that it uses a prototype list item instead of a pixel value to define
 ///    the main axis extent of each item.
-class SliverWaterfallFlow extends SliverMultiBoxAdaptorWidget {
+class SliverWaterfallFlow extends SliverWaterfallFlowMultiBoxAdaptorWidget {
   /// Creates a sliver that places multiple box children in a two dimensional
   /// arrangement.
   const SliverWaterfallFlow({
