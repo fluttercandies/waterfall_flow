@@ -87,23 +87,23 @@ class SliverWaterfallFlow extends SliverMultiBoxAdaptorWidget {
     renderObject.gridDelegate = gridDelegate;
   }
 
-  @override
-  double estimateMaxScrollOffset(
-    SliverConstraints constraints,
-    int firstIndex,
-    int lastIndex,
-    double leadingScrollOffset,
-    double trailingScrollOffset,
-  ) {
-    return super.estimateMaxScrollOffset(
-          constraints,
-          firstIndex,
-          lastIndex,
-          leadingScrollOffset,
-          trailingScrollOffset,
-        ) ??
-        gridDelegate
-            .getLayout(constraints)
-            .computeMaxScrollOffset(delegate.estimatedChildCount);
-  }
+  // @override
+  // double estimateMaxScrollOffset(
+  //   SliverConstraints constraints,
+  //   int firstIndex,
+  //   int lastIndex,
+  //   double leadingScrollOffset,
+  //   double trailingScrollOffset,
+  // ) {
+  //   return super.estimateMaxScrollOffset(
+  //         constraints,
+  //         firstIndex,
+  //         lastIndex,
+  //         leadingScrollOffset,
+  //         trailingScrollOffset,
+  //       ) ??
+  //       gridDelegate
+  //           .getLayout(constraints)
+  //           .computeMaxScrollOffset(delegate.estimatedChildCount);
+  // }
 }

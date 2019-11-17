@@ -46,6 +46,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int count = 2;
   @override
   Widget build(BuildContext context) {
     //Viewport
@@ -65,7 +66,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: WaterfallFlow.builder(
         cacheExtent: 0.0,
-        gridDelegate: SliverWaterfallFlowDelegate(crossAxisCount: 2),
+        gridDelegate: SliverWaterfallFlowDelegate(crossAxisCount: count),
+        // gridDelegate:
+        //     SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: count),
         itemBuilder: (c, index) {
           return Container(
             decoration: BoxDecoration(border: Border.all(color: Colors.black)),
@@ -74,7 +77,15 @@ class _MyHomePageState extends State<MyHomePage> {
             height: ((index % 3) + 1) * 100.0,
           );
         },
-        itemCount: 10,
+        itemCount: null,
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.adb),
+        onPressed: () {
+          setState(() {
+            count++;
+          });
+        },
       ),
     );
   }
