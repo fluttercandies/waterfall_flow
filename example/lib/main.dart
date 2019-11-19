@@ -1,6 +1,12 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:waterfall_flow/waterfall_flow.dart';
+import 'package:flutter/services.dart';
+
+import 'example_route.dart';
+import 'example_route_helper.dart';
+import 'pages/no_route.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,84 +15,61 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'WaterfallFlow Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
+      navigatorObservers: [
+        FFNavigatorObserver(routeChange: (name) {
+          //you can track page here
+          // print(name);
+        }, showStatusBarChange: (bool showStatusBar) {
+          if (showStatusBar) {
+            SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+          } else {
+            SystemChrome.setEnabledSystemUIOverlays([]);
+          }
+        })
+      ],
+      // builder: (c, w) {
+      //   return w;
+      // },
+      initialRoute: "fluttercandies://mainpage",
+      onGenerateRoute: (RouteSettings settings) {
+        var routeResult =
+            getRouteResult(name: settings.name, arguments: settings.arguments);
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+        if (routeResult.showStatusBar != null ||
+            routeResult.routeName != null) {
+          settings = FFRouteSettings(
+              arguments: settings.arguments,
+              name: settings.name,
+              isInitialRoute: settings.isInitialRoute,
+              routeName: routeResult.routeName,
+              showStatusBar: routeResult.showStatusBar);
+        }
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+        var page = routeResult.widget ?? NoRoute();
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int count = 2;
-  @override
-  Widget build(BuildContext context) {
-    //Viewport
-    //ListView()
-    //SingleChildScrollView
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: WaterfallFlow.builder(
-        cacheExtent: 0.0,
-        gridDelegate: SliverWaterfallFlowDelegate(crossAxisCount: count),
-        // gridDelegate:
-        //     SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: count),
-        itemBuilder: (c, index) {
-          return Container(
-            decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-            alignment: Alignment.center,
-            child: Text("$index"),
-            height: ((index % 3) + 1) * 100.0,
-          );
-        },
-        itemCount: null,
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.adb),
-        onPressed: () {
-          setState(() {
-            count++;
-          });
-        },
-      ),
+        switch (routeResult.pageRouteType) {
+          case PageRouteType.material:
+            return MaterialPageRoute(settings: settings, builder: (c) => page);
+          case PageRouteType.cupertino:
+            return CupertinoPageRoute(settings: settings, builder: (c) => page);
+          case PageRouteType.transparent:
+            return FFTransparentPageRoute(
+                settings: settings,
+                pageBuilder: (BuildContext context, Animation<double> animation,
+                        Animation<double> secondaryAnimation) =>
+                    page);
+          default:
+            return Platform.isIOS
+                ? CupertinoPageRoute(settings: settings, builder: (c) => page)
+                : MaterialPageRoute(settings: settings, builder: (c) => page);
+        }
+      },
     );
   }
 }

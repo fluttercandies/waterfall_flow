@@ -78,7 +78,7 @@ class SliverWaterfallFlow extends SliverWaterfallFlowMultiBoxAdaptorWidget {
 
   @override
   RenderSliverWaterfallFlow createRenderObject(BuildContext context) {
-    final SliverMultiBoxAdaptorElement element = context;
+    final SliverWaterfallFlowMultiBoxAdaptorElement element = context;
     return RenderSliverWaterfallFlow(
         childManager: element, gridDelegate: gridDelegate);
   }

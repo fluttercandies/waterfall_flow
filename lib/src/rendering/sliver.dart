@@ -148,7 +148,7 @@ abstract class RenderSliverWaterfallFlowMultiBoxAdaptor extends RenderSliver
   ///
   /// The [childManager] argument must not be null.
   RenderSliverWaterfallFlowMultiBoxAdaptor({
-    @required RenderSliverBoxChildManager childManager,
+    @required RenderSliverWaterfallFlowBoxChildManager childManager,
   })  : assert(childManager != null),
         _childManager = childManager {
     assert(() {
@@ -170,8 +170,8 @@ abstract class RenderSliverWaterfallFlowMultiBoxAdaptor extends RenderSliver
   /// create children during layout in order to fill the
   /// [SliverConstraints.remainingPaintExtent].
   @protected
-  RenderSliverBoxChildManager get childManager => _childManager;
-  final RenderSliverBoxChildManager _childManager;
+  RenderSliverWaterfallFlowBoxChildManager get childManager => _childManager;
+  final RenderSliverWaterfallFlowBoxChildManager _childManager;
 
   /// The nodes being kept alive despite not being visible.
   final Map<int, RenderBox> _keepAliveBucket = <int, RenderBox>{};
@@ -526,7 +526,6 @@ abstract class RenderSliverWaterfallFlowMultiBoxAdaptor extends RenderSliver
     assert(_debugAssertChildListLocked());
     assert(childCount > index && index >= 0);
     invokeLayoutCallback<SliverConstraints>((SliverConstraints constraints) {
-      
       //_destroyOrCacheChild(childManager[index]);
       // while (leadingGarbage > 0) {
       //   _destroyOrCacheChild(firstChild);

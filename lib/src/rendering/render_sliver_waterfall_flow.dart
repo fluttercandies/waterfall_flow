@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/rendering.dart';
+import 'package:flutter/rendering.dart' hide SliverMultiBoxAdaptorParentData;
 import 'sliver.dart';
 import 'sliver_waterfall_flow.dart';
 
@@ -19,13 +19,14 @@ import 'sliver_waterfall_flow.dart';
 ///    array.
 ///  * [RenderSliverFixedExtentList], which places its children in a linear
 ///    array with a fixed extent in the main axis.
-class RenderSliverWaterfallFlow extends RenderSliverWaterfallFlowMultiBoxAdaptor {
+class RenderSliverWaterfallFlow
+    extends RenderSliverWaterfallFlowMultiBoxAdaptor {
   /// Creates a sliver that contains multiple box children that whose size and
   /// position are determined by a delegate.
   ///
   /// The [childManager] and [gridDelegate] arguments must not be null.
   RenderSliverWaterfallFlow({
-    @required RenderSliverBoxChildManager childManager,
+    @required RenderSliverWaterfallFlowBoxChildManager childManager,
     @required SliverWaterfallFlowDelegate gridDelegate,
   })  : assert(gridDelegate != null),
         _gridDelegate = gridDelegate,
@@ -118,93 +119,25 @@ class RenderSliverWaterfallFlow extends RenderSliverWaterfallFlowMultiBoxAdaptor
     // Find the last child that is at or before the scrollOffset.
     RenderBox earliestUsefulChild = firstChild;
 
-    // if (_preCrossAxisItems != null) {
-    //   while (_preCrossAxisItems.maxLeadingLayoutOffset > scrollOffset) {
-    //     final earliestScrollOffset = _preCrossAxisItems.maxLeadingLayoutOffset;
-    //     // We have to add children before the earliestUsefulChild.
-    //     earliestUsefulChild =
-    //         insertAndLayoutLeadingChild(childConstraints, parentUsesSize: true);
-
-    //     if (earliestUsefulChild == null) {
-    //       if (scrollOffset == 0.0) {
-    //         // insertAndLayoutLeadingChild only lays out the children before
-    //         // firstChild. In this case, nothing has been laid out. We have
-    //         // to lay out firstChild manually.
-    //         firstChild.layout(childConstraints, parentUsesSize: true);
-
-    //         earliestUsefulChild = firstChild;
-    //         leadingChildWithLayout = earliestUsefulChild;
-    //         trailingChildWithLayout ??= earliestUsefulChild;
-    //         break;
-    //       } else {
-    //         // We ran out of children before reaching the scroll offset.
-    //         // We must inform our parent that this sliver cannot fulfill
-    //         // its contract and that we need a scroll offset correction.
-    //         geometry = SliverGeometry(
-    //           scrollOffsetCorrection: -scrollOffset,
-    //         );
-    //         return;
-    //       }
-    //     }
-
-    //     final double firstChildScrollOffset =
-    //         earliestScrollOffset - paintExtentOf(firstChild);
-    //     // firstChildScrollOffset may contain double precision error
-    //     if (firstChildScrollOffset < -precisionErrorTolerance) {
-    //       // The first child doesn't fit within the viewport (underflow) and
-    //       // there may be additional children above it. Find the real first child
-    //       // and then correct the scroll position so that there's room for all and
-    //       // so that the trailing edge of the original firstChild appears where it
-    //       // was before the scroll offset correction.
-    //       // TODO(hansmuller): do this work incrementally, instead of all at once,
-    //       // i.e. find a way to avoid visiting ALL of the children whose offset
-    //       // is < 0 before returning for the scroll correction.
-    //       double correction = 0.0;
-    //       while (earliestUsefulChild != null) {
-    //         assert(firstChild == earliestUsefulChild);
-    //         correction += paintExtentOf(firstChild);
-    //         earliestUsefulChild = insertAndLayoutLeadingChild(childConstraints,
-    //             parentUsesSize: true);
-    //       }
-    //       geometry = SliverGeometry(
-    //         scrollOffsetCorrection: correction - earliestScrollOffset,
-    //       );
-    //       final WaterfallFlowParentData childParentData = firstChild.parentData;
-    //       childParentData.layoutOffset = 0.0;
-    //       childParentData.crossAxisOffset = 0.0;
-    //       return;
-    //     }
-
-    //     ///todo
-    //     final WaterfallFlowParentData childParentData =
-    //         earliestUsefulChild.parentData;
-    //     childParentData.layoutOffset = firstChildScrollOffset;
-    //     assert(earliestUsefulChild == firstChild);
-    //     leadingChildWithLayout = earliestUsefulChild;
-    //     trailingChildWithLayout ??= earliestUsefulChild;
-    //   }
-    // }
-
-    for (double earliestScrollOffset = childScrollOffset(earliestUsefulChild);
-        earliestScrollOffset > scrollOffset;
-        earliestScrollOffset = childScrollOffset(earliestUsefulChild)) {
+    while (crossAxisItems.maxLeadingLayoutOffset > scrollOffset) {
       // We have to add children before the earliestUsefulChild.
       earliestUsefulChild =
           insertAndLayoutLeadingChild(childConstraints, parentUsesSize: true);
 
       if (earliestUsefulChild == null) {
-        final WaterfallFlowParentData childParentData = firstChild.parentData;
-        childParentData.layoutOffset = 0.0;
-        childParentData.crossAxisOffset = 0.0;
-
         if (scrollOffset == 0.0) {
           // insertAndLayoutLeadingChild only lays out the children before
           // firstChild. In this case, nothing has been laid out. We have
           // to lay out firstChild manually.
           firstChild.layout(childConstraints, parentUsesSize: true);
+
           earliestUsefulChild = firstChild;
           leadingChildWithLayout = earliestUsefulChild;
           trailingChildWithLayout ??= earliestUsefulChild;
+
+          crossAxisItems.insert(
+              child: earliestUsefulChild,
+              childTrailingLayoutOffset: childTrailingLayoutOffset);
           break;
         } else {
           // We ran out of children before reaching the scroll offset.
@@ -217,10 +150,13 @@ class RenderSliverWaterfallFlow extends RenderSliverWaterfallFlowMultiBoxAdaptor
         }
       }
 
-      final double firstChildScrollOffset =
-          earliestScrollOffset - paintExtentOf(firstChild);
+      crossAxisItems.insertLeading(
+          child: earliestUsefulChild, paintExtentOf: paintExtentOf);
+
+      final WaterfallFlowParentData data = earliestUsefulChild.parentData;
+
       // firstChildScrollOffset may contain double precision error
-      if (firstChildScrollOffset < -precisionErrorTolerance) {
+      if (data.layoutOffset < -precisionErrorTolerance) {
         // The first child doesn't fit within the viewport (underflow) and
         // there may be additional children above it. Find the real first child
         // and then correct the scroll position so that there's room for all and
@@ -235,24 +171,93 @@ class RenderSliverWaterfallFlow extends RenderSliverWaterfallFlowMultiBoxAdaptor
           correction += paintExtentOf(firstChild);
           earliestUsefulChild = insertAndLayoutLeadingChild(childConstraints,
               parentUsesSize: true);
+          crossAxisItems.insertLeading(
+              child: earliestUsefulChild, paintExtentOf: paintExtentOf);
         }
         geometry = SliverGeometry(
-          scrollOffsetCorrection: correction - earliestScrollOffset,
+          scrollOffsetCorrection: correction - data.layoutOffset,
         );
-        final WaterfallFlowParentData childParentData = firstChild.parentData;
-        childParentData.layoutOffset = 0.0;
-        childParentData.crossAxisOffset = 0.0;
         return;
       }
 
       ///todo
-      final WaterfallFlowParentData childParentData =
-          earliestUsefulChild.parentData;
-      childParentData.layoutOffset = firstChildScrollOffset;
+//        final WaterfallFlowParentData childParentData =
+//            earliestUsefulChild.parentData;
+//        childParentData.layoutOffset = firstChildScrollOffset;
+
       assert(earliestUsefulChild == firstChild);
       leadingChildWithLayout = earliestUsefulChild;
       trailingChildWithLayout ??= earliestUsefulChild;
     }
+
+//    for (double earliestScrollOffset = childScrollOffset(earliestUsefulChild);
+//        earliestScrollOffset > scrollOffset;
+//        earliestScrollOffset = childScrollOffset(earliestUsefulChild)) {
+//      // We have to add children before the earliestUsefulChild.
+//      earliestUsefulChild =
+//          insertAndLayoutLeadingChild(childConstraints, parentUsesSize: true);
+//
+//      if (earliestUsefulChild == null) {
+//        final WaterfallFlowParentData childParentData = firstChild.parentData;
+//        childParentData.layoutOffset = 0.0;
+//        childParentData.crossAxisOffset = 0.0;
+//
+//        if (scrollOffset == 0.0) {
+//          // insertAndLayoutLeadingChild only lays out the children before
+//          // firstChild. In this case, nothing has been laid out. We have
+//          // to lay out firstChild manually.
+//          firstChild.layout(childConstraints, parentUsesSize: true);
+//          earliestUsefulChild = firstChild;
+//          leadingChildWithLayout = earliestUsefulChild;
+//          trailingChildWithLayout ??= earliestUsefulChild;
+//          break;
+//        } else {
+//          // We ran out of children before reaching the scroll offset.
+//          // We must inform our parent that this sliver cannot fulfill
+//          // its contract and that we need a scroll offset correction.
+//          geometry = SliverGeometry(
+//            scrollOffsetCorrection: -scrollOffset,
+//          );
+//          return;
+//        }
+//      }
+//
+//      final double firstChildScrollOffset =
+//          earliestScrollOffset - paintExtentOf(firstChild);
+//      // firstChildScrollOffset may contain double precision error
+//      if (firstChildScrollOffset < -precisionErrorTolerance) {
+//        // The first child doesn't fit within the viewport (underflow) and
+//        // there may be additional children above it. Find the real first child
+//        // and then correct the scroll position so that there's room for all and
+//        // so that the trailing edge of the original firstChild appears where it
+//        // was before the scroll offset correction.
+//        // TODO(hansmuller): do this work incrementally, instead of all at once,
+//        // i.e. find a way to avoid visiting ALL of the children whose offset
+//        // is < 0 before returning for the scroll correction.
+//        double correction = 0.0;
+//        while (earliestUsefulChild != null) {
+//          assert(firstChild == earliestUsefulChild);
+//          correction += paintExtentOf(firstChild);
+//          earliestUsefulChild = insertAndLayoutLeadingChild(childConstraints,
+//              parentUsesSize: true);
+//        }
+//        geometry = SliverGeometry(
+//          scrollOffsetCorrection: correction - earliestScrollOffset,
+//        );
+//        final WaterfallFlowParentData childParentData = firstChild.parentData;
+//        childParentData.layoutOffset = 0.0;
+//        childParentData.crossAxisOffset = 0.0;
+//        return;
+//      }
+//
+//      ///todo
+//      final WaterfallFlowParentData childParentData =
+//          earliestUsefulChild.parentData;
+//      childParentData.layoutOffset = firstChildScrollOffset;
+//      assert(earliestUsefulChild == firstChild);
+//      leadingChildWithLayout = earliestUsefulChild;
+//      trailingChildWithLayout ??= earliestUsefulChild;
+//    }
 
     // At this point, earliestUsefulChild is the first child, and is a child
     // whose scrollOffset is at or before the scrollOffset, and
@@ -262,7 +267,8 @@ class RenderSliverWaterfallFlow extends RenderSliverWaterfallFlowMultiBoxAdaptor
     // scroll offset.
 
     assert(earliestUsefulChild == firstChild);
-    assert(childScrollOffset(earliestUsefulChild) <= scrollOffset);
+    //zmt
+    //assert(childScrollOffset(earliestUsefulChild) <= scrollOffset);
 
     // Make sure we've laid out at least one child.
     if (leadingChildWithLayout == null) {
@@ -278,14 +284,11 @@ class RenderSliverWaterfallFlow extends RenderSliverWaterfallFlowMultiBoxAdaptor
 
     bool inLayoutRange = true;
     RenderBox child = earliestUsefulChild;
-    final WaterfallFlowParentData childParentData =
-        earliestUsefulChild.parentData;
     int index = indexOf(child);
+    crossAxisItems.insert(
+        child: child, childTrailingLayoutOffset: childTrailingLayoutOffset);
 
-    crossAxisItems.insert(data: earliestUsefulChild.parentData);
-    childParentData.trailingLayoutOffset =
-        childScrollOffset(child) + paintExtentOf(child);
-    double endScrollOffset = childScrollOffset(child) + paintExtentOf(child);
+    //double endScrollOffset = childTrailingLayoutOffset(child);
 
     bool advance() {
       // returns true if we advanced, false if we have no more children
@@ -319,28 +322,27 @@ class RenderSliverWaterfallFlow extends RenderSliverWaterfallFlowMultiBoxAdaptor
       //zmt
       final WaterfallFlowParentData childParentData = child.parentData;
       //zmt
-      crossAxisItems.insert(data: childParentData);
-      childParentData.trailingLayoutOffset =
-          childScrollOffset(child) + paintExtentOf(child);
+      crossAxisItems.insert(
+          child: child, childTrailingLayoutOffset: childTrailingLayoutOffset);
 
       assert(childParentData.index == index);
       //endScrollOffset = childScrollOffset(child) + paintExtentOf(child);
       //zmt
-      endScrollOffset = crossAxisItems.minEndScrollOffset;
+      //endScrollOffset = childTrailingLayoutOffset(child);
       return true;
     }
 
     // Find the first child that ends after the scroll offset.
-    while (endScrollOffset < scrollOffset) {
+    while (childTrailingLayoutOffset(child) < scrollOffset) {
       leadingGarbage += 1;
+      crossAxisItems.leadingGarbage(index);
       if (!advance()) {
         assert(leadingGarbage == childCount);
         assert(child == null);
         // we want to make sure we keep the last child around so we know the end scroll offset
         collectGarbage(leadingGarbage - 1, 0);
         assert(firstChild == lastChild);
-        final double extent =
-            childScrollOffset(lastChild) + paintExtentOf(lastChild);
+        final double extent = childTrailingLayoutOffset(lastChild);
         geometry = SliverGeometry(
           scrollExtent: extent,
           paintExtent: 0.0,
@@ -351,7 +353,7 @@ class RenderSliverWaterfallFlow extends RenderSliverWaterfallFlowMultiBoxAdaptor
     }
 
     // Now find the first child that ends after our end.
-    while (endScrollOffset < targetEndScrollOffset) {
+    while (crossAxisItems.minEndScrollOffset < targetEndScrollOffset) {
       if (!advance()) {
         reachedEnd = true;
         break;
@@ -370,12 +372,13 @@ class RenderSliverWaterfallFlow extends RenderSliverWaterfallFlowMultiBoxAdaptor
     // At this point everything should be good to go, we just have to clean up
     // the garbage and report the geometry.
     //zmt
+
     collectGarbage(leadingGarbage, trailingGarbage);
 
     assert(debugAssertChildListIsNonEmptyAndContiguous());
     double estimatedMaxScrollOffset;
     //zmt
-    endScrollOffset = crossAxisItems.maxEndScrollOffset;
+    double endScrollOffset = crossAxisItems.maxEndScrollOffset;
     if (reachedEnd) {
       estimatedMaxScrollOffset = endScrollOffset;
     } else {
@@ -420,6 +423,10 @@ class RenderSliverWaterfallFlow extends RenderSliverWaterfallFlowMultiBoxAdaptor
 
     _preCrossAxisItems = crossAxisItems;
   }
+
+  double childTrailingLayoutOffset(RenderBox child) {
+    return childScrollOffset(child) + paintExtentOf(child);
+  }
 }
 
 class CrossAxisItems {
@@ -433,34 +440,94 @@ class CrossAxisItems {
       @required this.crossAxisExtent,
       @required this.crossAxisDirection,
       List<WaterfallFlowParentData> leadingItems})
-      : leadingItems = leadingItems ?? List<WaterfallFlowParentData>(),
-        trailingItems = List<WaterfallFlowParentData>();
+      : leadingItems = leadingItems != null
+            ? leadingItems.map((x) => x).toList()
+            : List<WaterfallFlowParentData>(),
+        trailingItems = leadingItems != null
+            ? leadingItems.map((x) => x).toList()
+            : List<WaterfallFlowParentData>();
 
-  void insert({WaterfallFlowParentData data}) {
-    if (trailingItems.length != crossAxisCount) {
-      data.crossAxisIndex ??= trailingItems.length;
-      data.crossAxisOffset = data.crossAxisIndex %
-          crossAxisCount *
-          (crossAxisExtent / crossAxisCount);
-      trailingItems.add(data);
-    } else {
-      var min = trailingItems.reduce((curr, next) =>
-          ((curr.trailingLayoutOffset < next.trailingLayoutOffset) ||
-                  (curr.trailingLayoutOffset == next.trailingLayoutOffset &&
+  void insert({
+    @required RenderBox child,
+    @required ChildTrailingLayoutOffset childTrailingLayoutOffset,
+  }) {
+    final WaterfallFlowParentData data = child.parentData;
+    if (!leadingItems.contains(data)) {
+      if (leadingItems.length != crossAxisCount) {
+        if (data.crossAxisIndex != null) {
+          var same = leadingItems.firstWhere(
+              (x) => x.crossAxisIndex == data.crossAxisIndex,
+              orElse: () => null);
+          if (same != null) {
+            leadingItems.remove(same);
+            leadingItems.add(data);
+            trailingItems.remove(same);
+            trailingItems.add(data);
+            return;
+          }
+        }
+        data.crossAxisIndex ??= leadingItems.length;
+
+        data.crossAxisOffset = data.crossAxisIndex %
+            crossAxisCount *
+            (crossAxisExtent / crossAxisCount);
+
+        trailingItems.add(data);
+        leadingItems.add(data);
+      } else {
+        var min = trailingItems.reduce((curr, next) =>
+            ((curr.trailingLayoutOffset < next.trailingLayoutOffset) ||
+                    (curr.trailingLayoutOffset == next.trailingLayoutOffset &&
+                        curr.crossAxisIndex < next.crossAxisIndex)
+                ? curr
+                : next));
+
+        data.layoutOffset = min.trailingLayoutOffset;
+        data.crossAxisIndex = min.crossAxisIndex;
+        data.crossAxisOffset = min.crossAxisOffset;
+        if (!min.indexs.contains(min.index)) {}
+
+        trailingItems.forEach((f) => f.indexs.remove(min.index));
+        min.indexs.add(min.index);
+
+        data.indexs = min.indexs;
+        trailingItems.remove(min);
+        trailingItems.add(data);
+      }
+    }
+
+    data.trailingLayoutOffset = childTrailingLayoutOffset(child);
+  }
+
+  void insertLeading({
+    @required RenderBox child,
+    @required PaintExtentOf paintExtentOf,
+  }) {
+    final WaterfallFlowParentData data = child.parentData;
+
+    var pre = leadingItems.firstWhere((x) => x.indexs.contains(data.index),
+        orElse: () => null);
+
+    if (pre == null) {
+      pre = leadingItems.reduce((curr, next) =>
+          ((curr.layoutOffset > next.layoutOffset) ||
+                  (curr.layoutOffset == next.layoutOffset &&
                       curr.crossAxisIndex < next.crossAxisIndex)
               ? curr
               : next));
-
-      data.layoutOffset = min.trailingLayoutOffset;
-      data.crossAxisIndex = min.crossAxisIndex;
-      data.crossAxisOffset = min.crossAxisOffset;
-
-      var index = trailingItems.indexOf(min);
-      trailingItems[index] = data;
     }
-  }
 
-  void insertLeading({WaterfallFlowParentData data}) {}
+    data.trailingLayoutOffset = pre.layoutOffset;
+    data.crossAxisIndex = pre.crossAxisIndex;
+    data.crossAxisOffset = pre.crossAxisOffset;
+
+    leadingItems.remove(pre);
+    leadingItems.add(data);
+    trailingItems.remove(pre);
+    trailingItems.add(data);
+    data.indexs = pre.indexs;
+    data.layoutOffset = data.trailingLayoutOffset - paintExtentOf(child);
+  }
 
   double get minEndScrollOffset {
     try {
@@ -498,9 +565,19 @@ class CrossAxisItems {
       return 0.0;
     }
   }
+
+  void leadingGarbage(int index) {
+    leadingItems.remove(
+        leadingItems.firstWhere((x) => x.index == index, orElse: () => null));
+    trailingItems.remove(
+        trailingItems.firstWhere((x) => x.index == index, orElse: () => null));
+  }
 }
 
-class WaterfallFlowParentData extends SliverGridParentData {
+typedef ChildTrailingLayoutOffset = double Function(RenderBox child);
+typedef PaintExtentOf = double Function(RenderBox child);
+
+class WaterfallFlowParentData extends SliverMultiBoxAdaptorParentData {
   /// The trailing position of the child relative to the zero scroll offset.
   ///
   /// The number of pixels from from the zero scroll offset of the parent sliver
@@ -512,7 +589,18 @@ class WaterfallFlowParentData extends SliverGridParentData {
 
   /// The index of crossAxis
   int crossAxisIndex;
+
+  /// The offset of the child in the non-scrolling axis.
+  ///
+  /// If the scroll axis is vertical, this offset is from the left-most edge of
+  /// the parent to the left-most edge of the child. If the scroll axis is
+  /// horizontal, this offset is from the top-most edge of the parent to the
+  /// top-most edge of the child.
+  double crossAxisOffset;
+
+  /// previ
+  List<int> indexs = List<int>();
   @override
   String toString() =>
-      'trailingLayoutOffset=$trailingLayoutOffset; ${super.toString()}';
+      'crossAxisIndex=$crossAxisIndex;crossAxisOffset=$crossAxisOffset;trailingLayoutOffset=$trailingLayoutOffset; ${super.toString()}';
 }

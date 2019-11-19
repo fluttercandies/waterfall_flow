@@ -89,15 +89,15 @@ class SliverWaterfallFlowMultiBoxAdaptorElement extends RenderObjectElement
       : super(widget);
 
   @override
-  SliverMultiBoxAdaptorWidget get widget => super.widget;
+  SliverWaterfallFlowMultiBoxAdaptorWidget get widget => super.widget;
 
   @override
   RenderSliverWaterfallFlowMultiBoxAdaptor get renderObject =>
       super.renderObject;
 
   @override
-  void update(covariant SliverMultiBoxAdaptorWidget newWidget) {
-    final SliverMultiBoxAdaptorWidget oldWidget = widget;
+  void update(covariant SliverWaterfallFlowMultiBoxAdaptorWidget newWidget) {
+    final SliverWaterfallFlowMultiBoxAdaptorWidget oldWidget = widget;
     super.update(newWidget);
     final SliverChildDelegate newDelegate = newWidget.delegate;
     final SliverChildDelegate oldDelegate = oldWidget.delegate;
