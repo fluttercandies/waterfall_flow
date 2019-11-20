@@ -8,18 +8,19 @@ import 'package:flutter/material.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 @FFRoute(
-    name: "fluttercandies://demo",
+    name: "fluttercandies://demo1",
     routeName: "image crop rect",
     description: "show how to crop rect image") //
-class Demo extends StatefulWidget {
+class Demo1 extends StatefulWidget {
   @override
-  _DemoState createState() => _DemoState();
+  _Demo1State createState() => _Demo1State();
 }
 
-class _DemoState extends State<Demo> {
+class _Demo1State extends State<Demo1> {
   List<Color> colors = List<Color>();
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -28,7 +29,8 @@ class _DemoState extends State<Demo> {
       ),
       body: WaterfallFlow.builder(
         cacheExtent: 0.0,
-        gridDelegate: SliverWaterfallFlowDelegate(crossAxisCount: 2),
+        gridDelegate: SliverWaterfallFlowDelegate(
+            crossAxisCount: 4, crossAxisSpacing: 10.0, mainAxisSpacing: 10.0),
         itemBuilder: (c, index) {
           Color color = getRandomColor(index);
 
@@ -44,10 +46,11 @@ class _DemoState extends State<Demo> {
                       ? Colors.white
                       : Colors.black),
             ),
-            height: ((index % 3) + 1) * 100.0,
+            //height: index == 5 ? 1000.0 : 100.0,
+            height:   ((index % 3) + 1) * 100.0,
           );
         },
-        itemCount: null,
+        //itemCount: 7,
       ),
     );
   }

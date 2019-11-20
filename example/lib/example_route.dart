@@ -4,14 +4,15 @@
 // **************************************************************************
 
 import 'package:flutter/widgets.dart';
-import 'pages/demo.dart';
+import 'pages/demo1.dart';
 import 'pages/main_page.dart';
+import 'pages/demo2.dart';
 
 RouteResult getRouteResult({String name, Map<String, dynamic> arguments}) {
   switch (name) {
-    case "fluttercandies://demo":
+    case "fluttercandies://demo1":
       return RouteResult(
-        widget: Demo(),
+        widget: Demo1(),
         routeName: "image crop rect",
         description: "show how to crop rect image",
       );
@@ -19,6 +20,12 @@ RouteResult getRouteResult({String name, Map<String, dynamic> arguments}) {
       return RouteResult(
         widget: MainPage(),
         routeName: "MainPage",
+      );
+    case "fluttercandies://demo2":
+      return RouteResult(
+        widget: Demo2(),
+        routeName: "sized item list",
+        description: "show how to crop rect image",
       );
     default:
       return RouteResult();
@@ -52,6 +59,7 @@ class RouteResult {
 enum PageRouteType { material, cupertino, transparent }
 
 List<String> routeNames = [
-  "fluttercandies://demo",
-  "fluttercandies://mainpage"
+  "fluttercandies://demo1",
+  "fluttercandies://mainpage",
+  "fluttercandies://demo2"
 ];

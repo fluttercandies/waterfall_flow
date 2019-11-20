@@ -1,6 +1,7 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:waterfall_flow/src/rendering/render_sliver_waterfall_flow.dart';
+import 'package:waterfall_flow/src/rendering/sliver_waterfall_flow.dart';
 
 import 'sliver.dart';
 
@@ -41,40 +42,16 @@ class SliverWaterfallFlow extends SliverWaterfallFlowMultiBoxAdaptorWidget {
     double crossAxisSpacing = 0.0,
     double childAspectRatio = 1.0,
     List<Widget> children = const <Widget>[],
-  })  : gridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
+  })  : gridDelegate = SliverWaterfallFlowDelegate(
           crossAxisCount: crossAxisCount,
           mainAxisSpacing: mainAxisSpacing,
           crossAxisSpacing: crossAxisSpacing,
-          childAspectRatio: childAspectRatio,
         ),
         super(key: key, delegate: SliverChildListDelegate(children));
 
-  /// Creates a sliver that places multiple box children in a two dimensional
-  /// arrangement with tiles that each have a maximum cross-axis extent.
-  ///
-  /// Uses a [SliverGridDelegateWithMaxCrossAxisExtent] as the [gridDelegate],
-  /// and a [SliverChildListDelegate] as the [delegate].
-  ///
-  /// See also:
-  ///
-  ///  * [new GridView.extent], the equivalent constructor for [GridView] widgets.
-  SliverWaterfallFlow.extent({
-    Key key,
-    @required double maxCrossAxisExtent,
-    double mainAxisSpacing = 0.0,
-    double crossAxisSpacing = 0.0,
-    double childAspectRatio = 1.0,
-    List<Widget> children = const <Widget>[],
-  })  : gridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: maxCrossAxisExtent,
-          mainAxisSpacing: mainAxisSpacing,
-          crossAxisSpacing: crossAxisSpacing,
-          childAspectRatio: childAspectRatio,
-        ),
-        super(key: key, delegate: SliverChildListDelegate(children));
 
   /// The delegate that controls the size and position of the children.
-  final SliverGridDelegate gridDelegate;
+  final SliverWaterfallFlowDelegate gridDelegate;
 
   @override
   RenderSliverWaterfallFlow createRenderObject(BuildContext context) {

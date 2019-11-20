@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
+import 'package:waterfall_flow/src/rendering/sliver_waterfall_flow.dart';
 
 import 'widgets/sliver_waterfall_flow.dart';
 
@@ -189,7 +190,6 @@ class WaterfallFlow extends BoxScrollView {
     @required int crossAxisCount,
     double mainAxisSpacing = 0.0,
     double crossAxisSpacing = 0.0,
-    double childAspectRatio = 1.0,
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
@@ -197,11 +197,10 @@ class WaterfallFlow extends BoxScrollView {
     List<Widget> children = const <Widget>[],
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-  })  : gridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
+  })  : gridDelegate = SliverWaterfallFlowDelegate(
           crossAxisCount: crossAxisCount,
           mainAxisSpacing: mainAxisSpacing,
           crossAxisSpacing: crossAxisSpacing,
-          childAspectRatio: childAspectRatio,
         ),
         childrenDelegate = SliverChildListDelegate(
           children,
@@ -223,70 +222,13 @@ class WaterfallFlow extends BoxScrollView {
           dragStartBehavior: dragStartBehavior,
         );
 
-  /// Creates a scrollable, 2D array of widgets with tiles that each have a
-  /// maximum cross-axis extent.
-  ///
-  /// Uses a [SliverGridDelegateWithMaxCrossAxisExtent] as the [gridDelegate].
-  ///
-  /// The `addAutomaticKeepAlives` argument corresponds to the
-  /// [SliverChildListDelegate.addAutomaticKeepAlives] property. The
-  /// `addRepaintBoundaries` argument corresponds to the
-  /// [SliverChildListDelegate.addRepaintBoundaries] property. Both must not be
-  /// null.
-  ///
-  /// See also:
-  ///
-  ///  * [new SliverGrid.extent], the equivalent constructor for [SliverGrid].
-  WaterfallFlow.extent({
-    Key key,
-    Axis scrollDirection = Axis.vertical,
-    bool reverse = false,
-    ScrollController controller,
-    bool primary,
-    ScrollPhysics physics,
-    bool shrinkWrap = false,
-    EdgeInsetsGeometry padding,
-    @required double maxCrossAxisExtent,
-    double mainAxisSpacing = 0.0,
-    double crossAxisSpacing = 0.0,
-    double childAspectRatio = 1.0,
-    bool addAutomaticKeepAlives = true,
-    bool addRepaintBoundaries = true,
-    bool addSemanticIndexes = true,
-    List<Widget> children = const <Widget>[],
-    int semanticChildCount,
-    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-  })  : gridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: maxCrossAxisExtent,
-          mainAxisSpacing: mainAxisSpacing,
-          crossAxisSpacing: crossAxisSpacing,
-          childAspectRatio: childAspectRatio,
-        ),
-        childrenDelegate = SliverChildListDelegate(
-          children,
-          addAutomaticKeepAlives: addAutomaticKeepAlives,
-          addRepaintBoundaries: addRepaintBoundaries,
-          addSemanticIndexes: addSemanticIndexes,
-        ),
-        super(
-          key: key,
-          scrollDirection: scrollDirection,
-          reverse: reverse,
-          controller: controller,
-          primary: primary,
-          physics: physics,
-          shrinkWrap: shrinkWrap,
-          padding: padding,
-          semanticChildCount: semanticChildCount ?? children.length,
-          dragStartBehavior: dragStartBehavior,
-        );
 
   /// A delegate that controls the layout of the children within the [WaterfallFlow].
   ///
   /// The [WaterfallFlow], [WaterfallFlow.builder], and [WaterfallFlow.custom] constructors let you specify this
   /// delegate explicitly. The other constructors create a [gridDelegate]
   /// implicitly.
-  final SliverGridDelegate gridDelegate;
+  final SliverWaterfallFlowDelegate gridDelegate;
 
   /// A delegate that provides the children for the [WaterfallFlow].
   ///
