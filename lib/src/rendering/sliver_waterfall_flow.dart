@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 
+typedef LastOneBuilder = bool Function(int index);
+
 /// Creates grid layouts with a fixed number of tiles in the cross axis.
 ///
 /// For example, if the grid is vertical, this delegate will create a layout
@@ -31,6 +33,7 @@ class SliverWaterfallFlowDelegate {
     @required this.crossAxisCount,
     this.mainAxisSpacing = 0.0,
     this.crossAxisSpacing = 0.0,
+    this.lastOneBuilder,
   })  : assert(crossAxisCount != null && crossAxisCount > 0),
         assert(mainAxisSpacing != null && mainAxisSpacing >= 0),
         assert(crossAxisSpacing != null && crossAxisSpacing >= 0);
@@ -43,6 +46,8 @@ class SliverWaterfallFlowDelegate {
 
   /// The number of logical pixels between each child along the cross axis.
   final double crossAxisSpacing;
+
+  final LastOneBuilder lastOneBuilder;
 
   bool shouldRelayout(SliverWaterfallFlowDelegate oldDelegate) {
     return oldDelegate.crossAxisCount != crossAxisCount ||

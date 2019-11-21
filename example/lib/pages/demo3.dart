@@ -1,5 +1,5 @@
 ///
-///  create by zmtzawqlp on 2019/11/20
+///  create by zmtzawqlp on 2019/11/21
 ///
 import 'package:example/common/tu_chong_repository.dart';
 import 'package:example/common/tu_chong_source.dart';
@@ -10,24 +10,18 @@ import 'package:like_button/like_button.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 @FFRoute(
-  name: "fluttercandies://demo2",
-  routeName: "demo2",
-  description: "show how to build a known-sized item with waterfall flow list.",
+  name: "fluttercandies://demo3",
+  routeName: "demo3",
+  description:
+      "show how to build a variable-sized item with waterfall flow list.",
 )
-class Demo2 extends StatefulWidget {
+class Demo3 extends StatefulWidget {
   @override
-  _Demo2State createState() => _Demo2State();
+  _Demo3State createState() => _Demo3State();
 }
 
-class _Demo2State extends State<Demo2> {
+class _Demo3State extends State<Demo3> {
   TuChongRepository _list = TuChongRepository();
-  @override
-  void initState() {
-    super.initState();
-    _list.loadMore().whenComplete(() {
-      setState(() {});
-    });
-  }
 
   @override
   void dispose() {
@@ -41,21 +35,18 @@ class _Demo2State extends State<Demo2> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text("known-sized"),
+        title: Text("variable-sized"),
       ),
       body: WaterfallFlow.builder(
         //cacheExtent: 0.0,
         padding: EdgeInsets.all(5.0),
         gridDelegate: SliverWaterfallFlowDelegate(
-            crossAxisCount: 2,
-            crossAxisSpacing: 5.0,
-            mainAxisSpacing: 5.0,
-            lastOneBuilder: (index) => index == _list.length),
+            crossAxisCount: 2, crossAxisSpacing: 5.0, mainAxisSpacing: 5.0),
         itemBuilder: (c, index) {
           if (index == _list.length) {
-            // _list.loadMore().whenComplete(() {
-            //   setState(() {});
-            // });
+            _list.loadMore().whenComplete(() {
+              setState(() {});
+            });
             return Container(
               // width: 20,
               // height: 20,
@@ -70,60 +61,73 @@ class _Demo2State extends State<Demo2> {
           }
           final item = _list[index];
           final double fontSize = 12.0;
+
+          Widget imageWidget = Stack(
+            children: <Widget>[
+              ExtendedImage.network(
+                item.imageUrl,
+                shape: BoxShape.rectangle,
+                border:
+                    Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
+                loadStateChanged: (value) {
+                  if (value.extendedImageLoadState == LoadState.loading) {
+                    return AspectRatio(
+                      aspectRatio: 1.0,
+                      child: Container(
+                        alignment: Alignment.center,
+                        color: Colors.grey.withOpacity(0.8),
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.0,
+                          valueColor: AlwaysStoppedAnimation(
+                              Theme.of(context).primaryColor),
+                        ),
+                      ),
+                    );
+                  } else if (value.extendedImageLoadState ==
+                      LoadState.completed) {
+                    item.imageRawSize = Size(
+                        value.extendedImageInfo.image.width.toDouble(),
+                        value.extendedImageInfo.image.height.toDouble());
+                  }
+                  return null;
+                },
+              ),
+              Positioned(
+                top: 5.0,
+                right: 5.0,
+                child: Container(
+                  padding: EdgeInsets.all(3.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.6),
+                    border: Border.all(
+                        color: Colors.grey.withOpacity(0.4), width: 1.0),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(5.0),
+                    ),
+                  ),
+                  child: Text(
+                    "${index + 1}",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: fontSize, color: Colors.white),
+                  ),
+                ),
+              )
+            ],
+          );
+          if (item.imageRawSize != null) {
+            imageWidget = AspectRatio(
+              child: imageWidget,
+              aspectRatio: item.imageRawSize.width / item.imageRawSize.height,
+            );
+          }
+
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              AspectRatio(
-                aspectRatio: item.imageSize.width / item.imageSize.height,
-                child: Stack(
-                  children: <Widget>[
-                    ExtendedImage.network(
-                      item.imageUrl,
-                      shape: BoxShape.rectangle,
-                      border: Border.all(
-                          color: Colors.grey.withOpacity(0.4), width: 1.0),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10.0),
-                      ),
-                      loadStateChanged: (value) {
-                        if (value.extendedImageLoadState == LoadState.loading) {
-                          return Container(
-                            alignment: Alignment.center,
-                            color: Colors.grey.withOpacity(0.8),
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2.0,
-                              valueColor: AlwaysStoppedAnimation(
-                                  Theme.of(context).primaryColor),
-                            ),
-                          );
-                        }
-                        return null;
-                      },
-                    ),
-                    Positioned(
-                      top: 5.0,
-                      right: 5.0,
-                      child: Container(
-                        padding: EdgeInsets.all(3.0),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.6),
-                          border: Border.all(
-                              color: Colors.grey.withOpacity(0.4), width: 1.0),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
-                          ),
-                        ),
-                        child: Text(
-                          "${index + 1}",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: fontSize, color: Colors.white),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              imageWidget,
               SizedBox(
                 height: 5.0,
               ),

@@ -5,27 +5,37 @@
 
 import 'package:flutter/widgets.dart';
 import 'pages/demo1.dart';
-import 'pages/main_page.dart';
 import 'pages/demo2.dart';
+import 'pages/demo3.dart';
+import 'pages/main_page.dart';
 
 RouteResult getRouteResult({String name, Map<String, dynamic> arguments}) {
   switch (name) {
     case "fluttercandies://demo1":
       return RouteResult(
         widget: Demo1(),
-        routeName: "image crop rect",
-        description: "show how to crop rect image",
+        routeName: "demo1",
+        description:
+            "show how to build random-sized item with waterfall flow list.",
+      );
+    case "fluttercandies://demo2":
+      return RouteResult(
+        widget: Demo2(),
+        routeName: "demo2",
+        description:
+            "show how to build a known-sized item with waterfall flow list.",
+      );
+    case "fluttercandies://demo3":
+      return RouteResult(
+        widget: Demo3(),
+        routeName: "demo3",
+        description:
+            "show how to build a variable-sized item with waterfall flow list.",
       );
     case "fluttercandies://mainpage":
       return RouteResult(
         widget: MainPage(),
         routeName: "MainPage",
-      );
-    case "fluttercandies://demo2":
-      return RouteResult(
-        widget: Demo2(),
-        routeName: "sized item list",
-        description: "show how to crop rect image",
       );
     default:
       return RouteResult();
@@ -60,6 +70,7 @@ enum PageRouteType { material, cupertino, transparent }
 
 List<String> routeNames = [
   "fluttercandies://demo1",
-  "fluttercandies://mainpage",
-  "fluttercandies://demo2"
+  "fluttercandies://demo2",
+  "fluttercandies://demo3",
+  "fluttercandies://mainpage"
 ];

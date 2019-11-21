@@ -1,4 +1,5 @@
 import 'dart:convert' show json;
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -80,11 +81,14 @@ class TuChongItem {
   List<dynamic> rewardListPrefix;
   List<dynamic> sites;
   List<String> tags;
+  List<Color> tagColors = List<Color>();
   Site site;
 
   bool get hasImage {
     return images != null && images.length > 0;
   }
+
+  Size imageRawSize;
 
   Size get imageSize {
     if (!hasImage) return Size(0, 0);
@@ -96,10 +100,7 @@ class TuChongItem {
     return "https://photo.tuchong.com/${images[0].userId}/f/${images[0].imgId}.jpg";
   }
 
-  String get avatarUrl {
-    if (!hasImage) return "";
-    return "https://sf3-tccdn-tos.pstatp.com/obj/tuchong-avatar/l_${images[0].userId}_1";
-  }
+  String get avatarUrl => site.icon;
 
   String get imageTitle {
     if (!hasImage) return title;
@@ -221,9 +222,12 @@ class TuChongItem {
     }
 
     tags = jsonRes['tags'] == null ? null : [];
-
+    final int maxNum = 6;
     for (var tagsItem in tags == null ? [] : jsonRes['tags']) {
       tags.add(tagsItem);
+      tagColors.add(Color.fromARGB(255, Random.secure().nextInt(255),
+          Random.secure().nextInt(255), Random.secure().nextInt(255)));
+      if (tags.length == maxNum) break;
     }
 
     site = jsonRes['site'] == null ? null : new Site.fromJson(jsonRes['site']);

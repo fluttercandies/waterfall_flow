@@ -36,7 +36,7 @@ class TuChongRepository extends LoadingMoreBase<TuChongItem> {
     bool isSuccess = false;
     try {
       //to show loading more clearly, in your app,remove this
-      //await Future.delayed(Duration(milliseconds: 500, seconds: 1));
+      //await Future.delayed(Duration(seconds: 2));
 
       var result = await HttpClientHelper.get(url);
 
@@ -44,12 +44,11 @@ class TuChongRepository extends LoadingMoreBase<TuChongItem> {
       if (pageindex == 1) {
         this.clear();
       }
-
-      source.feedList.forEach((item) {
+      for (var item in source.feedList) {
         if (item.hasImage && !this.contains(item) && hasMore) {
           this.add(item);
         }
-      });
+      }
 
       _hasMore = source.feedList.length != 0;
       pageindex++;

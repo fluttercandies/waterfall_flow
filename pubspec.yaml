@@ -1,8 +1,8 @@
 name: waterfall_flow
 description: A new Flutter package.
-version: 0.0.1
-author:
-homepage:
+version: 0.1.0
+author: zmtzawqlp <zmtzawqlp@live.com>
+homepage: https://github.com/fluttercandies/waterfall_flow
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
