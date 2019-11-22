@@ -4,38 +4,45 @@
 // **************************************************************************
 
 import 'package:flutter/widgets.dart';
-import 'pages/demo1.dart';
-import 'pages/demo2.dart';
-import 'pages/demo3.dart';
+import 'pages/custom_scrollView_demo.dart';
+import 'pages/known_sized_demo.dart';
 import 'pages/main_page.dart';
+import 'pages/random_sized_demo.dart';
+import 'pages/variable_sized_demo.dart';
 
 RouteResult getRouteResult({String name, Map<String, dynamic> arguments}) {
   switch (name) {
-    case "fluttercandies://demo1":
+    case "fluttercandies://custom_scrollview":
       return RouteResult(
-        widget: Demo1(),
-        routeName: "demo1",
-        description:
-            "show how to build random-sized item with waterfall flow list.",
+        widget: CustomScrollviewDemo(),
+        routeName: "custom_scrollview",
+        description: "show how to build waterfall flow in CustomScrollview.",
       );
-    case "fluttercandies://demo2":
+    case "fluttercandies://known-sized":
       return RouteResult(
-        widget: Demo2(),
-        routeName: "demo2",
+        widget: KnownSizedDemo(),
+        routeName: "known-sized",
         description:
             "show how to build a known-sized item with waterfall flow list.",
-      );
-    case "fluttercandies://demo3":
-      return RouteResult(
-        widget: Demo3(),
-        routeName: "demo3",
-        description:
-            "show how to build a variable-sized item with waterfall flow list.",
       );
     case "fluttercandies://mainpage":
       return RouteResult(
         widget: MainPage(),
         routeName: "MainPage",
+      );
+    case "fluttercandies://random-sized":
+      return RouteResult(
+        widget: RandomSizedDemo(),
+        routeName: "random-sized",
+        description:
+            "show how to build random-sized item with waterfall flow list.",
+      );
+    case "fluttercandies://variable-sized":
+      return RouteResult(
+        widget: VariableSizedDemo(),
+        routeName: "variable-sized",
+        description:
+            "show how to build a variable-sized item with waterfall flow list.",
       );
     default:
       return RouteResult();
@@ -69,8 +76,9 @@ class RouteResult {
 enum PageRouteType { material, cupertino, transparent }
 
 List<String> routeNames = [
-  "fluttercandies://demo1",
-  "fluttercandies://demo2",
-  "fluttercandies://demo3",
-  "fluttercandies://mainpage"
+  "fluttercandies://mainpage",
+  "fluttercandies://random-sized",
+  "fluttercandies://custom_scrollview",
+  "fluttercandies://known-sized",
+  "fluttercandies://variable-sized"
 ];

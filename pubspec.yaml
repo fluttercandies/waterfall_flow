@@ -10,6 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  extended_list_library: 
+    path: E:\Flutter\FlutterCandies\extended_list_library  
 
 dev_dependencies:
   flutter_test:

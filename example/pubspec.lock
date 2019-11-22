@@ -86,12 +86,21 @@ packages:
     source: hosted
     version: "0.6.5"
   extended_image_library:
+    dependency: "direct overridden"
+    description:
+      path: "."
+      ref: dev
+      resolved-ref: c005601d2aef37d3f76c33cf8e3c41768ed2fe6f
+      url: "https://github.com/fluttercandies/extended_image_library.git"
+    source: git
+    version: "0.1.9"
+  extended_list_library:
     dependency: transitive
     description:
-      name: extended_image_library
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.1.8"
+      path: "E:\\Flutter\\FlutterCandies\\extended_list_library"
+      relative: false
+    source: path
+    version: "0.1.0"
   ff_annotation_route:
     dependency: "direct dev"
     description:

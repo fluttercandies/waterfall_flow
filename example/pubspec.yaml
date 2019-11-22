@@ -29,11 +29,11 @@ dependencies:
   loading_more_list: any
   like_button: any
     
-# dependency_overrides:
-#   extended_image_library:
-#     git:
-#         url: https://github.com/fluttercandies/extended_image_library.git
-#         ref: dev
+dependency_overrides:
+  extended_image_library:
+    git:
+        url: https://github.com/fluttercandies/extended_image_library.git
+        ref: dev
 dev_dependencies:
   flutter_test:
     sdk: flutter

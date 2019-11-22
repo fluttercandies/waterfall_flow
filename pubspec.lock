@@ -57,6 +57,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.3"
+  extended_list_library:
+    dependency: "direct main"
+    description:
+      path: "E:\\Flutter\\FlutterCandies\\extended_list_library"
+      relative: false
+    source: path
+    version: "0.1.0"
   flutter:
     dependency: "direct main"
     description: flutter

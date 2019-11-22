@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'package:waterfall_flow/src/rendering/sliver_waterfall_flow.dart';
+import 'sliver.dart';
 
-import 'widgets/sliver_waterfall_flow.dart';
 
 ///
 ///  create by zmtzawqlp on 2019/11/9

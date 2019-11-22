@@ -7,16 +7,16 @@ import 'package:waterfall_flow/waterfall_flow.dart';
 import 'dart:math';
 
 @FFRoute(
-  name: "fluttercandies://demo1",
-  routeName: "demo1",
+  name: "fluttercandies://random-sized",
+  routeName: "random-sized",
   description: "show how to build random-sized item with waterfall flow list.",
 )
-class Demo1 extends StatefulWidget {
+class RandomSizedDemo extends StatefulWidget {
   @override
-  _Demo1State createState() => _Demo1State();
+  _RandomSizedDemoState createState() => _RandomSizedDemoState();
 }
 
-class _Demo1State extends State<Demo1> {
+class _RandomSizedDemoState extends State<RandomSizedDemo> {
   List<Color> colors = List<Color>();
   int crossAxisCount = 4;
   double crossAxisSpacing = 5.0;
@@ -27,17 +27,19 @@ class _Demo1State extends State<Demo1> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text("random-sized"),
+        title: Text("RandomSized"),
       ),
       body: WaterfallFlow.builder(
-        cacheExtent: 0.0,
+        //cacheExtent: 0.0,
+        //reverse: true,
         padding: EdgeInsets.all(5.0),
         gridDelegate: SliverWaterfallFlowDelegate(
-            crossAxisCount: crossAxisCount,
-            crossAxisSpacing: crossAxisSpacing,
-            mainAxisSpacing: mainAxisSpacing),
+          crossAxisCount: crossAxisCount,
+          crossAxisSpacing: crossAxisSpacing,
+          mainAxisSpacing: mainAxisSpacing,
+        ),
         itemBuilder: (c, index) {
-          Color color = getRandomColor(index);
+          final Color color = getRandomColor(index);
 
           return Container(
             decoration: BoxDecoration(
@@ -56,12 +58,12 @@ class _Demo1State extends State<Demo1> {
           );
         },
         //itemCount: 19,
-        //itemCount: null,
+        itemCount: null,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-             crossAxisCount++;
+            crossAxisCount++;
             //mainAxisSpacing+=5.0;
             //crossAxisSpacing+=5.0;
           });
