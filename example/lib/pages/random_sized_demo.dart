@@ -21,6 +21,7 @@ class _RandomSizedDemoState extends State<RandomSizedDemo> {
   int crossAxisCount = 4;
   double crossAxisSpacing = 5.0;
   double mainAxisSpacing = 5.0;
+  int length = 4;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +38,13 @@ class _RandomSizedDemoState extends State<RandomSizedDemo> {
           crossAxisCount: crossAxisCount,
           crossAxisSpacing: crossAxisSpacing,
           mainAxisSpacing: mainAxisSpacing,
+          collectGarbage: (List<int> garbages) {
+            print("collect garbage : $garbages");
+          },
+          viewportBuilder: (int firstIndex, int lastIndex) {
+            print("viewport : [$firstIndex,$lastIndex]");
+          },
+          //closeToTrailing: true,
         ),
         itemBuilder: (c, index) {
           final Color color = getRandomColor(index);
@@ -58,12 +66,13 @@ class _RandomSizedDemoState extends State<RandomSizedDemo> {
           );
         },
         //itemCount: 19,
-        itemCount: null,
+        itemCount: length,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            crossAxisCount++;
+            length++;
+            //crossAxisCount++;
             //mainAxisSpacing+=5.0;
             //crossAxisSpacing+=5.0;
           });

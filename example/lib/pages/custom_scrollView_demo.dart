@@ -46,6 +46,17 @@ class _CustomScrollviewDemoState extends State<CustomScrollviewDemo> {
             ),
           ),
           SliverWaterfallFlow(
+            gridDelegate: SliverWaterfallFlowDelegate(
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: crossAxisSpacing,
+              mainAxisSpacing: mainAxisSpacing,
+              collectGarbage: (List<int> garbages) {
+                print("collect garbage : $garbages");
+              },
+              viewportBuilder: (int firstIndex, int lastIndex) {
+                print("viewport : [$firstIndex,$lastIndex]");
+              },
+            ),
             delegate: SliverChildBuilderDelegate((c, index) {
               Color color = getRandomColor(index);
               return Container(
@@ -64,10 +75,6 @@ class _CustomScrollviewDemoState extends State<CustomScrollviewDemo> {
                 height: ((index % 3) + 1) * 100.0,
               );
             }),
-            gridDelegate: SliverWaterfallFlowDelegate(
-                crossAxisCount: crossAxisCount,
-                crossAxisSpacing: crossAxisSpacing,
-                mainAxisSpacing: mainAxisSpacing),
           )
         ],
       ),

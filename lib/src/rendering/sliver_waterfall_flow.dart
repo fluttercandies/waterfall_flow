@@ -20,7 +20,8 @@ import 'package:flutter/rendering.dart';
 ///    array.
 ///  * [RenderSliverFixedExtentList], which places its children in a linear
 ///    array with a fixed extent in the main axis.
-class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor {
+class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
+    with ExtendedRenderObjectMixin {
   /// Creates a sliver that contains multiple box children that whose size and
   /// position are determined by a delegate.
   ///
@@ -108,6 +109,9 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor {
         return;
       }
     }
+
+    // zmt
+    handleCloseToTrailingBegin(_gridDelegate?.closeToTrailing ?? false);
 
     // We have at least one child.
 
@@ -363,6 +367,12 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor {
     //zmt
     //print(leadingGarbages);
     collectGarbage(leadingGarbage, trailingGarbage);
+    //zmt
+    callCollectGarbage(
+      collectGarbage: _gridDelegate?.collectGarbage,
+      leadingGarbage: leadingGarbage,
+      trailingGarbage: trailingGarbage,
+    );
 
     assert(debugAssertChildListIsNonEmptyAndContiguous());
     double estimatedMaxScrollOffset;
@@ -388,6 +398,14 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor {
           endScrollOffset - childScrollOffset(firstChild));
     }
 
+    ///zmt
+    final result = handleCloseToTrailingEnd(
+        _gridDelegate?.closeToTrailing ?? false, endScrollOffset);
+    if (result != endScrollOffset) {
+      endScrollOffset = result;
+      estimatedMaxScrollOffset = result;
+    }
+
     final double paintExtent = calculatePaintOffset(
       constraints,
       from: childScrollOffset(firstChild),
@@ -400,6 +418,8 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor {
     );
     final double targetEndScrollOffsetForPaint =
         constraints.scrollOffset + constraints.remainingPaintExtent;
+    //zmt
+    callViewportBuilder(viewportBuilder: _gridDelegate?.viewportBuilder);
 
     geometry = SliverGeometry(
       scrollExtent: estimatedMaxScrollOffset,
@@ -476,7 +496,7 @@ class CrossAxisItems {
         final size = paintExtentOf(child);
         if (lastChildLayoutType == LastChildLayoutType.fullCrossAxisExtend ||
             maxChildTrailingLayoutOffset + size >
-                constraints.viewportMainAxisExtent) {
+                constraints.remainingPaintExtent) {
           data.layoutOffset = maxChildTrailingLayoutOffset;
         } else {
           data.layoutOffset = constraints.remainingPaintExtent - size;
@@ -662,7 +682,6 @@ class CrossAxisItems {
 }
 
 typedef ChildTrailingLayoutOffset = double Function(RenderBox child);
-typedef PaintExtentOf = double Function(RenderBox child);
 
 class WaterfallFlowParentData extends SliverMultiBoxAdaptorParentData {
   /// The trailing position of the child relative to the zero scroll offset.
@@ -707,10 +726,18 @@ class SliverWaterfallFlowDelegate extends ExtendedListDelegate {
     this.mainAxisSpacing = 0.0,
     this.crossAxisSpacing = 0.0,
     LastChildLayoutTypeBuilder lastChildLayoutTypeBuilder,
+    CollectGarbage collectGarbage,
+    ViewportBuilder viewportBuilder,
+    bool closeToTrailing,
   })  : assert(crossAxisCount != null && crossAxisCount > 0),
         assert(mainAxisSpacing != null && mainAxisSpacing >= 0),
         assert(crossAxisSpacing != null && crossAxisSpacing >= 0),
-        super(lastChildLayoutTypeBuilder: lastChildLayoutTypeBuilder);
+        super(
+          lastChildLayoutTypeBuilder: lastChildLayoutTypeBuilder,
+          collectGarbage: collectGarbage,
+          viewportBuilder: viewportBuilder,
+          closeToTrailing: closeToTrailing,
+        );
 
   /// The number of children in the cross axis.
   final int crossAxisCount;
@@ -752,4 +779,3 @@ class SliverWaterfallFlowDelegate extends ExtendedListDelegate {
     return lastChildLayoutTypeBuilder(index) ?? LastChildLayoutType.none;
   }
 }
-
