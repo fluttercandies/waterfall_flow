@@ -344,8 +344,12 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
 
     // Now find the first child that ends after our end.
     if (child != null) {
-      while (
-          crossAxisItems.minChildTrailingLayoutOffset < targetEndScrollOffset) {
+      while (crossAxisItems.minChildTrailingLayoutOffset <
+              targetEndScrollOffset ||
+              //make sure leading children are painted. 
+          crossAxisItems.leadingItems.length < _gridDelegate.crossAxisCount
+          || crossAxisItems.leadingItems.length  > childCount
+          ) {
         if (!advance()) {
           reachedEnd = true;
           break;

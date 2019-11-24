@@ -63,12 +63,6 @@ class _VariableSizedDemoState extends State<VariableSizedDemo> {
                 lastChildLayoutTypeBuilder: (index) => index == _list.length
                     ? LastChildLayoutType.foot
                     : LastChildLayoutType.none,
-                collectGarbage: (List<int> garbages) {
-                  print("collect garbage : $garbages");
-                },
-                viewportBuilder: (int firstIndex, int lastIndex) {
-                  print("viewport : [$firstIndex,$lastIndex]");
-                },
               ),
 
               itemBuilder: (c, index) {
