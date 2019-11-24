@@ -1,5 +1,5 @@
 name: waterfall_flow
-description: A new Flutter package.
+description: A Flutter grid view which supports waterfall flow layout.
 version: 0.1.0
 author: zmtzawqlp <zmtzawqlp@live.com>
 homepage: https://github.com/fluttercandies/waterfall_flow
