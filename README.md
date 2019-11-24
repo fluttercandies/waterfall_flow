@@ -1,6 +1,6 @@
 # waterfall_flow
 
-A Flutter grid view which supports waterfall flow layout.
+A Flutter grid view easy to build waterfall flow layout quickly.
 
 [![pub package](https://img.shields.io/pub/v/waterfall_flow.svg)](https://pub.dartlang.org/packages/waterfall_flow) [![GitHub stars](https://img.shields.io/github/stars/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/stargazers) [![GitHub forks](https://img.shields.io/github/forks/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/network)  [![GitHub license](https://img.shields.io/github/license/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/blob/master/LICENSE)  [![GitHub issues](https://img.shields.io/github/issues/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/issues) <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5bcc0gy"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="flutter-candies" title="flutter-candies"></a>
 
