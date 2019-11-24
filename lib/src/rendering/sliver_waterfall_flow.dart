@@ -728,10 +728,11 @@ class SliverWaterfallFlowDelegate extends ExtendedListDelegate {
     LastChildLayoutTypeBuilder lastChildLayoutTypeBuilder,
     CollectGarbage collectGarbage,
     ViewportBuilder viewportBuilder,
-    bool closeToTrailing,
+    bool closeToTrailing = false,
   })  : assert(crossAxisCount != null && crossAxisCount > 0),
         assert(mainAxisSpacing != null && mainAxisSpacing >= 0),
         assert(crossAxisSpacing != null && crossAxisSpacing >= 0),
+        assert(closeToTrailing != null),
         super(
           lastChildLayoutTypeBuilder: lastChildLayoutTypeBuilder,
           collectGarbage: collectGarbage,

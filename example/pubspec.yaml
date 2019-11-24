@@ -29,6 +29,7 @@ dependencies:
   loading_more_list: any
   like_button: any
     
+# use following code if your flutter sdk is more than 1.10    
 dependency_overrides:
   extended_image_library:
     git:

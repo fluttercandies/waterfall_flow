@@ -21,7 +21,6 @@ class _RandomSizedDemoState extends State<RandomSizedDemo> {
   int crossAxisCount = 4;
   double crossAxisSpacing = 5.0;
   double mainAxisSpacing = 5.0;
-  int length = 4;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,13 +65,12 @@ class _RandomSizedDemoState extends State<RandomSizedDemo> {
           );
         },
         //itemCount: 19,
-        itemCount: length,
+        itemCount: null,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            length++;
-            //crossAxisCount++;
+            crossAxisCount++;
             //mainAxisSpacing+=5.0;
             //crossAxisSpacing+=5.0;
           });
