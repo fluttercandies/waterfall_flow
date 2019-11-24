@@ -23,6 +23,14 @@ class _VariableSizedDemoState extends State<VariableSizedDemo> {
   TuChongRepository _list = TuChongRepository();
 
   @override
+  void initState() {
+    super.initState();
+    _list.loadMore().whenComplete(() {
+      setState(() {});
+    });
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _list.dispose();
