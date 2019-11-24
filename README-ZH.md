@@ -103,10 +103,6 @@ dependencies:
 
 为最后一个元素创建特殊布局，这主要是用在将最后一个元素作为loadmore/no more的时候。
 
-![img](https://github.com/fluttercandies/Flutter_Candies/blob/master/gif/extended_list/gridview.gif)
-
-![img](https://github.com/fluttercandies/Flutter_Candies/blob/master/gif/extended_list/listview.gif)
-
 ```dart
         enum LastChildLayoutType {
         /// 普通的
