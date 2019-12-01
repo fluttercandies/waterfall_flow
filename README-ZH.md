@@ -79,6 +79,8 @@ dependencies:
 
 追踪列表元素回收，你可以在这个时刻回收一些内存，比如图片的内存缓存。
 
+[更多详情](https://github.com/fluttercandies/extended_image/blob/e1577bc4d0b57c725110a9d886703b98a72772b5/example/lib/pages/photo_view_demo.dart#L91)
+
 ```dart
         WaterfallFlow.builder(
             extendedListDelegate: SliverWaterfallFlowDelegate(
