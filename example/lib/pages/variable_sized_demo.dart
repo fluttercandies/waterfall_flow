@@ -63,6 +63,15 @@ class _VariableSizedDemoState extends State<VariableSizedDemo> {
                 lastChildLayoutTypeBuilder: (index) => index == _list.length
                     ? LastChildLayoutType.foot
                     : LastChildLayoutType.none,
+                collectGarbage: (List<int> garbages) {
+                  ///collectGarbage
+                  garbages.forEach((index) {
+                    final provider = ExtendedNetworkImageProvider(
+                      _list[index].imageUrl,
+                    );
+                    provider.evict();
+                  });
+                },
               ),
 
               itemBuilder: (c, index) {

@@ -83,10 +83,17 @@ dependencies:
 
 ```dart
         WaterfallFlow.builder(
-            extendedListDelegate: SliverWaterfallFlowDelegate(
-                collectGarbage: (List<int> garbages) {
-                print("collect garbage : $garbages");
-                },),
+            gridDelegate: SliverWaterfallFlowDelegate(
+                     collectGarbage: (List<int> garbages) {
+                  ///collectGarbage
+                  garbages.forEach((index) {
+                    final provider = ExtendedNetworkImageProvider(
+                      _list[index].imageUrl,
+                    );
+                    provider.evict();
+                  });
+                },
+              ),
 ```
 
 ## ViewportBuilder
@@ -95,7 +102,7 @@ dependencies:
 
 ```dart
         WaterfallFlow.builder(
-            extendedListDelegate: SliverWaterfallFlowDelegate(
+            gridDelegate: SliverWaterfallFlowDelegate(
                 viewportBuilder: (int firstIndex, int lastIndex) {
                 print("viewport : [$firstIndex,$lastIndex]");
                 }),
@@ -121,7 +128,7 @@ dependencies:
         }
 
       WaterfallFlow.builder(
-        extendedListDelegate: SliverWaterfallFlowDelegate(
+        gridDelegate: SliverWaterfallFlowDelegate(
             lastChildLayoutTypeBuilder: (index) => index == length
                 ? LastChildLayoutType.foot
                 : LastChildLayoutType.none,
@@ -163,5 +170,5 @@ dependencies:
 ```dart
       WaterfallFlow.builder(
         reverse: true,
-        extendedListDelegate: SliverWaterfallFlowDelegate(closeToTrailing: true),
+        gridDelegate: SliverWaterfallFlowDelegate(closeToTrailing: true),
 ```

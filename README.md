@@ -83,10 +83,17 @@ track the indexes are collect, you can collect garbage at that monment(for examp
 
 ```dart
         WaterfallFlow.builder(
-            extendedListDelegate: SliverWaterfallFlowDelegate(
+            gridDelegate: SliverWaterfallFlowDelegate(
                 collectGarbage: (List<int> garbages) {
-                print("collect garbage : $garbages");
-                },),
+                  ///collectGarbage
+                  garbages.forEach((index) {
+                    final provider = ExtendedNetworkImageProvider(
+                      _list[index].imageUrl,
+                    );
+                    provider.evict();
+                  });
+                },
+              ),
 ```
 
 ## ViewportBuilder
@@ -95,7 +102,7 @@ track the indexes go into the viewport, it's not include cache extent.
 
 ```dart
         WaterfallFlow.builder(
-            extendedListDelegate: SliverWaterfallFlowDelegate(
+            gridDelegate: SliverWaterfallFlowDelegate(
                 viewportBuilder: (int firstIndex, int lastIndex) {
                 print("viewport : [$firstIndex,$lastIndex]");
                 }),
@@ -122,7 +129,7 @@ build lastChild as special child in the case that it is loadmore/no more item.
         }
 
       WaterfallFlow.builder(
-        extendedListDelegate: SliverWaterfallFlowDelegate(
+        gridDelegate: SliverWaterfallFlowDelegate(
             lastChildLayoutTypeBuilder: (index) => index == length
                 ? LastChildLayoutType.foot
                 : LastChildLayoutType.none,
@@ -166,5 +173,5 @@ and it also works when reverse is flase, layout will close to trailing.
 ```dart
       WaterfallFlow.builder(
         reverse: true,
-        extendedListDelegate: SliverWaterfallFlowDelegate(closeToTrailing: true),
+        gridDelegate: SliverWaterfallFlowDelegate(closeToTrailing: true),
 ```

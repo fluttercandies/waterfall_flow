@@ -1,3 +1,7 @@
+## [0.1.2]
+
+* update demo.
+  
 ## [0.1.1]
 
 * update description.
