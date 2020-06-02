@@ -1,3 +1,7 @@
+## [0.1.4]
+
+* fix leading items are missing when pull to refresh.
+  
 ## [0.1.3]
 
 * web support.

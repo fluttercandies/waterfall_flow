@@ -346,10 +346,11 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
     if (child != null) {
       while (crossAxisItems.minChildTrailingLayoutOffset <
               targetEndScrollOffset ||
-              //make sure leading children are painted. 
-          crossAxisItems.leadingItems.length < _gridDelegate.crossAxisCount
-          || crossAxisItems.leadingItems.length  > childCount
-          ) {
+          //make sure leading children are painted.
+          crossAxisItems.leadingItems.length < _gridDelegate.crossAxisCount ||
+          crossAxisItems.leadingItems.length > childCount ||
+          (child.parentData as WaterfallFlowParentData).index <
+              _gridDelegate.crossAxisCount) {
         if (!advance()) {
           reachedEnd = true;
           break;
