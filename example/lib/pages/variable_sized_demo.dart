@@ -10,10 +10,10 @@ import 'package:loading_more_list/loading_more_list.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 @FFRoute(
-  name: "fluttercandies://variable-sized",
-  routeName: "variable-sized",
+  name: 'fluttercandies://variable-sized',
+  routeName: 'variable-sized',
   description:
-      "show how to build a variable-sized item with waterfall flow list.",
+      'show how to build a variable-sized item with waterfall flow list.',
 )
 class VariableSizedDemo extends StatefulWidget {
   @override
@@ -35,13 +35,13 @@ class _VariableSizedDemoState extends State<VariableSizedDemo> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text("VariableSized"),
+        title: const Text('VariableSized'),
       ),
       body: LayoutBuilder(
-        builder: (c, data) {
-          final crossAxisCount = max(
+        builder: (BuildContext c, BoxConstraints data) {
+          final int crossAxisCount = max(
               data.maxWidth ~/ (ScreenUtil.instance.screenWidthDp / 2.0), 2);
-          return LoadingMoreList(
+          return LoadingMoreList<TuChongItem>(
             ListConfig<TuChongItem>(
               waterfallFlowDelegate: WaterfallFlowDelegate(
                 crossAxisCount: crossAxisCount,
@@ -50,7 +50,7 @@ class _VariableSizedDemoState extends State<VariableSizedDemo> {
               ),
               itemBuilder: buildItem,
               sourceList: listSourceRepository,
-              padding: EdgeInsets.all(5.0),
+              padding: const EdgeInsets.all(5.0),
               lastChildLayoutType: LastChildLayoutType.foot,
               // collectGarbage: (List<int> garbages) {
               //   ///collectGarbage
@@ -62,7 +62,7 @@ class _VariableSizedDemoState extends State<VariableSizedDemo> {
               //   });
               // },
               // viewportBuilder: (int firstIndex, int lastIndex) {
-              //   print("viewport : [$firstIndex,$lastIndex]");
+              //   print('viewport : [$firstIndex,$lastIndex]');
               // },
             ),
           );

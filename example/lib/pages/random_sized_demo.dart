@@ -1,15 +1,16 @@
 ///
 ///  create by zmtzawqlp on 2019/11/19
 ///
+import 'dart:math';
 import 'package:ff_annotation_route/ff_annotation_route.dart';
 import 'package:flutter/material.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
-import 'dart:math';
+
 
 @FFRoute(
-  name: "fluttercandies://random-sized",
-  routeName: "random-sized",
-  description: "show how to build random-sized item with waterfall flow list.",
+  name: 'fluttercandies://random-sized',
+  routeName: 'random-sized',
+  description: 'show how to build random-sized item with waterfall flow list.',
 )
 class RandomSizedDemo extends StatefulWidget {
   @override
@@ -17,7 +18,7 @@ class RandomSizedDemo extends StatefulWidget {
 }
 
 class _RandomSizedDemoState extends State<RandomSizedDemo> {
-  List<Color> colors = List<Color>();
+  List<Color> colors = <Color>[];
   int crossAxisCount = 4;
   double crossAxisSpacing = 5.0;
   double mainAxisSpacing = 5.0;
@@ -27,25 +28,25 @@ class _RandomSizedDemoState extends State<RandomSizedDemo> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text("RandomSized"),
+        title: const Text('RandomSized'),
       ),
       body: WaterfallFlow.builder(
         //cacheExtent: 0.0,
         //reverse: true,
-        padding: EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(5.0),
         gridDelegate: SliverWaterfallFlowDelegate(
           crossAxisCount: crossAxisCount,
           crossAxisSpacing: crossAxisSpacing,
           mainAxisSpacing: mainAxisSpacing,
           collectGarbage: (List<int> garbages) {
-            print("collect garbage : $garbages");
+            print('collect garbage : $garbages');
           },
           viewportBuilder: (int firstIndex, int lastIndex) {
-            print("viewport : [$firstIndex,$lastIndex]");
+            print('viewport : [$firstIndex,$lastIndex]');
           },
           //closeToTrailing: true,
         ),
-        itemBuilder: (c, index) {
+        itemBuilder: (BuildContext c, int index) {
           final Color color = getRandomColor(index);
 
           return Container(
@@ -54,7 +55,7 @@ class _RandomSizedDemoState extends State<RandomSizedDemo> {
                 color: getRandomColor(index)),
             alignment: Alignment.center,
             child: Text(
-              "$index",
+              '$index',
               style: TextStyle(
                   color: color.computeLuminance() < 0.5
                       ? Colors.white
@@ -80,7 +81,7 @@ class _RandomSizedDemoState extends State<RandomSizedDemo> {
     );
   }
 
-  getRandomColor(int index) {
+  Color getRandomColor(int index) {
     if (index >= colors.length) {
       colors.add(Color.fromARGB(255, Random.secure().nextInt(255),
           Random.secure().nextInt(255), Random.secure().nextInt(255)));

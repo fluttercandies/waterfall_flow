@@ -44,16 +44,21 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
   SliverWaterfallFlowDelegate _gridDelegate;
   set gridDelegate(SliverWaterfallFlowDelegate value) {
     assert(value != null);
-    if (_gridDelegate == value) return;
+    if (_gridDelegate == value) {
+      return;
+    }
     if (value.runtimeType != _gridDelegate.runtimeType ||
-        value.shouldRelayout(_gridDelegate)) markNeedsLayout();
+        value.shouldRelayout(_gridDelegate)) {
+      markNeedsLayout();
+    }
 
     _gridDelegate = value;
   }
 
   @override
   double childCrossAxisPosition(RenderBox child) {
-    final WaterfallFlowParentData childParentData = child.parentData;
+    final WaterfallFlowParentData childParentData =
+        child.parentData as WaterfallFlowParentData;
     return childParentData.crossAxisOffset;
   }
 
@@ -63,14 +68,16 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
     childManager.didStartLayout();
     childManager.setDidUnderflow(false);
 
-    CrossAxisItems crossAxisItems = CrossAxisItems(
+    final CrossAxisItems crossAxisItems = CrossAxisItems(
         delegate: _gridDelegate,
         constraints: constraints,
         leadingItems: _preCrossAxisItems?.leadingItems);
 
-    if (resetLayout()) crossAxisItems.reset();
+    if (resetLayout()) {
+      crossAxisItems.reset();
+    }
 
-    BoxConstraints childConstraints = constraints.asBoxConstraints(
+    final BoxConstraints childConstraints = constraints.asBoxConstraints(
         crossAxisExtent: _gridDelegate.getChildConstraints(constraints));
 
     final double scrollOffset =
@@ -178,7 +185,8 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
         crossAxisItems.insertLeading(
             child: earliestUsefulChild, paintExtentOf: paintExtentOf);
 
-        final WaterfallFlowParentData data = earliestUsefulChild.parentData;
+        final WaterfallFlowParentData data =
+            earliestUsefulChild.parentData as WaterfallFlowParentData;
 
         // firstChildScrollOffset may contain double precision error
         if (data.layoutOffset < -precisionErrorTolerance) {
@@ -256,15 +264,20 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
       // returns true if we advanced, false if we have no more children
       // This function is used in two different places below, to avoid code duplication.
       assert(child != null);
-      if (child == trailingChildWithLayout) inLayoutRange = false;
+      if (child == trailingChildWithLayout) {
+        inLayoutRange = false;
+      }
       child = childAfter(child);
-      if (child == null) inLayoutRange = false;
+      if (child == null) {
+        inLayoutRange = false;
+      }
       index += 1;
       final LastChildLayoutType lastChildLayoutType =
           _gridDelegate.getLastChildLayoutType(index);
-      final currentConstraints = lastChildLayoutType != LastChildLayoutType.none
-          ? constraints.asBoxConstraints()
-          : childConstraints;
+      final BoxConstraints currentConstraints =
+          lastChildLayoutType != LastChildLayoutType.none
+              ? constraints.asBoxConstraints()
+              : childConstraints;
 
       if (!inLayoutRange) {
         if (child == null || indexOf(child) != index) {
@@ -287,7 +300,8 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
       }
       assert(child != null);
       //zmt
-      final WaterfallFlowParentData childParentData = child.parentData;
+      final WaterfallFlowParentData childParentData =
+          child.parentData as WaterfallFlowParentData;
       //zmt
 
       crossAxisItems.insert(
@@ -299,7 +313,7 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
       return true;
     }
 
-    List<int> leadingGarbages = List<int>();
+    final List<int> leadingGarbages = <int>[];
 
     // Find the first child that ends after the scroll offset.
     while (childTrailingLayoutOffset(child) < scrollOffset) {
@@ -330,11 +344,12 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
       while (crossAxisItems.minChildTrailingLayoutOffset < scrollOffset) {
         if (!advance()) {
           final int minTrailingIndex = crossAxisItems.minTrailingIndex;
-          leadingGarbages.forEach((index) {
+          for (final int index in leadingGarbages) {
             if (index >= minTrailingIndex) {
               leadingGarbage--;
             }
-          });
+          }
+
           leadingGarbage = max(0, leadingGarbage);
           break;
         }
@@ -350,7 +365,7 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
           crossAxisItems.leadingItems.length < _gridDelegate.crossAxisCount ||
           crossAxisItems.leadingItems.length > childCount ||
           (child.parentData as WaterfallFlowParentData).index <
-              _gridDelegate.crossAxisCount) {
+              _gridDelegate.crossAxisCount - 1) {
         if (!advance()) {
           reachedEnd = true;
           break;
@@ -404,7 +419,7 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
     }
 
     ///zmt
-    final result = handleCloseToTrailingEnd(
+    final double result = handleCloseToTrailingEnd(
         _gridDelegate?.closeToTrailing ?? false, endScrollOffset);
     if (result != endScrollOffset) {
       endScrollOffset = result;
@@ -468,28 +483,28 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
 }
 
 class CrossAxisItems {
-  final List<WaterfallFlowParentData> trailingItems;
-  final List<WaterfallFlowParentData> leadingItems;
-  final SliverWaterfallFlowDelegate delegate;
-  final SliverConstraints constraints;
-  int get crossAxisCount => delegate.crossAxisCount;
   CrossAxisItems(
       {@required this.delegate,
       @required this.constraints,
       List<WaterfallFlowParentData> leadingItems})
       : leadingItems = leadingItems != null
-            ? leadingItems.map((x) => x).toList()
-            : List<WaterfallFlowParentData>(),
+            ? leadingItems.map((WaterfallFlowParentData x) => x).toList()
+            : <WaterfallFlowParentData>[],
         trailingItems = leadingItems != null
-            ? leadingItems.map((x) => x).toList()
-            : List<WaterfallFlowParentData>();
-
+            ? leadingItems.map((WaterfallFlowParentData x) => x).toList()
+            : <WaterfallFlowParentData>[];
+  final List<WaterfallFlowParentData> trailingItems;
+  final List<WaterfallFlowParentData> leadingItems;
+  final SliverWaterfallFlowDelegate delegate;
+  final SliverConstraints constraints;
+  int get crossAxisCount => delegate.crossAxisCount;
   void insert({
     @required RenderBox child,
     @required ChildTrailingLayoutOffset childTrailingLayoutOffset,
     @required PaintExtentOf paintExtentOf,
   }) {
-    final WaterfallFlowParentData data = child.parentData;
+    final WaterfallFlowParentData data =
+        child.parentData as WaterfallFlowParentData;
     final LastChildLayoutType lastChildLayoutType =
         delegate.getLastChildLayoutType(data.index);
 
@@ -498,7 +513,7 @@ class CrossAxisItems {
       case LastChildLayoutType.foot:
         data.crossAxisOffset = 0.0;
         data.crossAxisIndex = 0;
-        final size = paintExtentOf(child);
+        final double size = paintExtentOf(child);
         if (lastChildLayoutType == LastChildLayoutType.fullCrossAxisExtend ||
             maxChildTrailingLayoutOffset + size >
                 constraints.remainingPaintExtent) {
@@ -528,8 +543,8 @@ class CrossAxisItems {
         leadingItems.add(data);
       } else {
         if (data.crossAxisIndex != null) {
-          var item = trailingItems.firstWhere(
-              (x) =>
+          final WaterfallFlowParentData item = trailingItems.firstWhere(
+              (WaterfallFlowParentData x) =>
                   x.index > data.index &&
                   x.crossAxisIndex == data.crossAxisIndex,
               orElse: () => null);
@@ -540,19 +555,24 @@ class CrossAxisItems {
             return;
           }
         }
-        var min = trailingItems.reduce((curr, next) =>
-            ((curr.trailingLayoutOffset < next.trailingLayoutOffset) ||
-                    (curr.trailingLayoutOffset == next.trailingLayoutOffset &&
-                        curr.crossAxisIndex < next.crossAxisIndex)
-                ? curr
-                : next));
+        final WaterfallFlowParentData min = trailingItems.reduce(
+            (WaterfallFlowParentData curr, WaterfallFlowParentData next) =>
+                curr.trailingLayoutOffset < next.trailingLayoutOffset ||
+                        (curr.trailingLayoutOffset ==
+                                next.trailingLayoutOffset &&
+                            curr.crossAxisIndex < next.crossAxisIndex)
+                    ? curr
+                    : next);
 
         data.layoutOffset = min.trailingLayoutOffset + delegate.mainAxisSpacing;
         data.crossAxisIndex = min.crossAxisIndex;
         data.crossAxisOffset =
             delegate.getCrossAxisOffset(constraints, data.crossAxisIndex);
 
-        trailingItems.forEach((f) => f.indexs.remove(min.index));
+        for (final WaterfallFlowParentData parentData in trailingItems) {
+          parentData.indexs.remove(min.index);
+        }
+
         min.indexs.add(min.index);
         data.indexs = min.indexs;
         trailingItems.remove(min);
@@ -567,12 +587,16 @@ class CrossAxisItems {
     @required RenderBox child,
     @required PaintExtentOf paintExtentOf,
   }) {
-    final WaterfallFlowParentData data = child.parentData;
+    final WaterfallFlowParentData data =
+        child.parentData as WaterfallFlowParentData;
     if (!leadingItems.contains(data)) {
-      var pre = leadingItems.firstWhere((x) => x.indexs.contains(data.index),
+      final WaterfallFlowParentData pre = leadingItems.firstWhere(
+          (WaterfallFlowParentData x) => x.indexs.contains(data.index),
           orElse: () => null);
 
-      if (pre == null || pre.index < data.index) return;
+      if (pre == null || pre.index < data.index) {
+        return;
+      }
       //if (pre == null) {
       // pre = leadingItems.reduce((curr, next) =>
       //     ((curr.layoutOffset > next.layoutOffset) ||
@@ -600,10 +624,11 @@ class CrossAxisItems {
   double get minChildTrailingLayoutOffset {
     try {
       return trailingItems
-          .reduce((curr, next) =>
-              ((curr.trailingLayoutOffset <= next.trailingLayoutOffset)
-                  ? curr
-                  : next))
+          .reduce(
+              (WaterfallFlowParentData curr, WaterfallFlowParentData next) =>
+                  curr.trailingLayoutOffset <= next.trailingLayoutOffset
+                      ? curr
+                      : next)
           .trailingLayoutOffset;
     } catch (e) {
       return 0.0;
@@ -613,10 +638,11 @@ class CrossAxisItems {
   double get maxChildTrailingLayoutOffset {
     try {
       return trailingItems
-          .reduce((curr, next) =>
-              ((curr.trailingLayoutOffset >= next.trailingLayoutOffset)
-                  ? curr
-                  : next))
+          .reduce(
+              (WaterfallFlowParentData curr, WaterfallFlowParentData next) =>
+                  curr.trailingLayoutOffset >= next.trailingLayoutOffset
+                      ? curr
+                      : next)
           .trailingLayoutOffset;
     } catch (e) {
       return 0.0;
@@ -626,8 +652,9 @@ class CrossAxisItems {
   double get maxLeadingLayoutOffset {
     try {
       return leadingItems
-          .reduce((curr, next) =>
-              ((curr.layoutOffset >= next.layoutOffset) ? curr : next))
+          .reduce(
+              (WaterfallFlowParentData curr, WaterfallFlowParentData next) =>
+                  curr.layoutOffset >= next.layoutOffset ? curr : next)
           .layoutOffset;
     } catch (e) {
       return 0.0;
@@ -637,7 +664,9 @@ class CrossAxisItems {
   int get maxLeadingIndex {
     try {
       return leadingItems
-          .reduce((curr, next) => ((curr.index > next.index) ? curr : next))
+          .reduce(
+              (WaterfallFlowParentData curr, WaterfallFlowParentData next) =>
+                  curr.index > next.index ? curr : next)
           .index;
     } catch (e) {
       return 0;
@@ -647,7 +676,9 @@ class CrossAxisItems {
   int get minLeadingIndex {
     try {
       return leadingItems
-          .reduce((curr, next) => ((curr.index < next.index) ? curr : next))
+          .reduce(
+              (WaterfallFlowParentData curr, WaterfallFlowParentData next) =>
+                  curr.index < next.index ? curr : next)
           .index;
     } catch (e) {
       return 0;
@@ -657,7 +688,9 @@ class CrossAxisItems {
   int get maxTrailingIndex {
     try {
       return trailingItems
-          .reduce((curr, next) => ((curr.index > next.index) ? curr : next))
+          .reduce(
+              (WaterfallFlowParentData curr, WaterfallFlowParentData next) =>
+                  curr.index > next.index ? curr : next)
           .index;
     } catch (e) {
       return 0;
@@ -667,7 +700,9 @@ class CrossAxisItems {
   int get minTrailingIndex {
     try {
       return trailingItems
-          .reduce((curr, next) => ((curr.index < next.index) ? curr : next))
+          .reduce(
+              (WaterfallFlowParentData curr, WaterfallFlowParentData next) =>
+                  curr.index < next.index ? curr : next)
           .index;
     } catch (e) {
       return 0;
@@ -681,8 +716,7 @@ class CrossAxisItems {
 
   void setLeading() {
     leadingItems.clear();
-
-    trailingItems.forEach((f) => leadingItems.add(f));
+    leadingItems.addAll(trailingItems);
   }
 }
 
@@ -710,7 +744,7 @@ class WaterfallFlowParentData extends SliverMultiBoxAdaptorParentData {
   double crossAxisOffset;
 
   /// The idnex of the children in current crossAxis
-  List<int> indexs = List<int>();
+  List<int> indexs = <int>[];
 
   @override
   String toString() =>
@@ -780,7 +814,9 @@ class SliverWaterfallFlowDelegate extends ExtendedListDelegate {
       getUsableCrossAxisExtent(constraints) / crossAxisCount;
 
   LastChildLayoutType getLastChildLayoutType(int index) {
-    if (lastChildLayoutTypeBuilder == null) return LastChildLayoutType.none;
+    if (lastChildLayoutTypeBuilder == null) {
+      return LastChildLayoutType.none;
+    }
 
     return lastChildLayoutTypeBuilder(index) ?? LastChildLayoutType.none;
   }

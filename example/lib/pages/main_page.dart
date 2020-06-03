@@ -7,29 +7,32 @@ import 'package:ff_annotation_route/ff_annotation_route.dart';
 import 'package:flutter_candies_demo_library/flutter_candies_demo_library.dart';
 
 import '../example_route.dart';
-
+import '../example_routes.dart' as example_routes;
 @FFRoute(
-  name: "fluttercandies://mainpage",
-  routeName: "MainPage",
+  name: 'fluttercandies://mainpage',
+  routeName: 'MainPage',
 )
 class MainPage extends StatelessWidget {
-  final List<RouteResult> routes = List<RouteResult>();
-  MainPage() {
-    routeNames.remove("fluttercandies://mainpage");
-    routes.addAll(
-        routeNames.map<RouteResult>((name) => getRouteResult(name: name)));
+ MainPage() {
+    final List<String> routeNames = <String>[];
+    routeNames.addAll(example_routes.routeNames);
+    routeNames.remove('fluttercandies://picswiper');
+    routeNames.remove('fluttercandies://mainpage');
+    routes.addAll(routeNames
+        .map<RouteResult>((String name) => getRouteResult(name: name)));
   }
+  final List<RouteResult> routes = <RouteResult>[];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text('WaterfallFlow'),
+        title: const Text('WaterfallFlow'),
         actions: <Widget>[
           ButtonTheme(
             minWidth: 0.0,
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: FlatButton(
               child: Text(
                 'Github',
@@ -45,7 +48,7 @@ class MainPage extends StatelessWidget {
             ),
           ),
           ButtonTheme(
-            padding: EdgeInsets.only(right: 10.0),
+            padding: const EdgeInsets.only(right: 10.0),
             minWidth: 0.0,
             child: FlatButton(
               child:
@@ -58,17 +61,17 @@ class MainPage extends StatelessWidget {
         ],
       ),
       body: ListView.builder(
-        itemBuilder: (c, index) {
-          var page = routes[index];
+        itemBuilder: (BuildContext c, int index) {
+          final RouteResult page = routes[index];
           return Container(
-              margin: EdgeInsets.all(20.0),
+              margin: const EdgeInsets.all(20.0),
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      (index + 1).toString() + "." + page.routeName,
+                      (index + 1).toString() + '.' + page.routeName,
                       //style: TextStyle(inherit: false),
                     ),
                     Text(
@@ -78,11 +81,11 @@ class MainPage extends StatelessWidget {
                   ],
                 ),
                 onTap: () {
-                  Navigator.pushNamed(context, routeNames[index]);
+                  Navigator.pushNamed(context, routes[index].name);
                 },
               ));
         },
-        itemCount: routeNames.length,
+        itemCount: routes.length,
       ),
     );
   }

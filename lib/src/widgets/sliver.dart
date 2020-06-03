@@ -36,7 +36,6 @@ class SliverWaterfallFlow extends SliverMultiBoxAdaptorWidget {
     @required int crossAxisCount,
     double mainAxisSpacing = 0.0,
     double crossAxisSpacing = 0.0,
-    double childAspectRatio = 1.0,
     List<Widget> children = const <Widget>[],
   })  : gridDelegate = SliverWaterfallFlowDelegate(
           crossAxisCount: crossAxisCount,
@@ -51,7 +50,7 @@ class SliverWaterfallFlow extends SliverMultiBoxAdaptorWidget {
 
   @override
   RenderSliverWaterfallFlow createRenderObject(BuildContext context) {
-    final SliverMultiBoxAdaptorElement element = context;
+    final SliverMultiBoxAdaptorElement element = context as SliverMultiBoxAdaptorElement;
     return RenderSliverWaterfallFlow(
         childManager: element, gridDelegate: gridDelegate);
   }

@@ -11,9 +11,9 @@ import 'package:loading_more_list/loading_more_list.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 @FFRoute(
-  name: "fluttercandies://known-sized",
-  routeName: "known-sized",
-  description: "show how to build a known-sized item with waterfall flow list.",
+  name: 'fluttercandies://known-sized',
+  routeName: 'known-sized',
+  description: 'show how to build a known-sized item with waterfall flow list.',
 )
 class KnownSizedDemo extends StatefulWidget {
   @override
@@ -22,7 +22,7 @@ class KnownSizedDemo extends StatefulWidget {
 
 class _KnownSizedDemoState extends State<KnownSizedDemo> {
   TuChongRepository listSourceRepository = TuChongRepository();
-
+  DateTime dateTimeNow;
   @override
   void dispose() {
     super.dispose();
@@ -35,39 +35,67 @@ class _KnownSizedDemoState extends State<KnownSizedDemo> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text("KnownSized"),
+        title: const Text('KnownSized'),
       ),
       body: LayoutBuilder(
-        builder: (c, data) {
-          final crossAxisCount = max(
+        builder: (BuildContext c, BoxConstraints data) {
+          final int crossAxisCount = max(
               data.maxWidth ~/ (ScreenUtil.instance.screenWidthDp / 2.0), 2);
-          return LoadingMoreList(
-            ListConfig<TuChongItem>(
-              waterfallFlowDelegate: WaterfallFlowDelegate(
-                crossAxisCount: crossAxisCount,
-                crossAxisSpacing: 5,
-                mainAxisSpacing: 5,
-              ),
-              itemBuilder: buildWaterfallFlowItem,
-              sourceList: listSourceRepository,
-              padding: EdgeInsets.all(5.0),
-              lastChildLayoutType: LastChildLayoutType.foot,
-              // collectGarbage: (List<int> garbages) {
-              //   ///collectGarbage
-              //   garbages.forEach((index) {
-              //     final provider = ExtendedNetworkImageProvider(
-              //       listSourceRepository[index].imageUrl,
-              //     );
-              //     provider.evict();
-              //   });
-              // },
-              // viewportBuilder: (int firstIndex, int lastIndex) {
-              //   print("viewport : [$firstIndex,$lastIndex]");
-              // },
+          return PullToRefreshNotification(
+            pullBackOnRefresh: false,
+            maxDragOffset: maxDragOffset,
+            armedDragUpCancel: false,
+            onRefresh: onRefresh,
+            child: LoadingMoreCustomScrollView(
+              slivers: <Widget>[
+                SliverToBoxAdapter(
+                  child: PullToRefreshContainer(
+                      (PullToRefreshScrollNotificationInfo info) {
+                    return PullToRefreshHeader(info, dateTimeNow);
+                  }),
+                ),
+                // SliverToBoxAdapter(
+                //   child: Container(
+                //     height: 400.0,
+                //     color: Colors.red,
+                //   ),
+                // ),
+                LoadingMoreSliverList<TuChongItem>(
+                  SliverListConfig<TuChongItem>(
+                    waterfallFlowDelegate: WaterfallFlowDelegate(
+                      crossAxisCount: crossAxisCount,
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5,
+                    ),
+                    itemBuilder: buildWaterfallFlowItem,
+                    sourceList: listSourceRepository,
+                    padding: const EdgeInsets.all(5.0),
+                    lastChildLayoutType: LastChildLayoutType.foot,
+                    // collectGarbage: (List<int> garbages) {
+                    //   ///collectGarbage
+                    //   garbages.forEach((index) {
+                    //     final provider = ExtendedNetworkImageProvider(
+                    //       listSourceRepository[index].imageUrl,
+                    //     );
+                    //     provider.evict();
+                    //   });
+                    // },
+                    // viewportBuilder: (int firstIndex, int lastIndex) {
+                    //   print('viewport : [$firstIndex,$lastIndex]');
+                    // },
+                  ),
+                )
+              ],
             ),
           );
         },
       ),
     );
+  }
+
+  Future<bool> onRefresh() {
+    return listSourceRepository.refresh().whenComplete(() {
+      dateTimeNow = DateTime.now();
+    });
   }
 }
