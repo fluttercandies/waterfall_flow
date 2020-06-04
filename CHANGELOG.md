@@ -1,3 +1,7 @@
+## [1.0.1]
+
+* add miss dragStartBehavior.
+  
 ## [1.0.0]
 
 * fix sdk error.

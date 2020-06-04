@@ -49,6 +49,7 @@ class WaterfallFlow extends BoxScrollView {
     double cacheExtent,
     List<Widget> children = const <Widget>[],
     int semanticChildCount,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
   })  : assert(gridDelegate != null),
@@ -69,6 +70,7 @@ class WaterfallFlow extends BoxScrollView {
           padding: padding,
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount ?? children.length,
+          dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
@@ -108,6 +110,7 @@ class WaterfallFlow extends BoxScrollView {
     bool addSemanticIndexes = true,
     double cacheExtent,
     int semanticChildCount,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
   })  : assert(gridDelegate != null),
@@ -129,6 +132,7 @@ class WaterfallFlow extends BoxScrollView {
           padding: padding,
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount ?? itemCount,
+          dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
