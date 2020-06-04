@@ -1,12 +1,12 @@
 name: waterfall_flow
 description: A Flutter grid view that build waterfall flow layout quickly.
-version: 0.1.5
+version: 1.0.0
 author: zmtzawqlp <zmtzawqlp@live.com>
 homepage: https://github.com/fluttercandies/waterfall_flow
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
-
+  flutter: ">=1.17.0"
 dependencies:
   flutter:
     sdk: flutter

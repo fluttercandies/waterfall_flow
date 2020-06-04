@@ -130,6 +130,27 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
     // Find the last child that is at or before the scrollOffset.
     RenderBox earliestUsefulChild = firstChild;
 
+    // A firstChild with null layout offset is likely a result of children
+    // reordering.
+    //
+    // We rely on firstChild to have accurate layout offset. In the case of null
+    // layout offset, we have to find the first child that has valid layout
+    // offset.
+    if (childScrollOffset(firstChild) == null) {
+      int leadingChildrenWithoutLayoutOffset = 0;
+      while (childScrollOffset(earliestUsefulChild) == null) {
+        earliestUsefulChild = childAfter(firstChild);
+        leadingChildrenWithoutLayoutOffset += 1;
+      }
+      // We should be able to destroy children with null layout offset safely,
+      // because they are likely outside of viewport
+      collectGarbage(leadingChildrenWithoutLayoutOffset, 0);
+      assert(firstChild != null);
+    }
+
+    // Find the last child that is at or before the scrollOffset.
+    earliestUsefulChild = firstChild;
+
     if (crossAxisItems.maxLeadingLayoutOffset > scrollOffset) {
       RenderBox child = firstChild;
       //move to max index of leading

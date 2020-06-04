@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:waterfall_flow/src/rendering/sliver_waterfall_flow.dart';
 import 'sliver.dart';
 
-
 ///
 ///  create by zmtzawqlp on 2019/11/9
 ///
@@ -50,6 +49,8 @@ class WaterfallFlow extends BoxScrollView {
     double cacheExtent,
     List<Widget> children = const <Widget>[],
     int semanticChildCount,
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
+        ScrollViewKeyboardDismissBehavior.manual,
   })  : assert(gridDelegate != null),
         childrenDelegate = SliverChildListDelegate(
           children,
@@ -68,6 +69,7 @@ class WaterfallFlow extends BoxScrollView {
           padding: padding,
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount ?? children.length,
+          keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
   /// Creates a scrollable, 2D array of widgets that are created on demand.
@@ -106,6 +108,8 @@ class WaterfallFlow extends BoxScrollView {
     bool addSemanticIndexes = true,
     double cacheExtent,
     int semanticChildCount,
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
+        ScrollViewKeyboardDismissBehavior.manual,
   })  : assert(gridDelegate != null),
         childrenDelegate = SliverChildBuilderDelegate(
           itemBuilder,
@@ -125,6 +129,7 @@ class WaterfallFlow extends BoxScrollView {
           padding: padding,
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount ?? itemCount,
+          keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
   /// Creates a scrollable, 2D array of widgets with both a custom
@@ -148,6 +153,8 @@ class WaterfallFlow extends BoxScrollView {
     double cacheExtent,
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
+        ScrollViewKeyboardDismissBehavior.manual,
   })  : assert(gridDelegate != null),
         assert(childrenDelegate != null),
         super(
@@ -162,6 +169,7 @@ class WaterfallFlow extends BoxScrollView {
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount,
           dragStartBehavior: dragStartBehavior,
+          keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
   /// Creates a scrollable, 2D array of widgets with a fixed number of tiles in
@@ -197,6 +205,8 @@ class WaterfallFlow extends BoxScrollView {
     List<Widget> children = const <Widget>[],
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
+        ScrollViewKeyboardDismissBehavior.manual,
   })  : gridDelegate = SliverWaterfallFlowDelegate(
           crossAxisCount: crossAxisCount,
           mainAxisSpacing: mainAxisSpacing,
@@ -220,8 +230,8 @@ class WaterfallFlow extends BoxScrollView {
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount ?? children.length,
           dragStartBehavior: dragStartBehavior,
+          keyboardDismissBehavior: keyboardDismissBehavior,
         );
-
 
   /// A delegate that controls the layout of the children within the [WaterfallFlow].
   ///
