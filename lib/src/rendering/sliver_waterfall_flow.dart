@@ -169,7 +169,7 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
     childManager.didStartLayout();
     childManager.setDidUnderflow(false);
 
-    _resetIfNeed();
+    _clearIfNeed();
 
     final _CrossAxisChildrenData crossAxisChildrenData = _CrossAxisChildrenData(
       gridDelegate: _gridDelegate,
@@ -286,7 +286,7 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
             earliestUsefulChild = firstChild;
             leadingChildWithLayout = earliestUsefulChild;
             trailingChildWithLayout ??= earliestUsefulChild;
-            crossAxisChildrenData.reset();
+            crossAxisChildrenData.clear();
             crossAxisChildrenData.insert(
               child: earliestUsefulChild,
               childTrailingLayoutOffset: childTrailingLayoutOffset,
@@ -456,11 +456,12 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
     }
 
     if (leadingGarbage > 0) {
-      /// Make sure leadings are after the scroll offset
+      // Make sure the leadings are after the scroll offset
       while (
           crossAxisChildrenData.minChildTrailingLayoutOffset < scrollOffset) {
         if (!advance()) {
           final int minTrailingIndex = crossAxisChildrenData.minTrailingIndex;
+          // The indexes are continuous, make sure they are less than minTrailingIndex.
           for (final int index in leadingGarbages) {
             if (index >= minTrailingIndex) {
               leadingGarbage--;
@@ -470,6 +471,7 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
           break;
         }
       }
+      /// The leadings are not final 
       crossAxisChildrenData.setLeading();
     }
 
@@ -581,7 +583,7 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
   /// layouts will not change suddenly when scroll.
   ///
   /// But it doesn't have good performance.
-  void _resetIfNeed() {
+  void _clearIfNeed() {
     if (_preCrossAxisChildrenData != null) {
       if (_preCrossAxisChildrenData.gridDelegate.crossAxisCount !=
               gridDelegate.crossAxisCount ||
@@ -686,7 +688,7 @@ class _CrossAxisChildrenData {
               orElse: () => null);
 
           // It is out of the viewport.
-          // It happens when one leading or trailing has large size in the main axis.
+          // It happens when one child has large size in the main axis,
           if (item != null) {
             data.trailingLayoutOffset = childTrailingLayoutOffset(child);
             return;
@@ -846,12 +848,15 @@ class _CrossAxisChildrenData {
       return 0;
     }
   }
-
-  void reset() {
+  
+  /// Clear leadings and trailings.
+  void clear() {
     leadings.clear();
     trailings.clear();
   }
-
+  
+  /// When minChildTrailingLayoutOffset < scrollOffset,
+  /// we should find final leadings.
   void setLeading() {
     leadings.clear();
     leadings.addAll(trailings);
