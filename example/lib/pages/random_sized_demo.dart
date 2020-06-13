@@ -57,7 +57,7 @@ class _RandomSizedDemoState extends State<RandomSizedDemo> {
                   color: getRandomColor(index)),
               alignment: Alignment.center,
               child: Text(
-                '$index ' + 'TestString' * 10 * (index % 3+1),
+                '$index ' + 'TestString' * 10 * (index % 3 + 1),
                 style: TextStyle(
                     color: color.computeLuminance() < 0.5
                         ? Colors.white

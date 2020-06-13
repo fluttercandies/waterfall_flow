@@ -1,3 +1,17 @@
 {
-    "dart.flutterSdkPath": "E:\\Flutter\\flutter_source\\stable"
+    "dart.flutterSdkPath": "E:\\Flutter\\flutter_source\\stable",
+    "spellright.language": [
+        "en"
+    ],
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext",
+        "dart"
+    ],
+    "spellright.parserByClass": {
+        "dart": {
+            "parser": "code"
+        }
+    }
 }
