@@ -345,8 +345,7 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
 
       while (crossAxisChildrenData.maxLeadingLayoutOffset > scrollOffset) {
         // We have to add children before the earliestUsefulChild.
-        earliestUsefulChild =
-            insertAndLayoutLeadingChild(childConstraints, parentUsesSize: true);
+        earliestUsefulChild = insertAndLayoutLeadingChild(childConstraints, parentUsesSize: true);
 
         if (earliestUsefulChild == null) {
           if (scrollOffset == 0.0) {
@@ -488,9 +487,9 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
       if (!advance()) {
         assert(leadingGarbage == childCount);
         assert(child == null);
-        // We want to make sure we keep the last child around so we know the end scroll offset
-        collectGarbage(leadingGarbage - 1, 0);
-        assert(firstChild == lastChild);
+        // We want to make sure we keep the trailing children around so we know the end scroll offset
+        collectGarbage(leadingGarbage - crossAxisChildrenData.trailingChildren.length, 0);
+        // assert(firstChild == lastChild);
         final double extent = crossAxisChildrenData.maxChildTrailingLayoutOffset;
         crossAxisChildrenData.setLeading();
         geometry = SliverGeometry(
@@ -565,8 +564,7 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
         leadingScrollOffset: childScrollOffset(firstChild),
         trailingScrollOffset: endScrollOffset,
       );
-      assert(estimatedMaxScrollOffset >=
-          endScrollOffset - childScrollOffset(firstChild));
+      assert(estimatedMaxScrollOffset >= endScrollOffset - childScrollOffset(firstChild));
     }
 
     final double paintExtent = calculatePaintOffset(
