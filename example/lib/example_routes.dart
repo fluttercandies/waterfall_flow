@@ -4,11 +4,8 @@
 // **************************************************************************
 const List<String> routeNames = <String>[
   'fluttercandies://custom_scrollview',
-  'fluttercandies://known-sized',
   'fluttercandies://mainpage',
-  'fluttercandies://picswiper',
   'fluttercandies://random-sized',
-  'fluttercandies://variable-sized',
 ];
 
 class Routes {
@@ -18,20 +15,11 @@ class Routes {
   ///
   /// [name] : 'fluttercandies://custom_scrollview'
   ///
-  /// [routeName] : 'custom_scrollview'
+  /// [routeName] : 'SliverMasonryGrid'
   ///
   /// [description] : 'show how to build waterfall flow in CustomScrollview.'
   static const String fluttercandiesCustomScrollview =
       'fluttercandies://custom_scrollview';
-
-  /// 'show how to build a known-sized item with waterfall flow list.'
-  ///
-  /// [name] : 'fluttercandies://known-sized'
-  ///
-  /// [routeName] : 'known-sized'
-  ///
-  /// [description] : 'show how to build a known-sized item with waterfall flow list.'
-  static const String fluttercandiesKnownSized = 'fluttercandies://known-sized';
 
   /// 'MainPage'
   ///
@@ -40,36 +28,13 @@ class Routes {
   /// [routeName] : 'MainPage'
   static const String fluttercandiesMainpage = 'fluttercandies://mainpage';
 
-  /// 'PicSwiper'
-  ///
-  /// [name] : 'fluttercandies://picswiper'
-  ///
-  /// [routeName] : 'PicSwiper'
-  ///
-  /// [arguments] : [index, pics, tuChongItem]
-  ///
-  /// [showStatusBar] : false
-  ///
-  /// [pageRouteType] : PageRouteType.transparent
-  static const String fluttercandiesPicswiper = 'fluttercandies://picswiper';
-
   /// 'show how to build random-sized item with waterfall flow list.'
   ///
   /// [name] : 'fluttercandies://random-sized'
   ///
-  /// [routeName] : 'random-sized'
+  /// [routeName] : 'MasonryGridView'
   ///
   /// [description] : 'show how to build random-sized item with waterfall flow list.'
   static const String fluttercandiesRandomSized =
       'fluttercandies://random-sized';
-
-  /// 'show how to build a variable-sized item with waterfall flow list.'
-  ///
-  /// [name] : 'fluttercandies://variable-sized'
-  ///
-  /// [routeName] : 'variable-sized'
-  ///
-  /// [description] : 'show how to build a variable-sized item with waterfall flow list.'
-  static const String fluttercandiesVariableSized =
-      'fluttercandies://variable-sized';
 }

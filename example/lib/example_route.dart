@@ -5,12 +5,9 @@
 
 import 'package:flutter/widgets.dart';
 
-import 'package:flutter_candies_demo_library/flutter_candies_demo_library_route.dart';
 import 'pages/custom_scrollView_demo.dart';
-import 'pages/known_sized_demo.dart';
 import 'pages/main_page.dart';
 import 'pages/random_sized_demo.dart';
-import 'pages/variable_sized_demo.dart';
 
 // ignore_for_file: argument_type_not_assignable
 RouteResult getRouteResult({String name, Map<String, dynamic> arguments}) {
@@ -19,16 +16,8 @@ RouteResult getRouteResult({String name, Map<String, dynamic> arguments}) {
       return RouteResult(
         name: name,
         widget: CustomScrollviewDemo(),
-        routeName: 'custom_scrollview',
+        routeName: 'SliverMasonryGrid',
         description: 'show how to build waterfall flow in CustomScrollview.',
-      );
-    case 'fluttercandies://known-sized':
-      return RouteResult(
-        name: name,
-        widget: KnownSizedDemo(),
-        routeName: 'known-sized',
-        description:
-            'show how to build a known-sized item with waterfall flow list.',
       );
     case 'fluttercandies://mainpage':
       return RouteResult(
@@ -36,33 +25,13 @@ RouteResult getRouteResult({String name, Map<String, dynamic> arguments}) {
         widget: MainPage(),
         routeName: 'MainPage',
       );
-    case 'fluttercandies://picswiper':
-      return RouteResult(
-        name: name,
-        widget: PicSwiper(
-          index: arguments['index'],
-          pics: arguments['pics'],
-          tuChongItem: arguments['tuChongItem'],
-        ),
-        showStatusBar: false,
-        routeName: 'PicSwiper',
-        pageRouteType: PageRouteType.transparent,
-      );
     case 'fluttercandies://random-sized':
       return RouteResult(
         name: name,
         widget: RandomSizedDemo(),
-        routeName: 'random-sized',
+        routeName: 'MasonryGridView',
         description:
             'show how to build random-sized item with waterfall flow list.',
-      );
-    case 'fluttercandies://variable-sized':
-      return RouteResult(
-        name: name,
-        widget: VariableSizedDemo(),
-        routeName: 'variable-sized',
-        description:
-            'show how to build a variable-sized item with waterfall flow list.',
       );
     default:
       return const RouteResult(name: 'flutterCandies://notfound');

@@ -1,25 +1,26 @@
+// @dart = 2.8
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
-import 'package:waterfall_flow/src/rendering/sliver_waterfall_flow.dart';
+import 'package:masonry_grid_view/src/rendering/sliver_masonry_grid.dart';
 import 'sliver.dart';
 
-///
-///  create by zmtzawqlp on 2019/11/9
-///
 
-/// A scrollable, 2D array of widgets whose size is variable in the main axis.
+
+/// A scrollable, 2D array of widgets whose have the variable main-axis size
+/// and the fixed cross-axis size.
 ///
 /// The main axis direction of a grid is the direction in which it scrolls (the
 /// [scrollDirection]).
 ///
-/// The most commonly used waterfall layouts are [WaterfallFlow.count], which creates a
+/// The most commonly used masonry layouts are [MasonryGridView.count], which creates a
 /// layout with a fixed number of tiles in the cross axis.
 ///
-/// To create a grid with a large (or infinite) number of children, use the
-/// [WaterfallFlow.builder] constructor with a [SliverWaterfallFlowDelegate]
+/// To create a masonry with a large (or infinite) number of children, use the
+/// [MasonryGridView.builder] constructor with a [SliverMasonryGridDelegate]
 /// for the [gridDelegate].
 ///
-/// To use a custom [SliverWaterfallFlowDelegate], use [WaterfallFlow.custom].
+/// To use a custom [SliverMasonryGridDelegate], use [MasonryGridView.custom].
 ///
 /// To create a linear array of children, use a [ListView].
 ///
@@ -28,39 +29,39 @@ import 'sliver.dart';
 ///
 /// ## Transitioning to [CustomScrollView]
 ///
-/// A [WaterfallFlow] is basically a [CustomScrollView] with a single [SliverWaterfallFlow] in
+/// A [MasonryGridView] is basically a [CustomScrollView] with a single [SliverMasonryGrid] in
 /// its [CustomScrollView.slivers] property.
 ///
-/// If [WaterfallFlow] is no longer sufficient, for example because the scroll view
+/// If [MasonryGridView] is no longer sufficient, for example because the scroll view
 /// is to have both a grid and a list, or because the grid is to be combined
 /// with a [SliverAppBar], etc, it is straight-forward to port code from using
-/// [WaterfallFlow] to using [CustomScrollView] directly.
+/// [MasonryGridView] to using [CustomScrollView] directly.
 ///
 /// The [key], [scrollDirection], [reverse], [controller], [primary], [physics],
-/// and [shrinkWrap] properties on [WaterfallFlow] map directly to the identically
+/// and [shrinkWrap] properties on [MasonryGridView] map directly to the identically
 /// named properties on [CustomScrollView].
 ///
 /// The [CustomScrollView.slivers] property should be a list containing just a
-/// [SliverWaterfallFlow].
+/// [SliverMasonryGrid].
 ///
-/// The [childrenDelegate] property on [WaterfallFlow] corresponds to the
-/// [SliverWaterfallFlow.gridDelegate] property, and the [gridDelegate] property on the
-/// [WaterfallFlow] corresponds to the [SliverWaterfallFlow.gridDelegate] property.
+/// The [childrenDelegate] property on [MasonryGridView] corresponds to the
+/// [SliverMasonryGrid.gridDelegate] property, and the [gridDelegate] property on the
+/// [MasonryGridView] corresponds to the [SliverMasonryGrid.gridDelegate] property.
 ///
-/// The [WaterfallFlow] and [WaterfallFlow.count] constructors' `children` arguments
+/// The [MasonryGridView] and [MasonryGridView.count] constructors' `children` arguments
 /// correspond to the [childrenDelegate] being a [SliverChildListDelegate]
 /// with that same argument.
-/// The [WaterfallFlow.builder] constructor's `itemBuilder` and `childCount` arguments
+/// The [MasonryGridView.builder] constructor's `itemBuilder` and `childCount` arguments
 /// correspond to the [childrenDelegate] being a [SliverChildBuilderDelegate]
 /// with the matching arguments.
 ///
-/// The [WaterfallFlow.count] constructors create custom grid delegates,
-/// and have equivalently named constructor on [SliverWaterfallFlow] to
-/// ease the transition: [SliverWaterfallFlow.count] respectively.
+/// The [MasonryGridView.count] constructors create custom grid delegates,
+/// and have equivalently named constructor on [SliverMasonryGrid] to
+/// ease the transition: [SliverMasonryGrid.count] respectively.
 ///
 /// The [padding] property corresponds to having a [SliverPadding] in the
 /// [CustomScrollView.slivers] property instead of the grid itself, and having
-/// the [SliverWaterfallFlow] instead be a child of the [SliverPadding].
+/// the [SliverMasonryGrid] instead be a child of the [SliverPadding].
 ///
 /// By default, [ListView] will automatically pad the list's scrollable
 /// extremities to avoid partial obstructions indicated by [MediaQuery]'s
@@ -71,14 +72,14 @@ import 'sliver.dart';
 /// list.
 ///
 /// {@tool snippet}
-/// This example demonstrates how to create a [WaterfallFlow] with two columns. The
+/// This example demonstrates how to create a [MasonryGridView] with two columns. The
 /// children are spaced apart using the [crossAxisSpacing] and [mainAxisSpacing]
 /// properties.
 ///
-/// ![The WaterfallFlow displays six children with different background colors and heights arranged in two columns](https://flutter.github.io/assets-for-api-docs/assets/widgets/grid_view.png)
+/// ![The MasonryGridView displays six children with different background colors and heights arranged in two columns](https://flutter.github.io/assets-for-api-docs/assets/widgets/masonry_grid_view.png)
 ///
 /// ```dart
-/// WaterfallFlow.count(
+/// MasonryGridView.count(
 ///   primary: false,
 ///   padding: const EdgeInsets.all(20),
 ///   crossAxisSpacing: 10,
@@ -128,9 +129,9 @@ import 'sliver.dart';
 ///
 /// {@tool snippet}
 /// This example shows how to create the same grid as the previous example
-/// using a [CustomScrollView] and a [SliverWaterfallFlow].
+/// using a [CustomScrollView] and a [SliverMasonryGrid].
 ///
-/// ![The CustomScrollView contains a SliverWaterfallFlow that displays six children with different background colors and heights arranged in two columns](https://flutter.github.io/assets-for-api-docs/assets/widgets/grid_view_custom_scroll.png)
+/// ![The CustomScrollView contains a SliverMasonryGrid that displays six children with different background colors and heights arranged in two columns](https://flutter.github.io/assets-for-api-docs/assets/widgets/sliver_masonry_grid.png)
 ///
 /// ```dart
 /// CustomScrollView(
@@ -138,7 +139,7 @@ import 'sliver.dart';
 ///   slivers: <Widget>[
 ///     SliverPadding(
 ///       padding: const EdgeInsets.all(20),
-///       sliver: SliverWaterfallFlow.count(
+///       sliver: SliverMasonryGrid.count(
 ///         crossAxisSpacing: 10,
 ///         mainAxisSpacing: 10,
 ///         crossAxisCount: 2,
@@ -203,9 +204,9 @@ import 'sliver.dart';
 ///    tiles that have a maximum cross-axis extent.
 ///  * [ScrollNotification] and [NotificationListener], which can be used to watch
 ///    the scroll position without using a [ScrollController].
-class WaterfallFlow extends BoxScrollView {
-  /// Creates a scrollable, 2D array of widgets whose size is variable in the main axis
-  /// with a custom [SliverWaterfallFlowDelegate].
+class MasonryGridView extends BoxScrollView {
+  /// Creates a scrollable, 2D array of widgets whose have the variable main-axis size
+  /// and the fixed cross-axis size with a custom [SliverMasonryGridDelegate].
   ///
   /// The [gridDelegate] argument must not be null.
   ///
@@ -214,7 +215,7 @@ class WaterfallFlow extends BoxScrollView {
   /// `addRepaintBoundaries` argument corresponds to the
   /// [SliverChildListDelegate.addRepaintBoundaries] property. Both must not be
   /// null.
-  WaterfallFlow({
+  MasonryGridView({
     Key key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
@@ -231,29 +232,28 @@ class WaterfallFlow extends BoxScrollView {
     List<Widget> children = const <Widget>[],
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
-        ScrollViewKeyboardDismissBehavior.manual,
-  })  : assert(gridDelegate != null),
-        childrenDelegate = SliverChildListDelegate(
-          children,
-          addAutomaticKeepAlives: addAutomaticKeepAlives,
-          addRepaintBoundaries: addRepaintBoundaries,
-          addSemanticIndexes: addSemanticIndexes,
-        ),
-        super(
-          key: key,
-          scrollDirection: scrollDirection,
-          reverse: reverse,
-          controller: controller,
-          primary: primary,
-          physics: physics,
-          shrinkWrap: shrinkWrap,
-          padding: padding,
-          cacheExtent: cacheExtent,
-          semanticChildCount: semanticChildCount ?? children.length,
-          dragStartBehavior: dragStartBehavior,
-          keyboardDismissBehavior: keyboardDismissBehavior,
-        );
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
+  }) : assert(gridDelegate != null),
+       childrenDelegate = SliverChildListDelegate(
+         children,
+         addAutomaticKeepAlives: addAutomaticKeepAlives,
+         addRepaintBoundaries: addRepaintBoundaries,
+         addSemanticIndexes: addSemanticIndexes,
+       ),
+       super(
+         key: key,
+         scrollDirection: scrollDirection,
+         reverse: reverse,
+         controller: controller,
+         primary: primary,
+         physics: physics,
+         shrinkWrap: shrinkWrap,
+         padding: padding,
+         cacheExtent: cacheExtent,
+         semanticChildCount: semanticChildCount ?? children.length,
+         dragStartBehavior: dragStartBehavior,
+         keyboardDismissBehavior: keyboardDismissBehavior,
+       );
 
   /// Creates a scrollable, 2D array of widgets whose size is variable in the main axis
   /// that are created on demand.
@@ -262,7 +262,7 @@ class WaterfallFlow extends BoxScrollView {
   /// number of children because the builder is called only for those children
   /// that are actually visible.
   ///
-  /// Providing a non-null `itemCount` improves the ability of the [WaterfallFlow] to
+  /// Providing a non-null `itemCount` improves the ability of the [MasonryGridView] to
   /// estimate the maximum scroll extent.
   ///
   /// `itemBuilder` will be called only with indices greater than or equal to
@@ -275,7 +275,7 @@ class WaterfallFlow extends BoxScrollView {
   /// `addRepaintBoundaries` argument corresponds to the
   /// [SliverChildBuilderDelegate.addRepaintBoundaries] property. Both must not
   /// be null.
-  WaterfallFlow.builder({
+  MasonryGridView.builder({
     Key key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
@@ -293,39 +293,38 @@ class WaterfallFlow extends BoxScrollView {
     double cacheExtent,
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
-        ScrollViewKeyboardDismissBehavior.manual,
-  })  : assert(gridDelegate != null),
-        childrenDelegate = SliverChildBuilderDelegate(
-          itemBuilder,
-          childCount: itemCount,
-          addAutomaticKeepAlives: addAutomaticKeepAlives,
-          addRepaintBoundaries: addRepaintBoundaries,
-          addSemanticIndexes: addSemanticIndexes,
-        ),
-        super(
-          key: key,
-          scrollDirection: scrollDirection,
-          reverse: reverse,
-          controller: controller,
-          primary: primary,
-          physics: physics,
-          shrinkWrap: shrinkWrap,
-          padding: padding,
-          cacheExtent: cacheExtent,
-          semanticChildCount: semanticChildCount ?? itemCount,
-          dragStartBehavior: dragStartBehavior,
-          keyboardDismissBehavior: keyboardDismissBehavior,
-        );
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
+  }) : assert(gridDelegate != null),
+       childrenDelegate = SliverChildBuilderDelegate(
+         itemBuilder,
+         childCount: itemCount,
+         addAutomaticKeepAlives: addAutomaticKeepAlives,
+         addRepaintBoundaries: addRepaintBoundaries,
+         addSemanticIndexes: addSemanticIndexes,
+       ),
+       super(
+         key: key,
+         scrollDirection: scrollDirection,
+         reverse: reverse,
+         controller: controller,
+         primary: primary,
+         physics: physics,
+         shrinkWrap: shrinkWrap,
+         padding: padding,
+         cacheExtent: cacheExtent,
+         semanticChildCount: semanticChildCount ?? itemCount,
+         dragStartBehavior: dragStartBehavior,
+         keyboardDismissBehavior: keyboardDismissBehavior,
+       );
 
   /// Creates a scrollable, 2D array of widgets whose size is variable in the main axis
   /// with both a custom [SliverGridDelegate] and a custom [SliverChildDelegate].
   ///
   /// To use an [IndexedWidgetBuilder] callback to build children, either use
-  /// a [SliverChildBuilderDelegate] or use the [WaterfallFlow.builder] constructor.
+  /// a [SliverChildBuilderDelegate] or use the [MasonryGridView.builder] constructor.
   ///
   /// The [gridDelegate] and [childrenDelegate] arguments must not be null.
-  const WaterfallFlow.custom({
+  const MasonryGridView.custom({
     Key key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
@@ -339,29 +338,28 @@ class WaterfallFlow extends BoxScrollView {
     double cacheExtent,
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
-        ScrollViewKeyboardDismissBehavior.manual,
-  })  : assert(gridDelegate != null),
-        assert(childrenDelegate != null),
-        super(
-          key: key,
-          scrollDirection: scrollDirection,
-          reverse: reverse,
-          controller: controller,
-          primary: primary,
-          physics: physics,
-          shrinkWrap: shrinkWrap,
-          padding: padding,
-          cacheExtent: cacheExtent,
-          semanticChildCount: semanticChildCount,
-          dragStartBehavior: dragStartBehavior,
-          keyboardDismissBehavior: keyboardDismissBehavior,
-        );
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
+  }) : assert(gridDelegate != null),
+       assert(childrenDelegate != null),
+       super(
+         key: key,
+         scrollDirection: scrollDirection,
+         reverse: reverse,
+         controller: controller,
+         primary: primary,
+         physics: physics,
+         shrinkWrap: shrinkWrap,
+         padding: padding,
+         cacheExtent: cacheExtent,
+         semanticChildCount: semanticChildCount,
+         dragStartBehavior: dragStartBehavior,
+         keyboardDismissBehavior: keyboardDismissBehavior,
+       );
 
   /// Creates a scrollable, 2D array of widgets whose size is variable in the main axis
   /// with a fixed number of tiles in the cross axis.
   ///
-  /// Uses a [SliverWaterfallFlowDelegate] as the [gridDelegate].
+  /// Uses a [SliverMasonryGridDelegate] as the [gridDelegate].
   ///
   /// The `addAutomaticKeepAlives` argument corresponds to the
   /// [SliverChildListDelegate.addAutomaticKeepAlives] property. The
@@ -371,8 +369,8 @@ class WaterfallFlow extends BoxScrollView {
   ///
   /// See also:
   ///
-  ///  * [new SliverWaterfallFlow.count], the equivalent constructor for [SliverWaterfallFlow].
-  WaterfallFlow.count({
+  ///  * [new SliverMasonryGrid.count], the equivalent constructor for [SliverMasonryGrid].
+  MasonryGridView.count({
     Key key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
@@ -391,51 +389,108 @@ class WaterfallFlow extends BoxScrollView {
     List<Widget> children = const <Widget>[],
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
-        ScrollViewKeyboardDismissBehavior.manual,
-  })  : gridDelegate = SliverWaterfallFlowDelegate(
-          crossAxisCount: crossAxisCount,
-          mainAxisSpacing: mainAxisSpacing,
-          crossAxisSpacing: crossAxisSpacing,
-        ),
-        childrenDelegate = SliverChildListDelegate(
-          children,
-          addAutomaticKeepAlives: addAutomaticKeepAlives,
-          addRepaintBoundaries: addRepaintBoundaries,
-          addSemanticIndexes: addSemanticIndexes,
-        ),
-        super(
-          key: key,
-          scrollDirection: scrollDirection,
-          reverse: reverse,
-          controller: controller,
-          primary: primary,
-          physics: physics,
-          shrinkWrap: shrinkWrap,
-          padding: padding,
-          cacheExtent: cacheExtent,
-          semanticChildCount: semanticChildCount ?? children.length,
-          dragStartBehavior: dragStartBehavior,
-          keyboardDismissBehavior: keyboardDismissBehavior,
-        );
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
+  }) : gridDelegate = SliverMasonryGridDelegateWithFixedCrossAxisCount(
+         crossAxisCount: crossAxisCount,
+         mainAxisSpacing: mainAxisSpacing,
+         crossAxisSpacing: crossAxisSpacing,
+       ),
+       childrenDelegate = SliverChildListDelegate(
+         children,
+         addAutomaticKeepAlives: addAutomaticKeepAlives,
+         addRepaintBoundaries: addRepaintBoundaries,
+         addSemanticIndexes: addSemanticIndexes,
+       ),
+       super(
+         key: key,
+         scrollDirection: scrollDirection,
+         reverse: reverse,
+         controller: controller,
+         primary: primary,
+         physics: physics,
+         shrinkWrap: shrinkWrap,
+         padding: padding,
+         cacheExtent: cacheExtent,
+         semanticChildCount: semanticChildCount ?? children.length,
+         dragStartBehavior: dragStartBehavior,
+         keyboardDismissBehavior: keyboardDismissBehavior,
+       );
 
-  /// A delegate that controls the masonry layout of the children within the [WaterfallFlow].
+    /// Creates a scrollable, 2D array of widgets with tiles that each have a
+  /// maximum cross-axis extent.
   ///
-  /// The [WaterfallFlow], [WaterfallFlow.builder], and [WaterfallFlow.custom] constructors let you specify this
+  /// Uses a [SliverMasonryGridDelegateWithMaxCrossAxisExtent] as the [gridDelegate].
+  ///
+  /// The `addAutomaticKeepAlives` argument corresponds to the
+  /// [SliverChildListDelegate.addAutomaticKeepAlives] property. The
+  /// `addRepaintBoundaries` argument corresponds to the
+  /// [SliverChildListDelegate.addRepaintBoundaries] property. Both must not be
+  /// null.
+  ///
+  /// See also:
+  ///
+  ///  * [SliverGrid.extent], the equivalent constructor for [SliverGrid].
+  MasonryGridView.extent({
+    Key key,
+    Axis scrollDirection = Axis.vertical,
+    bool reverse = false,
+    ScrollController controller,
+    bool primary,
+    ScrollPhysics physics,
+    bool shrinkWrap = false,
+    EdgeInsetsGeometry padding,
+    @required double maxCrossAxisExtent,
+    double mainAxisSpacing = 0.0,
+    double crossAxisSpacing = 0.0,
+    bool addAutomaticKeepAlives = true,
+    bool addRepaintBoundaries = true,
+    bool addSemanticIndexes = true,
+    List<Widget> children = const <Widget>[],
+    int semanticChildCount,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,    
+  }) : gridDelegate = SliverMasonryGridDelegateWithMaxCrossAxisExtent(
+         maxCrossAxisExtent: maxCrossAxisExtent,
+         mainAxisSpacing: mainAxisSpacing,
+         crossAxisSpacing: crossAxisSpacing,
+       ),
+       childrenDelegate = SliverChildListDelegate(
+         children,
+         addAutomaticKeepAlives: addAutomaticKeepAlives,
+         addRepaintBoundaries: addRepaintBoundaries,
+         addSemanticIndexes: addSemanticIndexes,
+       ),
+       super(
+         key: key,
+         scrollDirection: scrollDirection,
+         reverse: reverse,
+         controller: controller,
+         primary: primary,
+         physics: physics,
+         shrinkWrap: shrinkWrap,
+         padding: padding,
+         semanticChildCount: semanticChildCount ?? children.length,
+         dragStartBehavior: dragStartBehavior,
+         keyboardDismissBehavior: keyboardDismissBehavior,
+       );     
+
+  /// A delegate that controls the masonry layout of the children within the [MasonryGridView].
+  ///
+  /// The [MasonryGridView], [MasonryGridView.builder], and [MasonryGridView.custom] constructors let you specify this
   /// delegate explicitly. The other constructors create a [gridDelegate]
   /// implicitly.
-  final SliverWaterfallFlowDelegate gridDelegate;
+  final SliverMasonryGridDelegate gridDelegate;
 
-  /// A delegate that provides the children for the [WaterfallFlow].
+  /// A delegate that provides the children for the [MasonryGridView].
   ///
-  /// The [WaterfallFlow.custom] constructor lets you specify this delegate
+  /// The [MasonryGridView.custom] constructor lets you specify this delegate
   /// explicitly. The other constructors create a [childrenDelegate] that wraps
   /// the given child list.
   final SliverChildDelegate childrenDelegate;
 
   @override
   Widget buildChildLayout(BuildContext context) {
-    return SliverWaterfallFlow(
+    return SliverMasonryGrid(
       delegate: childrenDelegate,
       gridDelegate: gridDelegate,
     );

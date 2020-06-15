@@ -1,14 +1,14 @@
-# waterfall_flow
+# masonry_grid_view
 
-[![pub package](https://img.shields.io/pub/v/waterfall_flow.svg)](https://pub.dartlang.org/packages/waterfall_flow) [![GitHub stars](https://img.shields.io/github/stars/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/stargazers) [![GitHub forks](https://img.shields.io/github/forks/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/network)  [![GitHub license](https://img.shields.io/github/license/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/blob/master/LICENSE)  [![GitHub issues](https://img.shields.io/github/issues/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/issues) <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5bcc0gy"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="flutter-candies" title="flutter-candies"></a>
+[![pub package](https://img.shields.io/pub/v/masonry_grid_view.svg)](https://pub.dartlang.org/packages/masonry_grid_view) [![GitHub stars](https://img.shields.io/github/stars/fluttercandies/masonry_grid_view)](https://github.com/fluttercandies/masonry_grid_view/stargazers) [![GitHub forks](https://img.shields.io/github/forks/fluttercandies/masonry_grid_view)](https://github.com/fluttercandies/masonry_grid_view/network)  [![GitHub license](https://img.shields.io/github/license/fluttercandies/masonry_grid_view)](https://github.com/fluttercandies/masonry_grid_view/blob/master/LICENSE)  [![GitHub issues](https://img.shields.io/github/issues/fluttercandies/masonry_grid_view)](https://github.com/fluttercandies/masonry_grid_view/issues) <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5bcc0gy"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="flutter-candies" title="flutter-candies"></a>
 
 A Flutter grid view easy to build waterfall flow layout quickly.
 
-[Web demo for WaterfallFlow](https://fluttercandies.github.io/waterfall_flow/)
+[Web demo for MasonryGridView](https://fluttercandies.github.io/masonry_grid_view/)
 
 Language: English | [中文简体](README-ZH.md)
 
-- [waterfall_flow](#waterfallflow)
+- [masonry_grid_view](#MasonryGridView)
   - [Use](#use)
   - [Easy to use](#easy-to-use)
   - [CollectGarbage](#collectgarbage)
@@ -19,29 +19,29 @@ Language: English | [中文简体](README-ZH.md)
 ## Use
 
 * add library to your pubspec.yaml
-  
+
 ```yaml
 
 dependencies:
-  waterfall_flow: any
+  masonry_grid_view: any
 
-```  
+```
 * import library in dart file
-  
+
 ```dart
 
-  import 'package:waterfall_flow/waterfall_flow.dart';
-  
+  import 'package:masonry_grid_view/masonry_grid_view.dart';
+
 ```
 
 
 ## Easy to use
 
-| ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/waterfall_flow/random_sized.gif) | ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/waterfall_flow/custom_scrollView.gif) |
+| ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/masonry_grid_view/random_sized.gif) | ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/masonry_grid_view/custom_scrollView.gif) |
 | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/waterfall_flow/known_sized.gif)  | ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/waterfall_flow/variable_sized.gif)    |
+| ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/masonry_grid_view/known_sized.gif)  | ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/masonry_grid_view/variable_sized.gif)    |
 
-you can define waterfall flow layout within SliverWaterfallFlowDelegate.
+you can define waterfall flow layout within SliverMasonryGridDelegate.
 
 | parameter                  | description                                                                         | default  |
 | -------------------------- | ----------------------------------------------------------------------------------- | -------- |
@@ -54,15 +54,15 @@ you can define waterfall flow layout within SliverWaterfallFlowDelegate.
 | closeToTrailing            | Whether make layout close to trailing                                               | false    |
 
 ```dart
-            WaterfallFlow.builder(
+            MasonryGridView.builder(
               //cacheExtent: 0.0,
               padding: EdgeInsets.all(5.0),
-              gridDelegate: SliverWaterfallFlowDelegate(
+              gridDelegate: SliverMasonryGridDelegate(
                   crossAxisCount: 2,
                   crossAxisSpacing: 5.0,
                   mainAxisSpacing: 5.0,
                   /// follow max child trailing layout offset and layout with full cross axis extend
-                  /// last child as loadmore item/no more item in [GridView] and [WaterfallFlow]
+                  /// last child as loadmore item/no more item in [GridView] and [MasonryGridView]
                   /// with full cross axis extend
                   //  LastChildLayoutType.fullCrossAxisExtend,
 
@@ -84,8 +84,8 @@ track the indexes are collect, you can collect garbage at that monment(for examp
 [more detail](https://github.com/fluttercandies/extended_image/blob/e1577bc4d0b57c725110a9d886703b98a72772b5/example/lib/pages/photo_view_demo.dart#L91)
 
 ```dart
-        WaterfallFlow.builder(
-            gridDelegate: SliverWaterfallFlowDelegate(
+        MasonryGridView.builder(
+            gridDelegate: SliverMasonryGridDelegate(
                 collectGarbage: (List<int> garbages) {
                   ///collectGarbage
                   garbages.forEach((index) {
@@ -103,8 +103,8 @@ track the indexes are collect, you can collect garbage at that monment(for examp
 track the indexes go into the viewport, it's not include cache extent.
 
 ```dart
-        WaterfallFlow.builder(
-            gridDelegate: SliverWaterfallFlowDelegate(
+        MasonryGridView.builder(
+            gridDelegate: SliverMasonryGridDelegate(
                 viewportBuilder: (int firstIndex, int lastIndex) {
                 print("viewport : [$firstIndex,$lastIndex]");
                 }),
@@ -120,7 +120,7 @@ build lastChild as special child in the case that it is loadmore/no more item.
         none,
 
         /// follow max child trailing layout offset and layout with full cross axis extend
-        /// last child as loadmore item/no more item in [ExtendedGridView] and [WaterfallFlow]
+        /// last child as loadmore item/no more item in [ExtendedGridView] and [MasonryGridView]
         /// with full cross axis extend
         fullCrossAxisExtend,
 
@@ -130,8 +130,8 @@ build lastChild as special child in the case that it is loadmore/no more item.
         foot,
         }
 
-      WaterfallFlow.builder(
-        gridDelegate: SliverWaterfallFlowDelegate(
+      MasonryGridView.builder(
+        gridDelegate: SliverMasonryGridDelegate(
             lastChildLayoutTypeBuilder: (index) => index == length
                 ? LastChildLayoutType.foot
                 : LastChildLayoutType.none,
@@ -154,10 +154,10 @@ but it's not right when items are not full of viewport.
 |     item0     |
 -----------------
      leading
-```     
+```
 
 to solve it, you could set closeToTrailing to true, layout is as following.
-support [ExtendedGridView],[ExtendedList],[WaterfallFlow].
+support [ExtendedGridView],[ExtendedList],[MasonryGridView].
 and it also works when reverse is flase, layout will close to trailing.
 
 ```
@@ -170,10 +170,10 @@ and it also works when reverse is flase, layout will close to trailing.
 |               |
 -----------------
      leading
-```     
+```
 
 ```dart
-      WaterfallFlow.builder(
+      MasonryGridView.builder(
         reverse: true,
-        gridDelegate: SliverWaterfallFlowDelegate(closeToTrailing: true),
+        gridDelegate: SliverMasonryGridDelegate(closeToTrailing: true),
 ```

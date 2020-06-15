@@ -1,15 +1,15 @@
-# waterfall_flow
+# masonry_grid_view
 
 
-[![pub package](https://img.shields.io/pub/v/waterfall_flow.svg)](https://pub.dartlang.org/packages/waterfall_flow) [![GitHub stars](https://img.shields.io/github/stars/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/stargazers) [![GitHub forks](https://img.shields.io/github/forks/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/network)  [![GitHub license](https://img.shields.io/github/license/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/blob/master/LICENSE)  [![GitHub issues](https://img.shields.io/github/issues/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/issues) <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5bcc0gy"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="flutter-candies" title="flutter-candies"></a>
+[![pub package](https://img.shields.io/pub/v/masonry_grid_view.svg)](https://pub.dartlang.org/packages/masonry_grid_view) [![GitHub stars](https://img.shields.io/github/stars/fluttercandies/masonry_grid_view)](https://github.com/fluttercandies/masonry_grid_view/stargazers) [![GitHub forks](https://img.shields.io/github/forks/fluttercandies/masonry_grid_view)](https://github.com/fluttercandies/masonry_grid_view/network)  [![GitHub license](https://img.shields.io/github/license/fluttercandies/masonry_grid_view)](https://github.com/fluttercandies/masonry_grid_view/blob/master/LICENSE)  [![GitHub issues](https://img.shields.io/github/issues/fluttercandies/masonry_grid_view)](https://github.com/fluttercandies/masonry_grid_view/issues) <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5bcc0gy"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="flutter-candies" title="flutter-candies"></a>
 
 能够快速构建瀑布流布局的列表.
 
-[Web demo for WaterfallFlow](https://fluttercandies.github.io/waterfall_flow/)
+[Web demo for MasonryGridView](https://fluttercandies.github.io/masonry_grid_view/)
 
 Language: [English](README.md) | 中文简体
 
-- [waterfall_flow](#waterfallflow)
+- [masonry_grid_view](#MasonryGridView)
   - [使用](#%e4%bd%bf%e7%94%a8)
   - [简单使用](#%e7%ae%80%e5%8d%95%e4%bd%bf%e7%94%a8)
   - [列表元素回收](#%e5%88%97%e8%a1%a8%e5%85%83%e7%b4%a0%e5%9b%9e%e6%94%b6)
@@ -20,29 +20,29 @@ Language: [English](README.md) | 中文简体
 ## 使用
 
 * 在pubspec.yaml中增加库引用
-  
+
 ```yaml
 
 dependencies:
-  waterfall_flow: any
+  masonry_grid_view: any
 
-```  
+```
 * 导入库
-  
+
 ```dart
 
-  import 'package:waterfall_flow/waterfall_flow.dart';
-  
+  import 'package:masonry_grid_view/masonry_grid_view.dart';
+
 ```
 
 
 ## 简单使用
 
-| ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/waterfall_flow/random_sized.gif) | ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/waterfall_flow/custom_scrollView.gif) |
+| ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/masonry_grid_view/random_sized.gif) | ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/masonry_grid_view/custom_scrollView.gif) |
 | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/waterfall_flow/known_sized.gif)  | ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/waterfall_flow/variable_sized.gif)    |
+| ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/masonry_grid_view/known_sized.gif)  | ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/masonry_grid_view/variable_sized.gif)    |
 
-你可以通过设置SliverWaterfallFlowDelegate参数来定义瀑布流
+你可以通过设置SliverMasonryGridDelegate参数来定义瀑布流
 
 | 参数                       | 描述                                   | 默认  |
 | -------------------------- | -------------------------------------- | ----- |
@@ -55,15 +55,15 @@ dependencies:
 | closeToTrailing            | 可否让布局紧贴trailing(详情请查看后面) | false |
 
 ```dart
-            WaterfallFlow.builder(
+            MasonryGridView.builder(
               //cacheExtent: 0.0,
               padding: EdgeInsets.all(5.0),
-              gridDelegate: SliverWaterfallFlowDelegate(
+              gridDelegate: SliverMasonryGridDelegate(
                   crossAxisCount: 2,
                   crossAxisSpacing: 5.0,
                   mainAxisSpacing: 5.0,
                   /// follow max child trailing layout offset and layout with full cross axis extend
-                  /// last child as loadmore item/no more item in [GridView] and [WaterfallFlow]
+                  /// last child as loadmore item/no more item in [GridView] and [MasonryGridView]
                   /// with full cross axis extend
                   //  LastChildLayoutType.fullCrossAxisExtend,
 
@@ -85,8 +85,8 @@ dependencies:
 [更多详情](https://github.com/fluttercandies/extended_image/blob/e1577bc4d0b57c725110a9d886703b98a72772b5/example/lib/pages/photo_view_demo.dart#L91)
 
 ```dart
-        WaterfallFlow.builder(
-            gridDelegate: SliverWaterfallFlowDelegate(
+        MasonryGridView.builder(
+            gridDelegate: SliverMasonryGridDelegate(
                      collectGarbage: (List<int> garbages) {
                   ///collectGarbage
                   garbages.forEach((index) {
@@ -104,8 +104,8 @@ dependencies:
 追踪进入Viewport的列表元素的index（即你看到的可视区域，并不包括缓存距离）
 
 ```dart
-        WaterfallFlow.builder(
-            gridDelegate: SliverWaterfallFlowDelegate(
+        MasonryGridView.builder(
+            gridDelegate: SliverMasonryGridDelegate(
                 viewportBuilder: (int firstIndex, int lastIndex) {
                 print("viewport : [$firstIndex,$lastIndex]");
                 }),
@@ -121,7 +121,7 @@ dependencies:
         none,
 
         /// 将最后一个元素绘制在最大主轴Item之后，并且使用横轴大小最为layout size
-        /// 主要使用在[ExtendedGridView] and [WaterfallFlow]中，最后一个元素作为loadmore/no more元素的时候。
+        /// 主要使用在[ExtendedGridView] and [MasonryGridView]中，最后一个元素作为loadmore/no more元素的时候。
         fullCrossAxisExtend,
 
         /// 将最后一个child绘制在trailing of viewport，并且使用横轴大小最为layout size
@@ -130,8 +130,8 @@ dependencies:
         foot,
         }
 
-      WaterfallFlow.builder(
-        gridDelegate: SliverWaterfallFlowDelegate(
+      MasonryGridView.builder(
+        gridDelegate: SliverMasonryGridDelegate(
             lastChildLayoutTypeBuilder: (index) => index == length
                 ? LastChildLayoutType.foot
                 : LastChildLayoutType.none,
@@ -152,10 +152,10 @@ dependencies:
 |     item0     |
 -----------------
      leading
-```     
+```
 
 为了解决这个问题，你可以设置 closeToTrailing 为true, 布局将变成如下
-该属性同时支持[ExtendedGridView],[ExtendedList],[WaterfallFlow]。
+该属性同时支持[ExtendedGridView],[ExtendedList],[MasonryGridView]。
 当然如果reverse如果不为ture，你设置这个属性依然会生效，没满viewport的时候布局会紧靠trailing
 
 ```
@@ -168,10 +168,10 @@ dependencies:
 |               |
 -----------------
      leading
-```     
+```
 
 ```dart
-      WaterfallFlow.builder(
+      MasonryGridView.builder(
         reverse: true,
-        gridDelegate: SliverWaterfallFlowDelegate(closeToTrailing: true),
+        gridDelegate: SliverMasonryGridDelegate(closeToTrailing: true),
 ```

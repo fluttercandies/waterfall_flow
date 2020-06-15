@@ -4,11 +4,11 @@
 import 'dart:math';
 import 'package:ff_annotation_route/ff_annotation_route.dart';
 import 'package:flutter/material.dart';
-import 'package:waterfall_flow/waterfall_flow.dart';
+import 'package:masonry_grid_view/masonry_grid_view.dart';
 
 @FFRoute(
   name: 'fluttercandies://random-sized',
-  routeName: 'random-sized',
+  routeName: 'MasonryGridView',
   description: 'show how to build random-sized item with waterfall flow list.',
 )
 class RandomSizedDemo extends StatefulWidget {
@@ -28,25 +28,18 @@ class _RandomSizedDemoState extends State<RandomSizedDemo> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: const Text('RandomSized'),
+        title: const Text('MasonryGridView'),
       ),
       body: Directionality(
         textDirection: textDirection,
-        child: WaterfallFlow.builder(
+        child: MasonryGridView.builder(
           //cacheExtent: 0.0,
           //reverse: true,
           padding: const EdgeInsets.all(5.0),
-          gridDelegate: SliverWaterfallFlowDelegate(
+          gridDelegate: SliverMasonryGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: crossAxisCount,
             crossAxisSpacing: crossAxisSpacing,
             mainAxisSpacing: mainAxisSpacing,
-            // collectGarbage: (List<int> garbages) {
-            //   print('collect garbage : $garbages');
-            // },
-            // viewportBuilder: (int firstIndex, int lastIndex) {
-            //   print('viewport : [$firstIndex,$lastIndex]');
-            // },
-            //closeToTrailing: true,
           ),
           itemBuilder: (BuildContext c, int index) {
             final Color color = getRandomColor(index);
@@ -57,13 +50,14 @@ class _RandomSizedDemoState extends State<RandomSizedDemo> {
                   color: getRandomColor(index)),
               alignment: Alignment.center,
               child: Text(
-                '$index ' + 'TestString' * 10 * (index % 3 + 1),
+                '$index ',
+                //+ 'TestString' * 10 * (index % 3 + 1),
                 style: TextStyle(
                     color: color.computeLuminance() < 0.5
                         ? Colors.white
                         : Colors.black),
               ),
-              //height: ((index % 3) + 1) * 100.0,
+              height: ((index % 3) + 1) * 100.0,
             );
           },
           //itemCount: 19,
@@ -83,7 +77,7 @@ class _RandomSizedDemoState extends State<RandomSizedDemo> {
             //crossAxisSpacing+=5.0;
           });
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

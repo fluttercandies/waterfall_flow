@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_candies_demo_library/flutter_candies_demo_library.dart';
 import 'example_route.dart';
 import 'example_route_helper.dart';
 import 'example_routes.dart';
@@ -13,13 +12,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'WaterfallFlowDemo',
-      debugShowCheckedModeBanner: false,
+      title: 'MasonryGridViewDemo',
+      //debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       builder: (BuildContext c, Widget w) {
-        ScreenUtil.init(width: 750, height: 1334, allowFontScaling: true);
+
         // ScreenUtil.instance =
         //     ScreenUtil(width: 750, height: 1334, allowFontScaling: true)
         //       ..init(c);

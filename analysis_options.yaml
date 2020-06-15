@@ -19,6 +19,8 @@
 # Android Studio, and the `flutter analyze` command.
 
 analyzer:
+  # enable-experiment:
+  #   - non-nullable
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false
@@ -33,12 +35,12 @@ analyzer:
     # Stream and not importing dart:async
     # Please see https://github.com/flutter/flutter/pull/24528 for details.
     sdk_version_async_exported_from_core: ignore
-  # exclude:
-  #   - "bin/cache/**"
-  #   # the following two are relative to the stocks example and the flutter package respectively
-  #   # see https://github.com/dart-lang/sdk/issues/28463
-  #   - "lib/i18n/messages_*.dart"
-  #   - "lib/src/http/**"
+  exclude:
+    - "bin/cache/**"
+    # the following two are relative to the stocks example and the flutter package respectively
+    # see https://github.com/dart-lang/sdk/issues/28463
+    - "lib/i18n/messages_*.dart"
+    - "lib/src/http/**"
 
 linter:
   rules:
@@ -59,7 +61,7 @@ linter:
     - avoid_classes_with_only_static_members
     # - avoid_double_and_int_checks # only useful when targeting JS runtime
     - avoid_empty_else
-    # - avoid_equals_and_hash_code_on_mutable_classes # not yet tested
+    - avoid_equals_and_hash_code_on_mutable_classes
     - avoid_field_initializers_in_const_classes
     - avoid_function_literals_in_foreach_calls
     # - avoid_implementing_value_types # not yet tested

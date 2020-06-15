@@ -4,7 +4,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:ff_annotation_route/ff_annotation_route.dart';
-import 'package:flutter_candies_demo_library/flutter_candies_demo_library.dart';
 
 import '../example_route.dart';
 import '../example_routes.dart' as example_routes;
@@ -28,13 +27,13 @@ class MainPage extends StatelessWidget {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: const Text('WaterfallFlow'),
+        title: const Text('MasonryGridView'),
         actions: <Widget>[
           ButtonTheme(
             minWidth: 0.0,
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: FlatButton(
-              child: Text(
+              child: const Text(
                 'Github',
                 style: TextStyle(
                   decorationStyle: TextDecorationStyle.solid,
@@ -43,7 +42,7 @@ class MainPage extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                launch('https://github.com/fluttercandies/extended_image');
+
               },
             ),
           ),
@@ -54,7 +53,7 @@ class MainPage extends StatelessWidget {
               child:
                   Image.network('https://pub.idqqimg.com/wpa/images/group.png'),
               onPressed: () {
-                launch('https://jq.qq.com/?_wv=1027&k=5bcc0gy');
+
               },
             ),
           )
@@ -76,7 +75,7 @@ class MainPage extends StatelessWidget {
                     ),
                     Text(
                       page.description,
-                      style: TextStyle(color: Colors.grey),
+                      style: const TextStyle(color: Colors.grey),
                     )
                   ],
                 ),

@@ -1,15 +1,14 @@
-///
-///  create by zmtzawqlp on 2019/11/9
-///
-import 'package:flutter/widgets.dart' hide ViewportBuilder;
-import 'package:waterfall_flow/src/rendering/sliver_waterfall_flow.dart';
+// @dart = 2.8
+
+import 'package:flutter/widgets.dart';
+import 'package:masonry_grid_view/src/rendering/sliver_masonry_grid.dart';
 
 
-/// A sliver that places multiple box children in a two dimensional arrangement
-/// and masonry layout.
+
+/// A sliver that places multiple box children in masonry layouts.
 ///
-/// [SliverWaterfallFlow] places its children in arbitrary positions determined by
-/// [gridDelegate]. Each child is forced to have the size specified by the
+/// [SliverMasonryGrid] places its children in arbitrary positions determined by
+/// [gridDelegate]. Each child is forced to have the cross-axis size specified by the
 /// [gridDelegate].
 ///
 /// The main axis direction of a grid is the direction in which it scrolls; the
@@ -20,8 +19,8 @@ import 'package:waterfall_flow/src/rendering/sliver_waterfall_flow.dart';
 /// list, shows twenty boxes in a pretty teal grid with masonry layout:
 ///
 /// ```dart
-/// SliverWaterfallFlow(
-///   gridDelegate: SliverWaterfallFlowDelegate(
+/// SliverMasonryGrid(
+///   gridDelegate: SliverMasonryGridDelegate(
 ///     crossAxisCount: 2,
 ///     mainAxisSpacing: 10.0,
 ///     crossAxisSpacing: 10.0,
@@ -52,51 +51,70 @@ import 'package:waterfall_flow/src/rendering/sliver_waterfall_flow.dart';
 ///    except that it uses a prototype list item instead of a pixel value to define
 ///    the main axis extent of each item.
 ///  * [SliverGrid], which places its children in arbitrary positions.
-class SliverWaterfallFlow extends SliverMultiBoxAdaptorWidget {
-  /// Creates a sliver that places multiple box children in a two dimensional
-  /// arrangement and masonry layout.
-  const SliverWaterfallFlow({
+class SliverMasonryGrid extends SliverMultiBoxAdaptorWidget {
+  /// Creates a sliver that places multiple box children in masonry layouts.
+  const SliverMasonryGrid({
     Key key,
     @required SliverChildDelegate delegate,
     @required this.gridDelegate,
   }) : super(key: key, delegate: delegate);
 
-  /// Creates a sliver that places multiple box children in a two dimensional
-  /// arrangement and masonry layout with a fixed number of tiles in the cross axis.
+  /// Creates a sliver that places multiple box children in masonry layouts
+  /// with a fixed number of tiles in the cross axis.
   ///
-  /// Uses a [SliverWaterfallFlowDelegate] as the [gridDelegate],
+  /// Uses a [SliverMasonryGridDelegateWithFixedCrossAxisCount] as the [gridDelegate],
   /// and a [SliverChildListDelegate] as the [delegate].
   ///
   /// See also:
   ///
-  ///  * [new WaterfallFlow.count], the equivalent constructor for [WaterfallFlow] widgets.
-  SliverWaterfallFlow.count({
+  ///  * [new MasonryGridView.count], the equivalent constructor for [MasonryGridView] widgets.
+  SliverMasonryGrid.count({
     Key key,
     @required int crossAxisCount,
     double mainAxisSpacing = 0.0,
     double crossAxisSpacing = 0.0,
     List<Widget> children = const <Widget>[],
-  })  : gridDelegate = SliverWaterfallFlowDelegate(
-          crossAxisCount: crossAxisCount,
-          mainAxisSpacing: mainAxisSpacing,
-          crossAxisSpacing: crossAxisSpacing,
-        ),
-        super(key: key, delegate: SliverChildListDelegate(children));
+  }) : gridDelegate = SliverMasonryGridDelegateWithFixedCrossAxisCount(
+         crossAxisCount: crossAxisCount,
+         mainAxisSpacing: mainAxisSpacing,
+         crossAxisSpacing: crossAxisSpacing,
+       ),
+       super(key: key, delegate: SliverChildListDelegate(children));
 
+  /// Creates a sliver that places multiple box children in a two dimensional
+  /// arrangement with tiles that each have a maximum cross-axis extent.
+  ///
+  /// Uses a [SliverMasonryGridDelegateWithMaxCrossAxisExtent] as the [gridDelegate],
+  /// and a [SliverChildListDelegate] as the [delegate].
+  ///
+  /// See also:
+  ///
+  ///  * [new MasonryGridView.extent], the equivalent constructor for [MasonryGridView] widgets.
+  SliverMasonryGrid.extent({
+    Key key,
+    @required double maxCrossAxisExtent,
+    double mainAxisSpacing = 0.0,
+    double crossAxisSpacing = 0.0,
+    List<Widget> children = const <Widget>[],
+  }) : gridDelegate = SliverMasonryGridDelegateWithMaxCrossAxisExtent(
+         maxCrossAxisExtent: maxCrossAxisExtent,
+         mainAxisSpacing: mainAxisSpacing,
+         crossAxisSpacing: crossAxisSpacing,
+       ),
+       super(key: key, delegate: SliverChildListDelegate(children));
 
   /// The delegate that controls the size and position of the children.
-  final SliverWaterfallFlowDelegate gridDelegate;
+  final SliverMasonryGridDelegate gridDelegate;
 
   @override
-  RenderSliverWaterfallFlow createRenderObject(BuildContext context) {
+  RenderSliverMasonryGrid createRenderObject(BuildContext context) {
     final SliverMultiBoxAdaptorElement element = context as SliverMultiBoxAdaptorElement;
-    return RenderSliverWaterfallFlow(
+    return RenderSliverMasonryGrid(
         childManager: element, gridDelegate: gridDelegate);
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, RenderSliverWaterfallFlow renderObject) {
+  void updateRenderObject(BuildContext context, RenderSliverMasonryGrid renderObject) {
     renderObject.gridDelegate = gridDelegate;
   }
 }
