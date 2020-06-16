@@ -280,6 +280,38 @@ void main() {
       expect(textField.focusNode.hasFocus, isFalse);
     });
 
+    testWidgets('extent dismiss keyboard onDrag test',(WidgetTester tester) async {
+      final List<FocusNode> focusNodes = List<FocusNode>.generate(50, (int i) => FocusNode());
+      await tester.pumpWidget(textFieldBoilerplate(
+        child: MasonryGridView.extent(
+          padding: const EdgeInsets.all(0),
+          maxCrossAxisExtent: 300,
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          children: focusNodes.map((FocusNode focusNode) {
+            return Container(
+              height: 50,
+              color: Colors.green,
+              child: TextField(
+                focusNode: focusNode,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                )),
+            );
+          }).toList(),
+        ),
+      ));
+
+      final Finder finder = find.byType(TextField).first;
+      final TextField textField = tester.widget(finder);
+      await tester.showKeyboard(finder);
+      expect(textField.focusNode.hasFocus, isTrue);
+
+      await tester.drag(finder, const Offset(0.0, -40.0));
+      await tester.pumpAndSettle();
+      expect(textField.focusNode.hasFocus, isFalse);
+    });
+
     testWidgets('dismiss keyboard manual test', (WidgetTester tester) async {
       final List<FocusNode> focusNodes = List<FocusNode>.generate(50, (int i) => FocusNode());
       await tester.pumpWidget(textFieldBoilerplate(
@@ -320,6 +352,38 @@ void main() {
         child: MasonryGridView.count(
           padding: const EdgeInsets.all(0),
           crossAxisCount: 2,
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
+          children: focusNodes.map((FocusNode focusNode) {
+            return Container(
+              height: 50,
+              color: Colors.green,
+              child: TextField(
+                focusNode: focusNode,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                )),
+            );
+          }).toList(),
+        ),
+      ));
+
+      final Finder finder = find.byType(TextField).first;
+      final TextField textField = tester.widget(finder);
+      await tester.showKeyboard(finder);
+      expect(textField.focusNode.hasFocus, isTrue);
+
+      await tester.drag(finder, const Offset(0.0, -40.0));
+      await tester.pumpAndSettle();
+      expect(textField.focusNode.hasFocus, isTrue);
+    });
+
+    testWidgets('extend dismiss keyboard manual test', (WidgetTester tester) async {
+      final List<FocusNode> focusNodes = List<FocusNode>.generate(50, (int i) => FocusNode());
+      await tester.pumpWidget(textFieldBoilerplate(
+        child: MasonryGridView.extent(
+          padding: const EdgeInsets.all(0),
+          maxCrossAxisExtent: 300,
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
           children: focusNodes.map((FocusNode focusNode) {
             return Container(

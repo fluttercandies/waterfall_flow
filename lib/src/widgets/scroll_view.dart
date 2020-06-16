@@ -7,18 +7,22 @@ import 'sliver.dart';
 
 
 
-/// A scrollable, 2D array of widgets whose have the variable main-axis size
-/// and the fixed cross-axis size.
+/// A scrollable, 2D array of widgets are laid out in masonry layout.
+///
+/// It likes [GridView] which has the fixed cross-axis size except the main-axis size
+/// is variable. A contiguous sequence of children are laid out behind the shortest
+/// one of the previous row/column。
 ///
 /// The main axis direction of a grid is the direction in which it scrolls (the
 /// [scrollDirection]).
 ///
-/// The most commonly used masonry layouts are [MasonryGridView.count], which creates a
+/// The most commonly used masonry layout are [MasonryGridView.count], which creates a
 /// layout with a fixed number of tiles in the cross axis.
 ///
-/// To create a masonry with a large (or infinite) number of children, use the
-/// [MasonryGridView.builder] constructor with a [SliverMasonryGridDelegate]
-/// for the [gridDelegate].
+/// To create a masonry layout with a large (or infinite) number of children, use the
+/// [MasonryGridView.builder] constructor either a
+/// [SliverMasonryGridDelegateWithFixedCrossAxisCount] or a
+/// [SliverMasonryGridDelegateWithMaxCrossAxisExtent] for the [gridDelegate].
 ///
 /// To use a custom [SliverMasonryGridDelegate], use [MasonryGridView.custom].
 ///
@@ -45,19 +49,20 @@ import 'sliver.dart';
 /// [SliverMasonryGrid].
 ///
 /// The [childrenDelegate] property on [MasonryGridView] corresponds to the
-/// [SliverMasonryGrid.gridDelegate] property, and the [gridDelegate] property on the
+/// [SliverMasonryGrid.childrenDelegate] property, and the [gridDelegate] property on the
 /// [MasonryGridView] corresponds to the [SliverMasonryGrid.gridDelegate] property.
 ///
-/// The [MasonryGridView] and [MasonryGridView.count] constructors' `children` arguments
-/// correspond to the [childrenDelegate] being a [SliverChildListDelegate]
+/// The [MasonryGridView], [MasonryGridView.count] and [MasonryGridView.extent] constructors'
+/// `children` arguments correspond to the [childrenDelegate] being a [SliverChildListDelegate]
 /// with that same argument.
 /// The [MasonryGridView.builder] constructor's `itemBuilder` and `childCount` arguments
 /// correspond to the [childrenDelegate] being a [SliverChildBuilderDelegate]
 /// with the matching arguments.
 ///
-/// The [MasonryGridView.count] constructors create custom grid delegates,
-/// and have equivalently named constructor on [SliverMasonryGrid] to
-/// ease the transition: [SliverMasonryGrid.count] respectively.
+/// The [MasonryGridView.count] and [GridMasonryGridViewView.extent] constructors create
+/// custom grid delegates, and have equivalently named constructors on
+/// [SliverMasonryGrid] to ease the transition: [SliverMasonryGrid.count] and
+/// [SliverMasonryGrid.extent] respectively.
 ///
 /// The [padding] property corresponds to having a [SliverPadding] in the
 /// [CustomScrollView.slivers] property instead of the grid itself, and having
@@ -205,8 +210,8 @@ import 'sliver.dart';
 ///  * [ScrollNotification] and [NotificationListener], which can be used to watch
 ///    the scroll position without using a [ScrollController].
 class MasonryGridView extends BoxScrollView {
-  /// Creates a scrollable, 2D array of widgets whose have the variable main-axis size
-  /// and the fixed cross-axis size with a custom [SliverMasonryGridDelegate].
+  /// Creates a scrollable, 2D array of widgets in masonry layout
+  /// with a custom [SliverMasonryGridDelegate].
   ///
   /// The [gridDelegate] argument must not be null.
   ///
@@ -255,10 +260,10 @@ class MasonryGridView extends BoxScrollView {
          keyboardDismissBehavior: keyboardDismissBehavior,
        );
 
-  /// Creates a scrollable, 2D array of widgets whose size is variable in the main axis
+  /// Creates a scrollable, 2D array of widgets in masonry layout
   /// that are created on demand.
   ///
-  /// This constructor is appropriate for grid views with a large (or infinite)
+  /// This constructor is appropriate for masonry views with a large (or infinite)
   /// number of children because the builder is called only for those children
   /// that are actually visible.
   ///
@@ -317,8 +322,8 @@ class MasonryGridView extends BoxScrollView {
          keyboardDismissBehavior: keyboardDismissBehavior,
        );
 
-  /// Creates a scrollable, 2D array of widgets whose size is variable in the main axis
-  /// with both a custom [SliverGridDelegate] and a custom [SliverChildDelegate].
+  /// Creates a scrollable, 2D array of widgets in masonry layout
+  /// with both a custom [SliverMasonryGridDelegate] and a custom [SliverChildDelegate].
   ///
   /// To use an [IndexedWidgetBuilder] callback to build children, either use
   /// a [SliverChildBuilderDelegate] or use the [MasonryGridView.builder] constructor.
@@ -356,10 +361,10 @@ class MasonryGridView extends BoxScrollView {
          keyboardDismissBehavior: keyboardDismissBehavior,
        );
 
-  /// Creates a scrollable, 2D array of widgets whose size is variable in the main axis
+  /// Creates a scrollable, 2D array of widgets in masonry layout
   /// with a fixed number of tiles in the cross axis.
   ///
-  /// Uses a [SliverMasonryGridDelegate] as the [gridDelegate].
+  /// Uses a [SliverMasonryGridDelegateWithFixedCrossAxisCount] as the [gridDelegate].
   ///
   /// The `addAutomaticKeepAlives` argument corresponds to the
   /// [SliverChildListDelegate.addAutomaticKeepAlives] property. The
@@ -416,8 +421,8 @@ class MasonryGridView extends BoxScrollView {
          keyboardDismissBehavior: keyboardDismissBehavior,
        );
 
-    /// Creates a scrollable, 2D array of widgets with tiles that each have a
-  /// maximum cross-axis extent.
+  /// Creates a scrollable, 2D array of widgets in masonry layout with tiles
+  /// that each have a maximum cross-axis extent.
   ///
   /// Uses a [SliverMasonryGridDelegateWithMaxCrossAxisExtent] as the [gridDelegate].
   ///
@@ -448,7 +453,7 @@ class MasonryGridView extends BoxScrollView {
     List<Widget> children = const <Widget>[],
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,    
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
   }) : gridDelegate = SliverMasonryGridDelegateWithMaxCrossAxisExtent(
          maxCrossAxisExtent: maxCrossAxisExtent,
          mainAxisSpacing: mainAxisSpacing,
@@ -472,12 +477,12 @@ class MasonryGridView extends BoxScrollView {
          semanticChildCount: semanticChildCount ?? children.length,
          dragStartBehavior: dragStartBehavior,
          keyboardDismissBehavior: keyboardDismissBehavior,
-       );     
+       );
 
   /// A delegate that controls the masonry layout of the children within the [MasonryGridView].
   ///
-  /// The [MasonryGridView], [MasonryGridView.builder], and [MasonryGridView.custom] constructors let you specify this
-  /// delegate explicitly. The other constructors create a [gridDelegate]
+  /// The [MasonryGridView], [MasonryGridView.builder], and [MasonryGridView.custom] constructors
+  /// let you specify this delegate explicitly. The other constructors create a [gridDelegate]
   /// implicitly.
   final SliverMasonryGridDelegate gridDelegate;
 

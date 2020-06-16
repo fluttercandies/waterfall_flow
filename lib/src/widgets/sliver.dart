@@ -5,7 +5,7 @@ import 'package:masonry_grid_view/src/rendering/sliver_masonry_grid.dart';
 
 
 
-/// A sliver that places multiple box children in masonry layouts.
+/// A sliver that places multiple box children in masonry layout.
 ///
 /// [SliverMasonryGrid] places its children in arbitrary positions determined by
 /// [gridDelegate]. Each child is forced to have the cross-axis size specified by the
@@ -59,7 +59,7 @@ class SliverMasonryGrid extends SliverMultiBoxAdaptorWidget {
     @required this.gridDelegate,
   }) : super(key: key, delegate: delegate);
 
-  /// Creates a sliver that places multiple box children in masonry layouts
+  /// Creates a sliver that places multiple box children in masonry layout
   /// with a fixed number of tiles in the cross axis.
   ///
   /// Uses a [SliverMasonryGridDelegateWithFixedCrossAxisCount] as the [gridDelegate],
@@ -81,8 +81,8 @@ class SliverMasonryGrid extends SliverMultiBoxAdaptorWidget {
        ),
        super(key: key, delegate: SliverChildListDelegate(children));
 
-  /// Creates a sliver that places multiple box children in a two dimensional
-  /// arrangement with tiles that each have a maximum cross-axis extent.
+  /// Creates a sliver that places multiple box children in masonry layout
+  /// with tiles that each have a maximum cross-axis extent.
   ///
   /// Uses a [SliverMasonryGridDelegateWithMaxCrossAxisExtent] as the [gridDelegate],
   /// and a [SliverChildListDelegate] as the [delegate].
@@ -103,14 +103,16 @@ class SliverMasonryGrid extends SliverMultiBoxAdaptorWidget {
        ),
        super(key: key, delegate: SliverChildListDelegate(children));
 
-  /// The delegate that controls the size and position of the children.
+  /// The delegate that controls the cross-axis size and position of the children.
   final SliverMasonryGridDelegate gridDelegate;
 
   @override
   RenderSliverMasonryGrid createRenderObject(BuildContext context) {
     final SliverMultiBoxAdaptorElement element = context as SliverMultiBoxAdaptorElement;
     return RenderSliverMasonryGrid(
-        childManager: element, gridDelegate: gridDelegate);
+      childManager: element,
+      gridDelegate: gridDelegate,
+    );
   }
 
   @override

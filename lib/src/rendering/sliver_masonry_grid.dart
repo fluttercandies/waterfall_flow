@@ -7,8 +7,8 @@ import 'package:flutter/rendering.dart';
 ///
 /// Given the current constraints on the grid, a [SliverGridDelegate] computes
 /// the masonry layout for the tiles in the grid. The tiles can be placed as masonry
-/// with equally cross-axis sized and spaced. They always laid out after shorter one in
-/// a contiguous sequence.
+/// layout with equally cross-axis sized and spaced. A contiguous sequence of children are
+/// laid out behind the shortest one of the previous row/column。
 ///
 /// See also:
 ///
@@ -22,7 +22,7 @@ import 'package:flutter/rendering.dart';
 ///  * [RenderSliverMasonryGrid], which uses this delegate to control the layout of its
 ///    tiles.
 abstract class SliverMasonryGridDelegate {
-  /// Creates a delegate that makes masonry layouts with a fixed number of tiles in
+  /// Creates a delegate that makes masonry layout with tiles in
   /// the cross axis.
   ///
   /// All of the arguments must not be null. The `mainAxisSpacing` and
@@ -49,7 +49,7 @@ abstract class SliverMasonryGridDelegate {
     return actualCrossAxisIndex % crossAxisCount * (childUsableCrossAxisExtent + crossAxisSpacing);
   }
 
-  /// Return usable cross-axis extend of each child.
+  /// Return usable cross-axis extent of each child.
   ///
   /// It doesn't contain [crossAxisSpacing].
   double getChildUsableCrossAxisExtent(SliverConstraints constraints) {
@@ -91,7 +91,7 @@ abstract class SliverMasonryGridDelegate {
 ///  * [RenderSliverMasonryGrid], which uses this delegate to control the layout of its
 ///    tiles.
 class SliverMasonryGridDelegateWithFixedCrossAxisCount extends SliverMasonryGridDelegate {
-  /// Creates a delegate that makes grid layouts with a fixed number of tiles in
+  /// Creates a delegate that makes masonry layouts with a fixed number of tiles in
   /// the cross axis.
   ///
   /// All of the arguments must not be null. The `mainAxisSpacing` and
@@ -124,7 +124,7 @@ class SliverMasonryGridDelegateWithFixedCrossAxisCount extends SliverMasonryGrid
   }
 }
 
-/// Creates grid layouts with tiles that each have a maximum cross-axis extent.
+/// Creates masonry layouts with tiles that each have a maximum cross-axis extent.
 ///
 /// This delegate will select a cross-axis extent for the tiles that is as
 /// large as possible subject to the following conditions:
@@ -216,7 +216,7 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
        super(childManager: childManager);
 
   /// It stores parent data of the leading and trailing.
-  _CrossAxisChildrenData _preCrossAxisChildrenData;
+  _CrossAxisChildrenData _previousCrossAxisChildrenData;
 
   /// The delegate that controls the size and position of the children.
   SliverMasonryGridDelegate get gridDelegate => _gridDelegate;
@@ -255,12 +255,11 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
     final _CrossAxisChildrenData crossAxisChildrenData = _CrossAxisChildrenData(
       gridDelegate: _gridDelegate,
       constraints: constraints,
-      leadingChildren: _preCrossAxisChildrenData?.leadingChildren,
+      leadingChildren: _previousCrossAxisChildrenData?.leadingChildren,
     );
 
     final BoxConstraints childConstraints = constraints.asBoxConstraints(
-        crossAxisExtent:
-            _gridDelegate.getChildUsableCrossAxisExtent(constraints));
+      crossAxisExtent: _gridDelegate.getChildUsableCrossAxisExtent(constraints));
 
     final double scrollOffset = constraints.scrollOffset + constraints.cacheOrigin;
     assert(scrollOffset >= 0.0);
@@ -272,9 +271,10 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
     int trailingGarbage = 0;
     bool reachedEnd = false;
 
-    // This algorithm in principle is straight-forward: find the first child
-    // that overlaps the given scrollOffset, creating more children at the top
-    // of the list if necessary, then walk down the list updating and laying out
+    // This algorithm in principle is straight-forward: find the leading children
+    // that overlaps the given scrollOffset base on [_previousCrossAxisChildrenData],
+    // creating more children behind the shortest one of the previous row/column,
+    // then walk down the list updating and laying out
     // each child and adding more at the end if necessary until we have enough
     // children to cover the entire viewport.
     //
@@ -487,17 +487,17 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
       if (!advance()) {
         assert(leadingGarbage == childCount);
         assert(child == null);
-        // We want to make sure we keep the trailing children around so we know the end scroll offset
-        collectGarbage(leadingGarbage - crossAxisChildrenData.trailingChildren.length, 0);
-        // assert(firstChild == lastChild);
+        // We ran out of children before reaching the scroll offset.
+        // We must inform our parent that this sliver cannot fulfill
+        // its contract and that we need a max scroll offset correction.
         final double extent = crossAxisChildrenData.maxChildTrailingLayoutOffset;
-        crossAxisChildrenData.setLeading();
+        collectGarbage(childCount,0);
         geometry = SliverGeometry(
           scrollExtent: extent,
           paintExtent: 0.0,
           maxPaintExtent: extent,
         );
-        _preCrossAxisChildrenData = crossAxisChildrenData;
+        _previousCrossAxisChildrenData = null;
         return;
       }
     }
@@ -598,17 +598,17 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
     childManager.didFinishLayout();
 
     // Save, for next layout.
-    _preCrossAxisChildrenData = crossAxisChildrenData;
+    _previousCrossAxisChildrenData = crossAxisChildrenData;
   }
 
   /// Masonry layouts maybe have changed. We need to recalculate from the zero index so that
   /// layouts will not change suddenly when scroll.
   void _clearIfNeed() {
-    if (_preCrossAxisChildrenData != null) {
-      if (_preCrossAxisChildrenData.gridDelegate.getCrossAxisCount(constraints) != gridDelegate.getCrossAxisCount(constraints)
-       || _preCrossAxisChildrenData.gridDelegate.mainAxisSpacing != gridDelegate.mainAxisSpacing
-       || _preCrossAxisChildrenData.constraints.crossAxisExtent != constraints.crossAxisExtent) {
-        _preCrossAxisChildrenData = null;
+    if (_previousCrossAxisChildrenData != null) {
+      if (_previousCrossAxisChildrenData.gridDelegate.getCrossAxisCount(constraints) != gridDelegate.getCrossAxisCount(constraints)
+       || _previousCrossAxisChildrenData.gridDelegate.mainAxisSpacing != gridDelegate.mainAxisSpacing
+       || _previousCrossAxisChildrenData.constraints.crossAxisExtent != constraints.crossAxisExtent) {
+        _previousCrossAxisChildrenData = null;
         collectGarbage(childCount, 0);
       }
     }

@@ -50,8 +50,8 @@ class MainPage extends StatelessWidget {
             padding: const EdgeInsets.only(right: 10.0),
             minWidth: 0.0,
             child: FlatButton(
-              child:
-                  Image.network('https://pub.idqqimg.com/wpa/images/group.png'),
+              child: Container(),
+                 // Image.network('https://pub.idqqimg.com/wpa/images/group.png'),
               onPressed: () {
 
               },
