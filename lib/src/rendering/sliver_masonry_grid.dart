@@ -1,5 +1,5 @@
 // @dart = 2.8
-import 'dart:math';
+import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 
@@ -513,7 +513,7 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
               leadingGarbage--;
             }
           }
-          leadingGarbage = max(0, leadingGarbage);
+          leadingGarbage = math.max(0, leadingGarbage);
           break;
         }
       }
