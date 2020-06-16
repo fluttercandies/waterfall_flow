@@ -120,4 +120,3 @@ class SliverMasonryGrid extends SliverMultiBoxAdaptorWidget {
     renderObject.gridDelegate = gridDelegate;
   }
 }
-
