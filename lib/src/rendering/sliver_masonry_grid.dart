@@ -3,12 +3,12 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 
-/// Controls the masonry layout of tiles in a grid.
+/// Controls the masonry layout of tiles.
 ///
 /// Given the current constraints on the grid, a [SliverGridDelegate] computes
 /// the masonry layout for the tiles in the grid. The tiles can be placed as masonry
 /// layout with equally cross-axis sized and spaced. A contiguous sequence of children are
-/// laid out behind the shortest one of the previous row/column。
+/// laid out after the shortest one of the previous row/column。
 ///
 /// See also:
 ///
@@ -190,6 +190,36 @@ class SliverMasonryGridDelegateWithMaxCrossAxisExtent extends SliverMasonryGridD
   }
 }
 
+/// Parent data structure used by [RenderSliverMasonryGrid].
+class SliverMasonryGridParentData extends SliverMultiBoxAdaptorParentData {
+  /// The trailing position of the child relative to the zero scroll offset.
+  ///
+  /// The number of pixels from from the zero scroll offset of the parent sliver
+  /// (the line at which its [SliverConstraints.scrollOffset] is zero) to the
+  /// side of the child closest to that offset.
+  ///
+  /// In a typical list, this does not change as the parent is scrolled.
+  double trailingLayoutOffset;
+
+  /// The index of crossAxis.
+  int crossAxisIndex;
+
+  /// The offset of the child in the non-scrolling axis.
+  ///
+  /// If the scroll axis is vertical, this offset is from the left-most edge of
+  /// the parent to the left-most edge of the child. If the scroll axis is
+  /// horizontal, this offset is from the top-most edge of the parent to the
+  /// top-most edge of the child.
+  double crossAxisOffset;
+
+  /// The indexes of the children in the same index of crossAxis.
+  List<int> indexes = <int>[];
+
+  @override
+  String toString() =>
+      'crossAxisIndex=$crossAxisIndex;crossAxisOffset=$crossAxisOffset;trailingLayoutOffset=$trailingLayoutOffset;indexes$indexes; ${super.toString()}';
+}
+
 /// A sliver that places multiple box children with masonry layouts.
 ///
 /// [RenderSliverMasonryGrid] places its children in arbitrary positions determined by
@@ -273,7 +303,7 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
 
     // This algorithm in principle is straight-forward: find the leading children
     // that overlaps the given scrollOffset base on [_previousCrossAxisChildrenData],
-    // creating more children behind the shortest one of the previous row/column,
+    // creating more children after the shortest one of the previous row/column,
     // then walk down the list updating and laying out
     // each child and adding more at the end if necessary until we have enough
     // children to cover the entire viewport.
@@ -331,14 +361,14 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
 
     if (crossAxisChildrenData.maxLeadingLayoutOffset > scrollOffset) {
       RenderBox child = firstChild;
-      // Move to max index of leading, make sure indexes are continuous.
+      // Add children from min index to max index of leading to
+      // make sure indexes are continuous.
       final int maxLeadingIndex = crossAxisChildrenData.maxLeadingIndex;
       while (child != null && maxLeadingIndex > indexOf(child)) {
         child = childAfter(child);
       }
-      // Fill leadings from max index of leading to min index of leading,
-      // make sure indexes are continuous.
-      while (child != null && crossAxisChildrenData.minLeadingIndex < indexOf(child)) {
+      final int minLeadingIndex = crossAxisChildrenData.minLeadingIndex;
+      while (child != null && minLeadingIndex < indexOf(child)) {
         crossAxisChildrenData.insertLeading(child: child, paintExtentOf: paintExtentOf);
         child = childBefore(child);
       }
@@ -525,7 +555,7 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
       while (
           // Now find the first child that ends after our end.
           crossAxisChildrenData.minChildTrailingLayoutOffset < targetEndScrollOffset
-          // Make sure leading children are laid out.
+          // Make sure leading children are all laid out.
        || crossAxisChildrenData.leadingChildren.length < crossAxisCount
        || crossAxisChildrenData.leadingChildren.length > childCount
        || (child.parentData as SliverMasonryGridParentData).index < crossAxisCount - 1) {
@@ -601,11 +631,11 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
     _previousCrossAxisChildrenData = crossAxisChildrenData;
   }
 
-  /// Masonry layouts maybe have changed. We need to recalculate from the zero index so that
+  /// Masonry layout maybe have changed. We need to recalculate from the zero index so that
   /// layouts will not change suddenly when scroll.
   void _clearIfNeed() {
     if (_previousCrossAxisChildrenData != null) {
-      if (_previousCrossAxisChildrenData.gridDelegate.getCrossAxisCount(constraints) != gridDelegate.getCrossAxisCount(constraints)
+      if (_previousCrossAxisChildrenData.crossAxisCount != gridDelegate.getCrossAxisCount(constraints)
        || _previousCrossAxisChildrenData.gridDelegate.mainAxisSpacing != gridDelegate.mainAxisSpacing
        || _previousCrossAxisChildrenData.constraints.crossAxisExtent != constraints.crossAxisExtent) {
         _previousCrossAxisChildrenData = null;
@@ -614,7 +644,7 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
     }
   }
 
-  /// Return the trailing position of one child.
+  /// Return the trailing position of the child.
   double childTrailingLayoutOffset(RenderBox child) {
     return childScrollOffset(child) + paintExtentOf(child);
   }
@@ -644,8 +674,8 @@ class _CrossAxisChildrenData {
   /// The number of children in the cross axis.
   int get crossAxisCount => gridDelegate.getCrossAxisCount(constraints);
 
-  /// Fill the leading at the beginning and fill trailing base on
-  /// the shorter one until the end.
+  /// Fill the leading at the beginning then the children are
+  /// laid out after the shortest one.
   void insert({
     @required RenderBox child,
     @required double Function(RenderBox child) childTrailingLayoutOffset,
@@ -678,7 +708,7 @@ class _CrossAxisChildrenData {
             return;
           }
         }
-        // Find the shorter one and laid out after it.
+        // Find the shortest one and laid out after it.
         final SliverMasonryGridParentData min = trailingChildren.reduce(
           (SliverMasonryGridParentData current, SliverMasonryGridParentData next) =>
           current.trailingLayoutOffset < next.trailingLayoutOffset ||
@@ -733,8 +763,8 @@ class _CrossAxisChildrenData {
       data.indexes = leading.indexes;
 
       leadingChildren.remove(leading);
-      leadingChildren.add(data);
       trailingChildren.remove(leading);
+      leadingChildren.add(data);
       trailingChildren.add(data);
     }
   }
@@ -818,32 +848,4 @@ class _CrossAxisChildrenData {
   }
 }
 
-/// Parent data structure used by [RenderSliverMasonryGrid].
-class SliverMasonryGridParentData extends SliverMultiBoxAdaptorParentData {
-  /// The trailing position of the child relative to the zero scroll offset.
-  ///
-  /// The number of pixels from from the zero scroll offset of the parent sliver
-  /// (the line at which its [SliverConstraints.scrollOffset] is zero) to the
-  /// side of the child closest to that offset.
-  ///
-  /// In a typical list, this does not change as the parent is scrolled.
-  double trailingLayoutOffset;
 
-  /// The index of crossAxis.
-  int crossAxisIndex;
-
-  /// The offset of the child in the non-scrolling axis.
-  ///
-  /// If the scroll axis is vertical, this offset is from the left-most edge of
-  /// the parent to the left-most edge of the child. If the scroll axis is
-  /// horizontal, this offset is from the top-most edge of the parent to the
-  /// top-most edge of the child.
-  double crossAxisOffset;
-
-  /// The indexes of the children in the same index of crossAxis.
-  List<int> indexes = <int>[];
-
-  @override
-  String toString() =>
-      'crossAxisIndex=$crossAxisIndex;crossAxisOffset=$crossAxisOffset;trailingLayoutOffset=$trailingLayoutOffset;indexes$indexes; ${super.toString()}';
-}

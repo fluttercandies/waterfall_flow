@@ -9,8 +9,9 @@ import 'sliver.dart';
 
 /// A scrollable, 2D array of widgets are laid out in masonry layout.
 ///
-/// It likes [GridView] which has the fixed cross-axis size except the main-axis size
-/// is variable. A contiguous sequence of children are laid out behind the shortest
+/// It looks like [GridView] whose children have the fixed cross-axis size,
+/// the differences are the main-axis size are variable.
+/// A contiguous sequence of children are laid out after the shortest
 /// one of the previous row/column。
 ///
 /// The main axis direction of a grid is the direction in which it scrolls (the
