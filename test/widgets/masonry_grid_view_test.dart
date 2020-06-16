@@ -179,6 +179,48 @@ void main() {
       );
     });
 
+    testWidgets('crossAxisSpacing test', (WidgetTester tester) async {
+      await tester.pumpWidget(materialAppBoilerplate(
+        child: masonryGridViewBoilerplate(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10.0,
+        ),
+        textDirection: TextDirection.ltr),
+      );
+
+      expect(
+        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        const Offset(0.0, 50.0),
+      );
+
+      expect(
+        tester.getTopLeft(find.widgetWithText(Container, '3.Who scream')),
+        const Offset(405.0, 70.0),
+      );
+    });
+
+    testWidgets('maxCrossAxisExtent change test', (WidgetTester tester) async {
+      await tester.pumpWidget(materialAppBoilerplate(
+        child: masonryGridViewBoilerplate(maxCrossAxisExtent: 400),
+        textDirection: TextDirection.ltr),
+      );
+
+      expect(
+        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        const Offset(0.0, 50.0),
+      );
+
+      await tester.pumpWidget(materialAppBoilerplate(
+        child: masonryGridViewBoilerplate(maxCrossAxisExtent: 200),
+        textDirection: TextDirection.ltr),
+      );
+
+      expect(
+        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        const Offset(400.0, 0.0),
+      );
+    });
+
     testWidgets('Vertical are primary by default', (WidgetTester tester) async {
       final MasonryGridView view = MasonryGridView(
         scrollDirection: Axis.vertical,
@@ -416,49 +458,61 @@ Widget masonryGridViewBoilerplate({
   int crossAxisCount = 2,
   double crossAxisSpacing = 0.0,
   double mainAxisSpacing = 0.0,
+  double maxCrossAxisExtent,
 }) {
+  final List<Widget> children = <Widget> [
+    Container(
+      padding: const EdgeInsets.all(8),
+      child: const Text("0.He'd have you all unravel at the"),
+      color: Colors.teal[100],
+      height: 50.0,
+    ),
+    Container(
+      padding: const EdgeInsets.all(8),
+      child: const Text('1.Heed not the rabble'),
+      color: Colors.teal[200],
+      height: 70.0,
+    ),
+    Container(
+      padding: const EdgeInsets.all(8),
+      child: const Text('2.Sound of screams but the'),
+      color: Colors.teal[300],
+      height: 90.0,
+    ),
+    Container(
+      padding: const EdgeInsets.all(8),
+      child: const Text('3.Who scream'),
+      color: Colors.teal[400],
+      height: 60.0,
+    ),
+    Container(
+      padding: const EdgeInsets.all(8),
+      child: const Text('4.Revolution is coming...'),
+      color: Colors.teal[500],
+      height: 80.0,
+    ),
+    Container(
+      padding: const EdgeInsets.all(8),
+      child: const Text('5.Revolution, they...'),
+      color: Colors.teal[600],
+      height: 100.0,
+    ),
+  ];
+
+  if(maxCrossAxisExtent != null) {
+    return MasonryGridView.extent(
+      maxCrossAxisExtent: maxCrossAxisExtent,
+      crossAxisSpacing: crossAxisSpacing,
+      mainAxisSpacing: mainAxisSpacing,
+      children: children,
+    );
+  }
+
   return MasonryGridView.count(
     crossAxisCount: crossAxisCount,
     crossAxisSpacing: crossAxisSpacing,
     mainAxisSpacing: mainAxisSpacing,
-    children: <Widget>[
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: const Text("0.He'd have you all unravel at the"),
-        color: Colors.teal[100],
-        height: 50.0,
-      ),
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: const Text('1.Heed not the rabble'),
-        color: Colors.teal[200],
-        height: 70.0,
-      ),
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: const Text('2.Sound of screams but the'),
-        color: Colors.teal[300],
-        height: 90.0,
-      ),
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: const Text('3.Who scream'),
-        color: Colors.teal[400],
-        height: 60.0,
-      ),
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: const Text('4.Revolution is coming...'),
-        color: Colors.teal[500],
-        height: 80.0,
-      ),
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: const Text('5.Revolution, they...'),
-        color: Colors.teal[600],
-        height: 100.0,
-      ),
-    ],
+    children: children,
   );
 }
 
