@@ -8,7 +8,7 @@ A Flutter grid view easy to build waterfall flow layout quickly.
 
 Language: English | [中文简体](README-ZH.md)
 
-- [waterfall_flow](#waterfallflow)
+- [waterfall_flow](#waterfall_flow)
   - [Use](#use)
   - [Easy to use](#easy-to-use)
   - [CollectGarbage](#collectgarbage)
@@ -19,19 +19,19 @@ Language: English | [中文简体](README-ZH.md)
 ## Use
 
 * add library to your pubspec.yaml
-  
+
 ```yaml
 
 dependencies:
   waterfall_flow: any
 
-```  
+```
 * import library in dart file
-  
+
 ```dart
 
   import 'package:waterfall_flow/waterfall_flow.dart';
-  
+
 ```
 
 
@@ -43,9 +43,20 @@ dependencies:
 
 you can define waterfall flow layout within SliverWaterfallFlowDelegate.
 
-| parameter                  | description                                                                         | default  |
-| -------------------------- | ----------------------------------------------------------------------------------- | -------- |
-| crossAxisCount             | The number of children in the cross axis.                                           | required |
+* SliverWaterfallFlowDelegateWithFixedCrossAxisCount
+
+| parameter      | description                               | default  |
+| -------------- | ----------------------------------------- | -------- |
+| crossAxisCount | The number of children in the cross axis. | required |
+
+* SliverWaterfallFlowDelegateWithMaxCrossAxisExtent
+
+| parameter          | description                                    | default  |
+| ------------------ | ---------------------------------------------- | -------- |
+| maxCrossAxisExtent | The maximum extent of tiles in the cross axis. | required |
+
+* SliverWaterfallFlowDelegate
+
 | mainAxisSpacing            | The number of logical pixels between each child along the main axis.                | 0.0      |
 | crossAxisSpacing           | The number of logical pixels between each child along the cross axis.               | 0.0      |
 | collectGarbage             | Call when collect garbage, return indexs to collect                                 | -        |
@@ -57,7 +68,7 @@ you can define waterfall flow layout within SliverWaterfallFlowDelegate.
             WaterfallFlow.builder(
               //cacheExtent: 0.0,
               padding: EdgeInsets.all(5.0),
-              gridDelegate: SliverWaterfallFlowDelegate(
+              gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 5.0,
                   mainAxisSpacing: 5.0,
@@ -85,7 +96,7 @@ track the indexes are collect, you can collect garbage at that monment(for examp
 
 ```dart
         WaterfallFlow.builder(
-            gridDelegate: SliverWaterfallFlowDelegate(
+            gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
                 collectGarbage: (List<int> garbages) {
                   ///collectGarbage
                   garbages.forEach((index) {
@@ -104,7 +115,7 @@ track the indexes go into the viewport, it's not include cache extent.
 
 ```dart
         WaterfallFlow.builder(
-            gridDelegate: SliverWaterfallFlowDelegate(
+            gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
                 viewportBuilder: (int firstIndex, int lastIndex) {
                 print("viewport : [$firstIndex,$lastIndex]");
                 }),
@@ -131,7 +142,7 @@ build lastChild as special child in the case that it is loadmore/no more item.
         }
 
       WaterfallFlow.builder(
-        gridDelegate: SliverWaterfallFlowDelegate(
+        gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
             lastChildLayoutTypeBuilder: (index) => index == length
                 ? LastChildLayoutType.foot
                 : LastChildLayoutType.none,
@@ -154,7 +165,7 @@ but it's not right when items are not full of viewport.
 |     item0     |
 -----------------
      leading
-```     
+```
 
 to solve it, you could set closeToTrailing to true, layout is as following.
 support [ExtendedGridView],[ExtendedList],[WaterfallFlow].
@@ -170,10 +181,10 @@ and it also works when reverse is flase, layout will close to trailing.
 |               |
 -----------------
      leading
-```     
+```
 
 ```dart
       WaterfallFlow.builder(
         reverse: true,
-        gridDelegate: SliverWaterfallFlowDelegate(closeToTrailing: true),
+        gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(closeToTrailing: true),
 ```

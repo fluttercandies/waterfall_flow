@@ -9,10 +9,10 @@
 
 Language: [English](README.md) | 中文简体
 
-- [waterfall_flow](#waterfallflow)
-  - [使用](#%e4%bd%bf%e7%94%a8)
-  - [简单使用](#%e7%ae%80%e5%8d%95%e4%bd%bf%e7%94%a8)
-  - [列表元素回收](#%e5%88%97%e8%a1%a8%e5%85%83%e7%b4%a0%e5%9b%9e%e6%94%b6)
+- [waterfall_flow](#waterfall_flow)
+  - [使用](#使用)
+  - [简单使用](#简单使用)
+  - [列表元素回收](#列表元素回收)
   - [ViewportBuilder](#viewportbuilder)
   - [LastChildLayoutTypeBuilder](#lastchildlayouttypebuilder)
   - [CloseToTrailing](#closetotrailing)
@@ -20,19 +20,19 @@ Language: [English](README.md) | 中文简体
 ## 使用
 
 * 在pubspec.yaml中增加库引用
-  
+
 ```yaml
 
 dependencies:
   waterfall_flow: any
 
-```  
+```
 * 导入库
-  
+
 ```dart
 
   import 'package:waterfall_flow/waterfall_flow.dart';
-  
+
 ```
 
 
@@ -44,9 +44,23 @@ dependencies:
 
 你可以通过设置SliverWaterfallFlowDelegate参数来定义瀑布流
 
-| 参数                       | 描述                                   | 默认  |
-| -------------------------- | -------------------------------------- | ----- |
-| crossAxisCount             | 横轴的等长度元素数量                   | 必填  |
+* SliverWaterfallFlowDelegateWithFixedCrossAxisCount
+
+| 参数      | 描述          | 默认 |
+| -------------- | -------------------- | ------- |
+| crossAxisCount | 横轴的等长度元素数量 | 必填    |
+
+* SliverWaterfallFlowDelegateWithMaxCrossAxisExtent
+
+| 参数          | 描述                                    | 默认  |
+| ------------------ | ---------------------------------------------- | -------- |
+| maxCrossAxisExtent | 横轴元素最大的大小. | required |
+
+* SliverWaterfallFlowDelegate
+
+| 参数 | 描述 | 默认 |
+| ---- | ---- | ---- |
+
 | mainAxisSpacing            | 主轴元素之间的距离                     | 0.0   |
 | crossAxisSpacing           | 横轴元素之间的距离                     | 0.0   |
 | collectGarbage             | 元素回收时候的回调                     | -     |
@@ -58,7 +72,7 @@ dependencies:
             WaterfallFlow.builder(
               //cacheExtent: 0.0,
               padding: EdgeInsets.all(5.0),
-              gridDelegate: SliverWaterfallFlowDelegate(
+              gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 5.0,
                   mainAxisSpacing: 5.0,
@@ -86,7 +100,7 @@ dependencies:
 
 ```dart
         WaterfallFlow.builder(
-            gridDelegate: SliverWaterfallFlowDelegate(
+            gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
                      collectGarbage: (List<int> garbages) {
                   ///collectGarbage
                   garbages.forEach((index) {
@@ -105,7 +119,7 @@ dependencies:
 
 ```dart
         WaterfallFlow.builder(
-            gridDelegate: SliverWaterfallFlowDelegate(
+            gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
                 viewportBuilder: (int firstIndex, int lastIndex) {
                 print("viewport : [$firstIndex,$lastIndex]");
                 }),
@@ -131,7 +145,7 @@ dependencies:
         }
 
       WaterfallFlow.builder(
-        gridDelegate: SliverWaterfallFlowDelegate(
+        gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
             lastChildLayoutTypeBuilder: (index) => index == length
                 ? LastChildLayoutType.foot
                 : LastChildLayoutType.none,
@@ -152,7 +166,7 @@ dependencies:
 |     item0     |
 -----------------
      leading
-```     
+```
 
 为了解决这个问题，你可以设置 closeToTrailing 为true, 布局将变成如下
 该属性同时支持[ExtendedGridView],[ExtendedList],[WaterfallFlow]。
@@ -168,10 +182,10 @@ dependencies:
 |               |
 -----------------
      leading
-```     
+```
 
 ```dart
       WaterfallFlow.builder(
         reverse: true,
-        gridDelegate: SliverWaterfallFlowDelegate(closeToTrailing: true),
+        gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(closeToTrailing: true),
 ```

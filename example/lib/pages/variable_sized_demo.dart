@@ -43,7 +43,7 @@ class _VariableSizedDemoState extends State<VariableSizedDemo> {
               data.maxWidth ~/ (ScreenUtil.instance.screenWidthDp / 2.0), 2);
           return LoadingMoreList<TuChongItem>(
             ListConfig<TuChongItem>(
-              waterfallFlowDelegate: WaterfallFlowDelegate(
+              extendedListDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
                 crossAxisSpacing: 5,
                 mainAxisSpacing: 5,

@@ -62,7 +62,7 @@ class _KnownSizedDemoState extends State<KnownSizedDemo> {
                 // ),
                 LoadingMoreSliverList<TuChongItem>(
                   SliverListConfig<TuChongItem>(
-                    waterfallFlowDelegate: WaterfallFlowDelegate(
+                    extendedListDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
                       crossAxisCount: crossAxisCount,
                       crossAxisSpacing: 5,
                       mainAxisSpacing: 5,

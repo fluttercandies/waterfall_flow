@@ -1,5 +1,6 @@
+import 'package:extended_list_library/extended_list_library.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart' hide ViewportBuilder;
 import 'package:waterfall_flow/src/rendering/sliver_waterfall_flow.dart';
 import 'sliver.dart';
 
@@ -231,6 +232,7 @@ class WaterfallFlow extends BoxScrollView {
     double cacheExtent,
     List<Widget> children = const <Widget>[],
     int semanticChildCount,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
   })  : assert(gridDelegate != null),
         childrenDelegate = SliverChildListDelegate(
           children,
@@ -249,6 +251,7 @@ class WaterfallFlow extends BoxScrollView {
           padding: padding,
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount ?? children.length,
+          dragStartBehavior: dragStartBehavior,
         );
 
   /// Creates a scrollable, 2D array of widgets whose size is variable in the main axis
@@ -288,6 +291,7 @@ class WaterfallFlow extends BoxScrollView {
     bool addSemanticIndexes = true,
     double cacheExtent,
     int semanticChildCount,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
   })  : assert(gridDelegate != null),
         childrenDelegate = SliverChildBuilderDelegate(
           itemBuilder,
@@ -307,6 +311,7 @@ class WaterfallFlow extends BoxScrollView {
           padding: padding,
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount ?? itemCount,
+          dragStartBehavior: dragStartBehavior,
         );
 
   /// Creates a scrollable, 2D array of widgets whose size is variable in the main axis
@@ -379,10 +384,18 @@ class WaterfallFlow extends BoxScrollView {
     List<Widget> children = const <Widget>[],
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-  })  : gridDelegate = SliverWaterfallFlowDelegate(
+    LastChildLayoutTypeBuilder lastChildLayoutTypeBuilder,
+    CollectGarbage collectGarbage,
+    ViewportBuilder viewportBuilder,
+    bool closeToTrailing = false,
+  })  : gridDelegate = SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
           mainAxisSpacing: mainAxisSpacing,
           crossAxisSpacing: crossAxisSpacing,
+         lastChildLayoutTypeBuilder: lastChildLayoutTypeBuilder,
+         collectGarbage: collectGarbage,
+         viewportBuilder: viewportBuilder,
+         closeToTrailing: closeToTrailing,
         ),
         childrenDelegate = SliverChildListDelegate(
           children,
@@ -403,6 +416,70 @@ class WaterfallFlow extends BoxScrollView {
           semanticChildCount: semanticChildCount ?? children.length,
           dragStartBehavior: dragStartBehavior,
         );
+
+  /// Creates a scrollable, 2D array of widgets in masonry layout with tiles
+  /// that each have a maximum cross-axis extent.
+  ///
+  /// Uses a [SliverMasonryGridDelegateWithMaxCrossAxisExtent] as the [gridDelegate].
+  ///
+  /// The `addAutomaticKeepAlives` argument corresponds to the
+  /// [SliverChildListDelegate.addAutomaticKeepAlives] property. The
+  /// `addRepaintBoundaries` argument corresponds to the
+  /// [SliverChildListDelegate.addRepaintBoundaries] property. Both must not be
+  /// null.
+  ///
+  /// See also:
+  ///
+  ///  * [SliverGrid.extent], the equivalent constructor for [SliverGrid].
+  WaterfallFlow.extent({
+    Key key,
+    Axis scrollDirection = Axis.vertical,
+    bool reverse = false,
+    ScrollController controller,
+    bool primary,
+    ScrollPhysics physics,
+    bool shrinkWrap = false,
+    EdgeInsetsGeometry padding,
+    @required double maxCrossAxisExtent,
+    double mainAxisSpacing = 0.0,
+    double crossAxisSpacing = 0.0,
+    bool addAutomaticKeepAlives = true,
+    bool addRepaintBoundaries = true,
+    bool addSemanticIndexes = true,
+    List<Widget> children = const <Widget>[],
+    int semanticChildCount,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
+    LastChildLayoutTypeBuilder lastChildLayoutTypeBuilder,
+    CollectGarbage collectGarbage,
+    ViewportBuilder viewportBuilder,
+    bool closeToTrailing = false,
+  }) : gridDelegate = SliverWaterfallFlowDelegateWithMaxCrossAxisExtent(
+         maxCrossAxisExtent: maxCrossAxisExtent,
+         mainAxisSpacing: mainAxisSpacing,
+         crossAxisSpacing: crossAxisSpacing,
+         lastChildLayoutTypeBuilder: lastChildLayoutTypeBuilder,
+         collectGarbage: collectGarbage,
+         viewportBuilder: viewportBuilder,
+         closeToTrailing: closeToTrailing,
+       ),
+       childrenDelegate = SliverChildListDelegate(
+         children,
+         addAutomaticKeepAlives: addAutomaticKeepAlives,
+         addRepaintBoundaries: addRepaintBoundaries,
+         addSemanticIndexes: addSemanticIndexes,
+       ),
+       super(
+         key: key,
+         scrollDirection: scrollDirection,
+         reverse: reverse,
+         controller: controller,
+         primary: primary,
+         physics: physics,
+         shrinkWrap: shrinkWrap,
+         padding: padding,
+         semanticChildCount: semanticChildCount ?? children.length,
+         dragStartBehavior: dragStartBehavior,
+       );
 
   /// A delegate that controls the masonry layout of the children within the [WaterfallFlow].
   ///
