@@ -36,7 +36,7 @@ class _RandomSizedDemoState extends State<RandomSizedDemo> {
           //cacheExtent: 0.0,
           //reverse: true,
           padding: const EdgeInsets.all(5.0),
-          gridDelegate: SliverWaterfallFlowDelegate(
+          gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
             crossAxisCount: crossAxisCount,
             crossAxisSpacing: crossAxisSpacing,
             mainAxisSpacing: mainAxisSpacing,
@@ -46,7 +46,6 @@ class _RandomSizedDemoState extends State<RandomSizedDemo> {
             // viewportBuilder: (int firstIndex, int lastIndex) {
             //   print('viewport : [$firstIndex,$lastIndex]');
             // },
-            //closeToTrailing: true,
           ),
           itemBuilder: (BuildContext c, int index) {
             final Color color = getRandomColor(index);

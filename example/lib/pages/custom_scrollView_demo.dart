@@ -6,7 +6,6 @@ import 'package:ff_annotation_route/ff_annotation_route.dart';
 import 'package:flutter/material.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
-
 @FFRoute(
   name: 'fluttercandies://custom_scrollview',
   routeName: 'custom_scrollview',
@@ -47,7 +46,7 @@ class _CustomScrollviewDemoState extends State<CustomScrollviewDemo> {
             ),
           ),
           SliverWaterfallFlow(
-            gridDelegate: SliverWaterfallFlowDelegate(
+            gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
               crossAxisCount: crossAxisCount,
               crossAxisSpacing: crossAxisSpacing,
               mainAxisSpacing: mainAxisSpacing,

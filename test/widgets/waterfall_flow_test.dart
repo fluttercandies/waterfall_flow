@@ -1,3 +1,4 @@
+// @dart = 2.8
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
@@ -6,182 +7,238 @@ void main() {
   group('WaterfallFlow', () {
     testWidgets('the size of each child', (WidgetTester tester) async {
       await tester.pumpWidget(materialAppBoilerplate(
-          child: waterfallFlowBoilerplate(crossAxisCount: 2),
-          textDirection: TextDirection.ltr));
+        child: WaterfallFlowBoilerplate(crossAxisCount: 2),
+        textDirection: TextDirection.ltr,
+      ));
 
       expect(
-          tester.getSize(find.widgetWithText(
-              Container, "0.He'd have you all unravel at the")),
-          const Size(400.0, 50.0));
+        tester.getSize(find.widgetWithText(Container, "0.He'd have you all unravel at the")),
+        const Size(400.0, 50.0),
+      );
+
+      expect(tester.getSize(find.widgetWithText(Container, '1.Heed not the rabble')),
+        const Size(400.0, 70.0),
+      );
 
       expect(
-          tester
-              .getSize(find.widgetWithText(Container, '1.Heed not the rabble')),
-          const Size(400.0, 70.0));
+        tester.getSize(find.widgetWithText(Container, '2.Sound of screams but the')),
+        const Size(400.0, 90.0),
+      );
 
       expect(
-          tester.getSize(
-              find.widgetWithText(Container, '2.Sound of screams but the')),
-          const Size(400.0, 90.0));
-
-      expect(tester.getSize(find.widgetWithText(Container, '3.Who scream')),
-          const Size(400.0, 60.0));
+        tester.getSize(find.widgetWithText(Container, '3.Who scream')),
+        const Size(400.0, 60.0),
+      );
 
       expect(
-          tester.getSize(
-              find.widgetWithText(Container, '4.Revolution is coming...')),
-          const Size(400.0, 80.0));
+        tester.getSize(find.widgetWithText(Container, '4.Revolution is coming...')),
+        const Size(400.0, 80.0),
+      );
 
       expect(
-          tester
-              .getSize(find.widgetWithText(Container, '5.Revolution, they...')),
-          const Size(400.0, 100.0));
+        tester.getSize(find.widgetWithText(Container, '5.Revolution, they...')),
+        const Size(400.0, 100.0),
+      );
     });
 
     testWidgets('the position of each child at TextDirection.ltr',
-        (WidgetTester tester) async {
+      (WidgetTester tester) async {
       await tester.pumpWidget(materialAppBoilerplate(
-          child: waterfallFlowBoilerplate(crossAxisCount: 2),
-          textDirection: TextDirection.ltr));
+        child: WaterfallFlowBoilerplate(crossAxisCount: 2),
+        textDirection: TextDirection.ltr,
+      ));
 
       expect(
-          tester.getTopLeft(find.widgetWithText(
-              Container, "0.He'd have you all unravel at the")),
-          const Offset(0.0, 0.0));
+        tester.getTopLeft(find.widgetWithText(Container, "0.He'd have you all unravel at the")),
+        const Offset(0.0, 0.0),
+      );
 
       expect(
-          tester.getTopLeft(
-              find.widgetWithText(Container, '1.Heed not the rabble')),
-          const Offset(400.0, 0.0));
+        tester.getTopLeft(find.widgetWithText(Container, '1.Heed not the rabble')),
+        const Offset(400.0, 0.0),
+      );
 
       expect(
-          tester.getTopLeft(
-              find.widgetWithText(Container, '2.Sound of screams but the')),
-          const Offset(0.0, 50.0));
-
-      expect(tester.getTopLeft(find.widgetWithText(Container, '3.Who scream')),
-          const Offset(400.0, 70.0));
+        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        const Offset(0.0, 50.0),
+      );
 
       expect(
-          tester.getTopLeft(
-              find.widgetWithText(Container, '4.Revolution is coming...')),
-          const Offset(400.0, 130.0));
+        tester.getTopLeft(find.widgetWithText(Container, '3.Who scream')),
+        const Offset(400.0, 70.0),
+      );
 
       expect(
-          tester.getTopLeft(
-              find.widgetWithText(Container, '5.Revolution, they...')),
-          const Offset(0.0, 140.0));
+        tester.getTopLeft(find.widgetWithText(Container, '4.Revolution is coming...')),
+        const Offset(400.0, 130.0),
+      );
+
+      expect(
+        tester.getTopLeft(find.widgetWithText(Container, '5.Revolution, they...')),
+        const Offset(0.0, 140.0),
+      );
     });
 
     testWidgets('the position of each child at TextDirection.rtl',
-        (WidgetTester tester) async {
+      (WidgetTester tester) async {
       await tester.pumpWidget(materialAppBoilerplate(
-          child: waterfallFlowBoilerplate(crossAxisCount: 2),
-          textDirection: TextDirection.rtl));
+        child: WaterfallFlowBoilerplate(crossAxisCount: 2),
+        textDirection: TextDirection.rtl),
+      );
 
       expect(
-          tester.getTopLeft(find.widgetWithText(
-              Container, "0.He'd have you all unravel at the")),
-          const Offset(400.0, 0.0));
+        tester.getTopLeft(find.widgetWithText(Container, "0.He'd have you all unravel at the")),
+        const Offset(400.0, 0.0),
+      );
 
       expect(
-          tester.getTopLeft(
-              find.widgetWithText(Container, '1.Heed not the rabble')),
-          const Offset(0.0, 0.0));
+        tester.getTopLeft(find.widgetWithText(Container, '1.Heed not the rabble')),
+        const Offset(0.0, 0.0),
+      );
 
       expect(
-          tester.getTopLeft(
-              find.widgetWithText(Container, '2.Sound of screams but the')),
-          const Offset(400.0, 50.0));
-
-      expect(tester.getTopLeft(find.widgetWithText(Container, '3.Who scream')),
-          const Offset(0.0, 70.0));
+        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        const Offset(400.0, 50.0),
+      );
 
       expect(
-          tester.getTopLeft(
-              find.widgetWithText(Container, '4.Revolution is coming...')),
-          const Offset(0.0, 130.0));
+        tester.getTopLeft(find.widgetWithText(Container, '3.Who scream')),
+        const Offset(0.0, 70.0),
+      );
 
       expect(
-          tester.getTopLeft(
-              find.widgetWithText(Container, '5.Revolution, they...')),
-          const Offset(400.0, 140.0));
+        tester.getTopLeft(find.widgetWithText(Container, '4.Revolution is coming...')),
+        const Offset(0.0, 130.0),
+      );
+
+      expect(
+        tester.getTopLeft(find.widgetWithText(Container, '5.Revolution, they...')),
+        const Offset(400.0, 140.0),
+      );
     });
 
-    testWidgets('crossAxisCount test', (WidgetTester tester) async {
+    testWidgets('crossAxisCount change test', (WidgetTester tester) async {
       await tester.pumpWidget(materialAppBoilerplate(
-          child: waterfallFlowBoilerplate(crossAxisCount: 2),
-          textDirection: TextDirection.ltr));
+        child: WaterfallFlowBoilerplate(crossAxisCount: 2),
+        textDirection: TextDirection.ltr),
+      );
 
       expect(
-          tester.getTopLeft(
-              find.widgetWithText(Container, '2.Sound of screams but the')),
-          const Offset(0.0, 50.0));
+        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        const Offset(0.0, 50.0),
+      );
 
       await tester.pumpWidget(materialAppBoilerplate(
-          child: waterfallFlowBoilerplate(crossAxisCount: 4),
-          textDirection: TextDirection.ltr));
+        child: WaterfallFlowBoilerplate(crossAxisCount: 4),
+        textDirection: TextDirection.ltr),
+      );
 
       expect(
-          tester.getTopLeft(
-              find.widgetWithText(Container, '2.Sound of screams but the')),
-          const Offset(400.0, 0.0));
+        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        const Offset(400.0, 0.0),
+      );
     });
 
     testWidgets('crossAxisSpacing test', (WidgetTester tester) async {
       await tester.pumpWidget(materialAppBoilerplate(
-          child: waterfallFlowBoilerplate(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10.0,
-          ),
-          textDirection: TextDirection.ltr));
+        child: WaterfallFlowBoilerplate(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10.0,
+        ),
+        textDirection: TextDirection.ltr),
+      );
 
       expect(
-          tester.getTopLeft(
-              find.widgetWithText(Container, '2.Sound of screams but the')),
-          const Offset(0.0, 50.0));
+        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        const Offset(0.0, 50.0),
+      );
 
-      expect(tester.getTopLeft(find.widgetWithText(Container, '3.Who scream')),
-          const Offset(405.0, 70.0));
+      expect(
+        tester.getTopLeft(find.widgetWithText(Container, '3.Who scream')),
+        const Offset(405.0, 70.0),
+      );
     });
 
     testWidgets('mainAxisSpacing test', (WidgetTester tester) async {
       await tester.pumpWidget(materialAppBoilerplate(
-          child: waterfallFlowBoilerplate(
-            crossAxisCount: 2,
-            mainAxisSpacing: 10.0,
-          ),
-          textDirection: TextDirection.ltr));
+        child: WaterfallFlowBoilerplate(
+          crossAxisCount: 2,
+          mainAxisSpacing: 10.0,
+        ),
+        textDirection: TextDirection.ltr),
+      );
 
       expect(
-          tester.getTopLeft(
-              find.widgetWithText(Container, '2.Sound of screams but the')),
-          const Offset(0.0, 60.0));
+        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        const Offset(0.0, 60.0),
+      );
 
-      expect(tester.getTopLeft(find.widgetWithText(Container, '3.Who scream')),
-          const Offset(400.0, 80.0));
+      expect(
+        tester.getTopLeft(find.widgetWithText(Container, '3.Who scream')),
+        const Offset(400.0, 80.0),
+      );
+    });
+
+    testWidgets('crossAxisSpacing test', (WidgetTester tester) async {
+      await tester.pumpWidget(materialAppBoilerplate(
+        child: WaterfallFlowBoilerplate(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10.0,
+        ),
+        textDirection: TextDirection.ltr),
+      );
+
+      expect(
+        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        const Offset(0.0, 50.0),
+      );
+
+      expect(
+        tester.getTopLeft(find.widgetWithText(Container, '3.Who scream')),
+        const Offset(405.0, 70.0),
+      );
+    });
+
+    testWidgets('maxCrossAxisExtent change test', (WidgetTester tester) async {
+      await tester.pumpWidget(materialAppBoilerplate(
+        child: WaterfallFlowBoilerplate(maxCrossAxisExtent: 400),
+        textDirection: TextDirection.ltr),
+      );
+
+      expect(
+        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        const Offset(0.0, 50.0),
+      );
+
+      await tester.pumpWidget(materialAppBoilerplate(
+        child: WaterfallFlowBoilerplate(maxCrossAxisExtent: 200),
+        textDirection: TextDirection.ltr),
+      );
+
+      expect(
+        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        const Offset(400.0, 0.0),
+      );
     });
 
     testWidgets('Vertical are primary by default', (WidgetTester tester) async {
       final WaterfallFlow view = WaterfallFlow(
         scrollDirection: Axis.vertical,
-        gridDelegate: const SliverWaterfallFlowDelegate(crossAxisCount: 3),
+        gridDelegate: const SliverWaterfallFlowDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
       );
       expect(view.primary, isTrue);
     });
 
-    testWidgets('with controllers are non-primary by default',
-        (WidgetTester tester) async {
+    testWidgets('with controllers are non-primary by default', (WidgetTester tester) async {
       final WaterfallFlow view = WaterfallFlow(
         controller: ScrollController(),
         scrollDirection: Axis.vertical,
-        gridDelegate: const SliverWaterfallFlowDelegate(crossAxisCount: 3),
+        gridDelegate: const SliverWaterfallFlowDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
       );
       expect(view.primary, isFalse);
     });
 
-    testWidgets('sets PrimaryScrollController when primary',
-        (WidgetTester tester) async {
+    testWidgets('sets PrimaryScrollController when primary', (WidgetTester tester) async {
       final ScrollController primaryScrollController = ScrollController();
       await tester.pumpWidget(
         Directionality(
@@ -190,8 +247,7 @@ void main() {
             controller: primaryScrollController,
             child: WaterfallFlow(
               primary: true,
-              gridDelegate:
-                  const SliverWaterfallFlowDelegate(crossAxisCount: 3),
+              gridDelegate: const SliverWaterfallFlowDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
             ),
           ),
         ),
@@ -199,194 +255,264 @@ void main() {
       final Scrollable scrollable = tester.widget(find.byType(Scrollable));
       expect(scrollable.controller, primaryScrollController);
     });
-  });
 
-  testWidgets('dismiss keyboard onDrag test', (WidgetTester tester) async {
-    final List<FocusNode> focusNodes =
-        List<FocusNode>.generate(50, (int i) => FocusNode());
-
-    await tester.pumpWidget(textFieldBoilerplate(
+    testWidgets('dismiss keyboard onDrag test', (WidgetTester tester) async {
+      final List<FocusNode> focusNodes = List<FocusNode>.generate(50, (int i) => FocusNode());
+      await tester.pumpWidget(textFieldBoilerplate(
         child: WaterfallFlow(
-      padding: const EdgeInsets.all(0),
-      gridDelegate: const SliverWaterfallFlowDelegate(
-        crossAxisCount: 2,
-      ),
-      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-      children: focusNodes.map((FocusNode focusNode) {
-        return Container(
-          height: 50,
-          color: Colors.green,
-          child: TextField(
-              focusNode: focusNode,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              )),
-        );
-      }).toList(),
-    )));
+          padding: const EdgeInsets.all(0),
+          gridDelegate: const SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+          ),
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          children: focusNodes.map((FocusNode focusNode) {
+            return Container(
+              height: 50,
+              color: Colors.green,
+              child: TextField(
+                focusNode: focusNode,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                )),
+            );
+          }).toList(),
+       ),
+      ));
 
-    final Finder finder = find.byType(TextField).first;
-    final TextField textField = tester.widget(finder);
-    await tester.showKeyboard(finder);
-    expect(textField.focusNode.hasFocus, isTrue);
+      final Finder finder = find.byType(TextField).first;
+      final TextField textField = tester.widget(finder);
+      await tester.showKeyboard(finder);
+      expect(textField.focusNode.hasFocus, isTrue);
 
-    await tester.drag(finder, const Offset(0.0, -40.0));
-    await tester.pumpAndSettle();
-    expect(textField.focusNode.hasFocus, isFalse);
-  });
+      await tester.drag(finder, const Offset(0.0, -40.0));
+      await tester.pumpAndSettle();
+      expect(textField.focusNode.hasFocus, isFalse);
+    });
 
-  testWidgets('count dismiss keyboard onDrag test',
-      (WidgetTester tester) async {
-    final List<FocusNode> focusNodes =
-        List<FocusNode>.generate(50, (int i) => FocusNode());
-
-    await tester.pumpWidget(textFieldBoilerplate(
+    testWidgets('count dismiss keyboard onDrag test',(WidgetTester tester) async {
+      final List<FocusNode> focusNodes = List<FocusNode>.generate(50, (int i) => FocusNode());
+      await tester.pumpWidget(textFieldBoilerplate(
         child: WaterfallFlow.count(
-      padding: const EdgeInsets.all(0),
-      crossAxisCount: 2,
-      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-      children: focusNodes.map((FocusNode focusNode) {
-        return Container(
-          height: 50,
-          color: Colors.green,
-          child: TextField(
-              focusNode: focusNode,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              )),
-        );
-      }).toList(),
-    )));
+          padding: const EdgeInsets.all(0),
+          crossAxisCount: 2,
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          children: focusNodes.map((FocusNode focusNode) {
+            return Container(
+              height: 50,
+              color: Colors.green,
+              child: TextField(
+                focusNode: focusNode,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                )),
+            );
+          }).toList(),
+        ),
+      ));
 
-    final Finder finder = find.byType(TextField).first;
-    final TextField textField = tester.widget(finder);
-    await tester.showKeyboard(finder);
-    expect(textField.focusNode.hasFocus, isTrue);
+      final Finder finder = find.byType(TextField).first;
+      final TextField textField = tester.widget(finder);
+      await tester.showKeyboard(finder);
+      expect(textField.focusNode.hasFocus, isTrue);
 
-    await tester.drag(finder, const Offset(0.0, -40.0));
-    await tester.pumpAndSettle();
-    expect(textField.focusNode.hasFocus, isFalse);
-  });
+      await tester.drag(finder, const Offset(0.0, -40.0));
+      await tester.pumpAndSettle();
+      expect(textField.focusNode.hasFocus, isFalse);
+    });
 
-  testWidgets('dismiss keyboard manual test', (WidgetTester tester) async {
-    final List<FocusNode> focusNodes =
-        List<FocusNode>.generate(50, (int i) => FocusNode());
+    testWidgets('extent dismiss keyboard onDrag test',(WidgetTester tester) async {
+      final List<FocusNode> focusNodes = List<FocusNode>.generate(50, (int i) => FocusNode());
+      await tester.pumpWidget(textFieldBoilerplate(
+        child: WaterfallFlow.extent(
+          padding: const EdgeInsets.all(0),
+          maxCrossAxisExtent: 300,
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          children: focusNodes.map((FocusNode focusNode) {
+            return Container(
+              height: 50,
+              color: Colors.green,
+              child: TextField(
+                focusNode: focusNode,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                )),
+            );
+          }).toList(),
+        ),
+      ));
 
-    await tester.pumpWidget(textFieldBoilerplate(
+      final Finder finder = find.byType(TextField).first;
+      final TextField textField = tester.widget(finder);
+      await tester.showKeyboard(finder);
+      expect(textField.focusNode.hasFocus, isTrue);
+
+      await tester.drag(finder, const Offset(0.0, -40.0));
+      await tester.pumpAndSettle();
+      expect(textField.focusNode.hasFocus, isFalse);
+    });
+
+    testWidgets('dismiss keyboard manual test', (WidgetTester tester) async {
+      final List<FocusNode> focusNodes = List<FocusNode>.generate(50, (int i) => FocusNode());
+      await tester.pumpWidget(textFieldBoilerplate(
         child: WaterfallFlow(
-      padding: const EdgeInsets.all(0),
-      gridDelegate: const SliverWaterfallFlowDelegate(
-        crossAxisCount: 2,
-      ),
-      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
-      children: focusNodes.map((FocusNode focusNode) {
-        return Container(
-          height: 50,
-          color: Colors.green,
-          child: TextField(
-              focusNode: focusNode,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              )),
-        );
-      }).toList(),
-    )));
+          padding: const EdgeInsets.all(0),
+          gridDelegate: const SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+          ),
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
+          children: focusNodes.map((FocusNode focusNode) {
+            return Container(
+              height: 50,
+              color: Colors.green,
+              child: TextField(
+                focusNode: focusNode,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                )),
+            );
+          }).toList(),
+        ),
+      ));
 
-    final Finder finder = find.byType(TextField).first;
-    final TextField textField = tester.widget(finder);
-    await tester.showKeyboard(finder);
-    expect(textField.focusNode.hasFocus, isTrue);
+      final Finder finder = find.byType(TextField).first;
+      final TextField textField = tester.widget(finder);
+      await tester.showKeyboard(finder);
+      expect(textField.focusNode.hasFocus, isTrue);
 
-    await tester.drag(finder, const Offset(0.0, -40.0));
-    await tester.pumpAndSettle();
-    expect(textField.focusNode.hasFocus, isTrue);
-  });
+      await tester.drag(finder, const Offset(0.0, -40.0));
+      await tester.pumpAndSettle();
+      expect(textField.focusNode.hasFocus, isTrue);
+    });
 
-  testWidgets('count dismiss keyboard manual test',
-      (WidgetTester tester) async {
-    final List<FocusNode> focusNodes =
-        List<FocusNode>.generate(50, (int i) => FocusNode());
-
-    await tester.pumpWidget(textFieldBoilerplate(
+    testWidgets('count dismiss keyboard manual test', (WidgetTester tester) async {
+      final List<FocusNode> focusNodes = List<FocusNode>.generate(50, (int i) => FocusNode());
+      await tester.pumpWidget(textFieldBoilerplate(
         child: WaterfallFlow.count(
-      padding: const EdgeInsets.all(0),
-      crossAxisCount: 2,
-      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
-      children: focusNodes.map((FocusNode focusNode) {
-        return Container(
-          height: 50,
-          color: Colors.green,
-          child: TextField(
-              focusNode: focusNode,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              )),
-        );
-      }).toList(),
-    )));
+          padding: const EdgeInsets.all(0),
+          crossAxisCount: 2,
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
+          children: focusNodes.map((FocusNode focusNode) {
+            return Container(
+              height: 50,
+              color: Colors.green,
+              child: TextField(
+                focusNode: focusNode,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                )),
+            );
+          }).toList(),
+        ),
+      ));
 
-    final Finder finder = find.byType(TextField).first;
-    final TextField textField = tester.widget(finder);
-    await tester.showKeyboard(finder);
-    expect(textField.focusNode.hasFocus, isTrue);
+      final Finder finder = find.byType(TextField).first;
+      final TextField textField = tester.widget(finder);
+      await tester.showKeyboard(finder);
+      expect(textField.focusNode.hasFocus, isTrue);
 
-    await tester.drag(finder, const Offset(0.0, -40.0));
-    await tester.pumpAndSettle();
-    expect(textField.focusNode.hasFocus, isTrue);
-  });  
+      await tester.drag(finder, const Offset(0.0, -40.0));
+      await tester.pumpAndSettle();
+      expect(textField.focusNode.hasFocus, isTrue);
+    });
+
+    testWidgets('extend dismiss keyboard manual test', (WidgetTester tester) async {
+      final List<FocusNode> focusNodes = List<FocusNode>.generate(50, (int i) => FocusNode());
+      await tester.pumpWidget(textFieldBoilerplate(
+        child: WaterfallFlow.extent(
+          padding: const EdgeInsets.all(0),
+          maxCrossAxisExtent: 300,
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
+          children: focusNodes.map((FocusNode focusNode) {
+            return Container(
+              height: 50,
+              color: Colors.green,
+              child: TextField(
+                focusNode: focusNode,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                )),
+            );
+          }).toList(),
+        ),
+      ));
+
+      final Finder finder = find.byType(TextField).first;
+      final TextField textField = tester.widget(finder);
+      await tester.showKeyboard(finder);
+      expect(textField.focusNode.hasFocus, isTrue);
+
+      await tester.drag(finder, const Offset(0.0, -40.0));
+      await tester.pumpAndSettle();
+      expect(textField.focusNode.hasFocus, isTrue);
+    });
+  });
 }
 
-Widget waterfallFlowBoilerplate({
+Widget WaterfallFlowBoilerplate({
   int crossAxisCount = 2,
   double crossAxisSpacing = 0.0,
   double mainAxisSpacing = 0.0,
+  double maxCrossAxisExtent,
 }) {
+  final List<Widget> children = <Widget> [
+    Container(
+      padding: const EdgeInsets.all(8),
+      child: const Text("0.He'd have you all unravel at the"),
+      color: Colors.teal[100],
+      height: 50.0,
+    ),
+    Container(
+      padding: const EdgeInsets.all(8),
+      child: const Text('1.Heed not the rabble'),
+      color: Colors.teal[200],
+      height: 70.0,
+    ),
+    Container(
+      padding: const EdgeInsets.all(8),
+      child: const Text('2.Sound of screams but the'),
+      color: Colors.teal[300],
+      height: 90.0,
+    ),
+    Container(
+      padding: const EdgeInsets.all(8),
+      child: const Text('3.Who scream'),
+      color: Colors.teal[400],
+      height: 60.0,
+    ),
+    Container(
+      padding: const EdgeInsets.all(8),
+      child: const Text('4.Revolution is coming...'),
+      color: Colors.teal[500],
+      height: 80.0,
+    ),
+    Container(
+      padding: const EdgeInsets.all(8),
+      child: const Text('5.Revolution, they...'),
+      color: Colors.teal[600],
+      height: 100.0,
+    ),
+  ];
+
+  if(maxCrossAxisExtent != null) {
+    return WaterfallFlow.extent(
+      maxCrossAxisExtent: maxCrossAxisExtent,
+      crossAxisSpacing: crossAxisSpacing,
+      mainAxisSpacing: mainAxisSpacing,
+      children: children,
+    );
+  }
+
   return WaterfallFlow.count(
     crossAxisCount: crossAxisCount,
     crossAxisSpacing: crossAxisSpacing,
     mainAxisSpacing: mainAxisSpacing,
-    children: <Widget>[
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: const Text("0.He'd have you all unravel at the"),
-        color: Colors.teal[100],
-        height: 50.0,
-      ),
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: const Text('1.Heed not the rabble'),
-        color: Colors.teal[200],
-        height: 70.0,
-      ),
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: const Text('2.Sound of screams but the'),
-        color: Colors.teal[300],
-        height: 90.0,
-      ),
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: const Text('3.Who scream'),
-        color: Colors.teal[400],
-        height: 60.0,
-      ),
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: const Text('4.Revolution is coming...'),
-        color: Colors.teal[500],
-        height: 80.0,
-      ),
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: const Text('5.Revolution, they...'),
-        color: Colors.teal[600],
-        height: 100.0,
-      ),
-    ],
+    children: children,
   );
 }
 

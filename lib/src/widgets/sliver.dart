@@ -1,3 +1,4 @@
+import 'package:extended_list_library/extended_list_library.dart';
 ///
 ///  create by zmtzawqlp on 2019/11/9
 ///
@@ -76,13 +77,50 @@ class SliverWaterfallFlow extends SliverMultiBoxAdaptorWidget {
     double mainAxisSpacing = 0.0,
     double crossAxisSpacing = 0.0,
     List<Widget> children = const <Widget>[],
-  })  : gridDelegate = SliverWaterfallFlowDelegate(
+    LastChildLayoutTypeBuilder lastChildLayoutTypeBuilder,
+    CollectGarbage collectGarbage,
+    ViewportBuilder viewportBuilder,
+    bool closeToTrailing = false,
+  })  : gridDelegate = SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
           mainAxisSpacing: mainAxisSpacing,
           crossAxisSpacing: crossAxisSpacing,
+          lastChildLayoutTypeBuilder: lastChildLayoutTypeBuilder,
+          collectGarbage: collectGarbage,
+          viewportBuilder: viewportBuilder,
+          closeToTrailing: closeToTrailing,
         ),
         super(key: key, delegate: SliverChildListDelegate(children));
 
+  /// Creates a sliver that places multiple box children in masonry layout
+  /// with tiles that each have a maximum cross-axis extent.
+  ///
+  /// Uses a [SliverMasonryGridDelegateWithMaxCrossAxisExtent] as the [gridDelegate],
+  /// and a [SliverChildListDelegate] as the [delegate].
+  ///
+  /// See also:
+  ///
+  ///  * [new MasonryGridView.extent], the equivalent constructor for [MasonryGridView] widgets.
+  SliverWaterfallFlow.extent({
+    Key key,
+    @required double maxCrossAxisExtent,
+    double mainAxisSpacing = 0.0,
+    double crossAxisSpacing = 0.0,
+    List<Widget> children = const <Widget>[],
+    LastChildLayoutTypeBuilder lastChildLayoutTypeBuilder,
+    CollectGarbage collectGarbage,
+    ViewportBuilder viewportBuilder,
+    bool closeToTrailing = false,
+  }) : gridDelegate = SliverWaterfallFlowDelegateWithMaxCrossAxisExtent(
+         maxCrossAxisExtent: maxCrossAxisExtent,
+         mainAxisSpacing: mainAxisSpacing,
+         crossAxisSpacing: crossAxisSpacing,
+         lastChildLayoutTypeBuilder: lastChildLayoutTypeBuilder,
+         collectGarbage: collectGarbage,
+         viewportBuilder: viewportBuilder,
+         closeToTrailing: closeToTrailing,
+       ),
+       super(key: key, delegate: SliverChildListDelegate(children));
 
   /// The delegate that controls the size and position of the children.
   final SliverWaterfallFlowDelegate gridDelegate;
