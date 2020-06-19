@@ -371,6 +371,7 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
       if (!addInitialChild()) {
         // There are no children.
         geometry = SliverGeometry.zero;
+        _previousCrossAxisChildrenData = null;
         childManager.didFinishLayout();
         return;
       }
@@ -378,6 +379,13 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
 
     // zmt
     handleCloseToTrailingBegin(_gridDelegate?.closeToTrailing ?? false);
+    final SliverWaterfallFlowParentData firstChildParentData =
+      firstChild.parentData as SliverWaterfallFlowParentData;
+    // In case,the itemCount is changed, clear all,
+    // avoid calculate with dirty leading children.
+    if (firstChildParentData.index == 0) {
+      crossAxisChildrenData.clear();
+    }
 
     // We have at least one child.
 
@@ -454,6 +462,7 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
             geometry = SliverGeometry(
               scrollOffsetCorrection: -scrollOffset,
             );
+            _previousCrossAxisChildrenData = null;
             return;
           }
         }
@@ -486,6 +495,7 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
           geometry = SliverGeometry(
             scrollOffsetCorrection: correction - data.layoutOffset,
           );
+          _previousCrossAxisChildrenData = null;
           return;
         }
 

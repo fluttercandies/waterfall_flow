@@ -22,6 +22,8 @@ class _RandomSizedDemoState extends State<RandomSizedDemo> {
   double crossAxisSpacing = 5.0;
   double mainAxisSpacing = 5.0;
   TextDirection textDirection = TextDirection.ltr;
+  int length=100;
+  ScrollController controller = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +68,7 @@ class _RandomSizedDemoState extends State<RandomSizedDemo> {
             );
           },
           //itemCount: 19,
-          itemCount: null,
+          itemCount: length,
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -77,6 +79,7 @@ class _RandomSizedDemoState extends State<RandomSizedDemo> {
             // } else {
             //   textDirection = TextDirection.ltr;
             // }
+            //length=0;
             crossAxisCount++;
             //mainAxisSpacing += 5.0;
             //crossAxisSpacing+=5.0;

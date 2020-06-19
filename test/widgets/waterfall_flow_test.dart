@@ -1,4 +1,4 @@
-// @dart = 2.8
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
@@ -320,7 +320,42 @@ Widget waterfallFlowBoilerplate({
   );
 }
 
-Widget materialAppBoilerplate({Widget child,TextDirection textDirection}) {
+Widget masonryGridViewBuilderBoilerplate({
+  int crossAxisCount = 4,
+  double crossAxisSpacing = 0.0,
+  double mainAxisSpacing = 0.0,
+  double maxCrossAxisExtent,
+  int itemCount = 20,
+  ScrollController controller,
+}) {
+  final SliverWaterfallFlowDelegate delegate = maxCrossAxisExtent != null ?
+    SliverWaterfallFlowDelegateWithMaxCrossAxisExtent(
+      maxCrossAxisExtent: maxCrossAxisExtent,
+      mainAxisSpacing: mainAxisSpacing,
+      crossAxisSpacing: crossAxisSpacing) :
+    SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+      crossAxisCount: crossAxisCount,
+      mainAxisSpacing: mainAxisSpacing,
+      crossAxisSpacing: crossAxisSpacing);
+
+  return WaterfallFlow.builder(
+    gridDelegate: delegate,
+    itemBuilder: (BuildContext context, int index) {
+      return Container(
+        alignment: Alignment.center,
+        child: Text(
+          '$index',
+        ),
+        height: ((index % crossAxisCount) + 1) * 100.0,
+      );
+    },
+    itemCount: itemCount,
+    controller: controller,
+  );
+}
+
+Widget materialAppBoilerplate(
+    {Widget child, TextDirection textDirection = TextDirection.ltr}) {
   return MaterialApp(
     home: Directionality(
       textDirection: textDirection,
@@ -332,4 +367,121 @@ Widget materialAppBoilerplate({Widget child,TextDirection textDirection}) {
       ),
     ),
   );
+}
+
+Widget textFieldBoilerplate({Widget child}) {
+  return MaterialApp(
+    home: Localizations(
+      locale: const Locale('en', 'US'),
+      delegates: <LocalizationsDelegate<dynamic>>[
+        WidgetsLocalizationsDelegate(),
+        MaterialLocalizationsDelegate(),
+      ],
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: MediaQuery(
+          data: const MediaQueryData(size: Size(800.0, 600.0)),
+          child: Center(
+            child: Material(
+              child: child,
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+class MasonryTestPage extends StatefulWidget {
+  const MasonryTestPage({
+    this.crossAxisCount = 4,
+    this.mainAxisSpacing = 0.0,
+    this.crossAxisSpacing = 0.0,
+    this.textDirection = TextDirection.ltr,
+    this.maxCrossAxisExtent,
+    this.itemCount = 50,
+    this.controller,
+    this.setState,
+  });
+  final int crossAxisCount;
+  final double mainAxisSpacing;
+  final double crossAxisSpacing;
+  final TextDirection textDirection;
+  final double maxCrossAxisExtent;
+  final int itemCount;
+  final ScrollController controller;
+  final void Function(_MasonryTestPageState setState) setState;
+  @override
+  _MasonryTestPageState createState() => _MasonryTestPageState();
+}
+
+class _MasonryTestPageState extends State<MasonryTestPage> {
+  int _crossAxisCount;
+  double _crossAxisSpacing;
+  double _mainAxisSpacing;
+  TextDirection _textDirection;
+  double _maxCrossAxisExtent;
+  int _itemCount;
+  ScrollController _controller;
+  @override
+  void initState() {
+    _crossAxisCount = widget.crossAxisCount;
+    _mainAxisSpacing = widget.mainAxisSpacing;
+    _crossAxisSpacing =widget.crossAxisSpacing;
+    _textDirection = widget.textDirection;
+    _maxCrossAxisExtent = widget.maxCrossAxisExtent;
+    _itemCount = widget.itemCount;
+    _controller = widget.controller;
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Directionality(
+        textDirection: _textDirection,
+        child: masonryGridViewBuilderBoilerplate(
+          crossAxisCount: _crossAxisCount,
+          mainAxisSpacing: _mainAxisSpacing,
+          crossAxisSpacing: _crossAxisSpacing,
+          maxCrossAxisExtent: _maxCrossAxisExtent,
+          controller:  _controller,
+          itemCount: _itemCount,
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            widget.setState?.call(this);
+          });
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+class MaterialLocalizationsDelegate
+    extends LocalizationsDelegate<MaterialLocalizations> {
+  @override
+  bool isSupported(Locale locale) => true;
+
+  @override
+  Future<MaterialLocalizations> load(Locale locale) =>
+      DefaultMaterialLocalizations.load(locale);
+
+  @override
+  bool shouldReload(MaterialLocalizationsDelegate old) => false;
+}
+
+class WidgetsLocalizationsDelegate
+    extends LocalizationsDelegate<WidgetsLocalizations> {
+  @override
+  bool isSupported(Locale locale) => true;
+
+  @override
+  Future<WidgetsLocalizations> load(Locale locale) =>
+      DefaultWidgetsLocalizations.load(locale);
+
+  @override
+  bool shouldReload(WidgetsLocalizationsDelegate old) => false;
 }
