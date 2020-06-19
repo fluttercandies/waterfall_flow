@@ -323,9 +323,18 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
       if (!addInitialChild()) {
         // There are no children.
         geometry = SliverGeometry.zero;
+        _previousCrossAxisChildrenData = null;
         childManager.didFinishLayout();
         return;
       }
+    }
+
+    final SliverMasonryGridParentData firstChildParentData =
+      firstChild.parentData as SliverMasonryGridParentData;
+    // In case,the itemCount is changed, clear all,
+    // avoid calculate with dirty leading children.
+    if (firstChildParentData.index == 0) {
+      crossAxisChildrenData.clear();
     }
 
     // We have at least one child.
@@ -399,6 +408,7 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
             geometry = SliverGeometry(
               scrollOffsetCorrection: -scrollOffset,
             );
+            _previousCrossAxisChildrenData = null;
             return;
           }
         }
@@ -427,6 +437,7 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
           geometry = SliverGeometry(
             scrollOffsetCorrection: correction - data.layoutOffset,
           );
+          _previousCrossAxisChildrenData = null;
           return;
         }
 

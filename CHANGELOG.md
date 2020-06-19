@@ -1,3 +1,7 @@
+## [2.0.1]
+
+* fix wrong layout when itemCount is changed.(#6)
+
 ## [2.0.0]
 
 * pr branch
