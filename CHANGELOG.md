@@ -1,3 +1,7 @@
+## [2.0.2]
+
+* fix wrong layout when child's size is changed.
+
 ## [2.0.1]
 
 * fix wrong layout when itemCount is changed.(#6)
