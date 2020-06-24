@@ -379,9 +379,10 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
 
     // zmt
     handleCloseToTrailingBegin(_gridDelegate?.closeToTrailing ?? false);
+    // In case,the itemCount is changed, clear all,
     final SliverWaterfallFlowParentData firstChildParentData =
       firstChild.parentData as SliverWaterfallFlowParentData;
-    // In case,the itemCount is changed, clear all,
+    // In case of the itemCount is changed, clear all leading children,
     // avoid calculate with dirty leading children.
     if (firstChildParentData.index == 0) {
       crossAxisChildrenData.clear();
@@ -439,32 +440,17 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
 
 
         if (earliestUsefulChild == null) {
-          if (scrollOffset == 0.0) {
-            // insertAndLayoutLeadingChild only lays out the children before
-            // firstChild. In this case, nothing has been laid out. We have
-            // to lay out firstChild manually.
-            firstChild.layout(childConstraints, parentUsesSize: true);
-
-            earliestUsefulChild = firstChild;
-            leadingChildWithLayout = earliestUsefulChild;
-            trailingChildWithLayout ??= earliestUsefulChild;
-            crossAxisChildrenData.clear();
-            crossAxisChildrenData.insert(
-              child: earliestUsefulChild,
-              childTrailingLayoutOffset: childTrailingLayoutOffset,
-              paintExtentOf: paintExtentOf,
-            );
-            break;
-          } else {
-            // We ran out of children before reaching the scroll offset.
-            // We must inform our parent that this sliver cannot fulfill
-            // its contract and that we need a scroll offset correction.
-            geometry = SliverGeometry(
-              scrollOffsetCorrection: -scrollOffset,
-            );
-            _previousCrossAxisChildrenData = null;
-            return;
-          }
+          final SliverWaterfallFlowParentData data = firstChild.parentData as SliverWaterfallFlowParentData;
+          assert(data.index == 0);
+          // In case of some child is changed small and we ran out of children
+          // before reaching the scroll offset.
+          // We must clear data, avoid calculate with dirty leading children.
+          firstChild.layout(childConstraints, parentUsesSize: true);
+          earliestUsefulChild = firstChild;
+          leadingChildWithLayout = earliestUsefulChild;
+          trailingChildWithLayout ??= earliestUsefulChild;
+          crossAxisChildrenData.clear();
+          break;
         }
 
         crossAxisChildrenData.insertLeading(
@@ -481,22 +467,16 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
           // so that the trailing edge of the original firstChild appears where it
           // was before the scroll offset correction.
           // do this work incrementally, instead of all at once,
-          // i.e. find a way to avoid visiting ALL of the children whose offset
-          // is < 0 before returning for the scroll correction.
-          double correction = 0.0;
+          // find first child and clear all,
+          // avoid calculate with dirty leading children.
           while (earliestUsefulChild != null) {
             assert(firstChild == earliestUsefulChild);
-            correction += paintExtentOf(firstChild);
-            earliestUsefulChild = insertAndLayoutLeadingChild(childConstraints,
-                parentUsesSize: true);
-            crossAxisChildrenData.insertLeading(
-                child: earliestUsefulChild, paintExtentOf: paintExtentOf);
+            earliestUsefulChild = insertAndLayoutLeadingChild(childConstraints, parentUsesSize: true);
           }
-          geometry = SliverGeometry(
-            scrollOffsetCorrection: correction - data.layoutOffset,
-          );
-          _previousCrossAxisChildrenData = null;
-          return;
+          final SliverWaterfallFlowParentData data = firstChild.parentData as SliverWaterfallFlowParentData;
+          assert(data.index == 0);
+          crossAxisChildrenData.clear();
+          earliestUsefulChild = firstChild;
         }
 
         assert(earliestUsefulChild == firstChild);

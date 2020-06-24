@@ -1,7 +1,7 @@
 name: waterfall_flow
 # MasonryGirdView
 description: A Flutter grid view that build waterfall flow layout quickly.
-version: 2.0.1
+version: 2.0.2
 author: zmtzawqlp <zmtzawqlp@live.com>
 homepage: https://github.com/fluttercandies/waterfall_flow
 
