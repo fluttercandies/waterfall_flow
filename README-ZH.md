@@ -189,3 +189,7 @@ dependencies:
         reverse: true,
         gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(closeToTrailing: true),
 ```
+
+## ☕️Buy me a coffee
+
+![img](http://zmtzawqlp.gitee.io/my_images/images/qrcode.png)
