@@ -58,15 +58,14 @@ dependencies:
 
 * SliverWaterfallFlowDelegate
 
-| 参数 | 描述 | 默认 |
-| ---- | ---- | ---- |
-
-| mainAxisSpacing            | 主轴元素之间的距离                     | 0.0   |
-| crossAxisSpacing           | 横轴元素之间的距离                     | 0.0   |
-| collectGarbage             | 元素回收时候的回调                     | -     |
-| lastChildLayoutTypeBuilder | 最后一个元素的布局样式(详情请查看后面) | -     |
-| viewportBuilder            | 可视区域中元素indexes变化时的回调      | -     |
-| closeToTrailing            | 可否让布局紧贴trailing(详情请查看后面) | false |
+| 参数          | 描述                                    | 默认  |
+| ------------------ | ---------------------------------------------- | -------- |
+| mainAxisSpacing            | 主轴元素之间的距离                     | 0.0|
+| crossAxisSpacing           | 横轴元素之间的距离                     | 0.0|
+| collectGarbage             | 元素回收时候的回调                     | -  |
+| lastChildLayoutTypeBuilder | 最后一个元素的布局样式(详情请查看后面) | -   |
+| viewportBuilder            | 可视区域中元素indexes变化时的回调      | -   |
+| closeToTrailing            | 可否让布局紧贴trailing(详情请查看后面) | false|
 
 ```dart
             WaterfallFlow.builder(
