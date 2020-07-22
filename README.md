@@ -56,6 +56,7 @@ you can define waterfall flow layout within SliverWaterfallFlowDelegate.
 | maxCrossAxisExtent | The maximum extent of tiles in the cross axis. | required |
 
 * SliverWaterfallFlowDelegate
+
 | parameter          | description                                    | default  |
 | ------------------ | ---------------------------------------------- | -------- |
 | mainAxisSpacing            | The number of logical pixels between each child along the main axis.                | 0.0      |
