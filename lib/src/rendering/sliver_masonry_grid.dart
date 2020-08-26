@@ -54,7 +54,7 @@ abstract class SliverMasonryGridDelegate {
   /// It doesn't contain [crossAxisSpacing].
   double getChildUsableCrossAxisExtent(SliverConstraints constraints) {
     final int crossAxisCount = getCrossAxisCount(constraints);
-    final double usableCrossAxisExtent = constraints.crossAxisExtent - crossAxisSpacing * (crossAxisCount - 1);
+    final double usableCrossAxisExtent = max(0.0, constraints.crossAxisExtent - crossAxisSpacing * (crossAxisCount - 1));
     return usableCrossAxisExtent / crossAxisCount;
   }
 
