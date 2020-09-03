@@ -1,10 +1,10 @@
 import 'package:extended_list_library/extended_list_library.dart';
+
 ///
 ///  create by zmtzawqlp on 2019/11/9
 ///
 import 'package:flutter/widgets.dart' hide ViewportBuilder;
 import 'package:waterfall_flow/src/rendering/sliver_waterfall_flow.dart';
-
 
 /// A sliver that places multiple box children in a two dimensional arrangement
 /// and masonry layout.
@@ -111,23 +111,24 @@ class SliverWaterfallFlow extends SliverMultiBoxAdaptorWidget {
     CollectGarbage collectGarbage,
     ViewportBuilder viewportBuilder,
     bool closeToTrailing = false,
-  }) : gridDelegate = SliverWaterfallFlowDelegateWithMaxCrossAxisExtent(
-         maxCrossAxisExtent: maxCrossAxisExtent,
-         mainAxisSpacing: mainAxisSpacing,
-         crossAxisSpacing: crossAxisSpacing,
-         lastChildLayoutTypeBuilder: lastChildLayoutTypeBuilder,
-         collectGarbage: collectGarbage,
-         viewportBuilder: viewportBuilder,
-         closeToTrailing: closeToTrailing,
-       ),
-       super(key: key, delegate: SliverChildListDelegate(children));
+  })  : gridDelegate = SliverWaterfallFlowDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: maxCrossAxisExtent,
+          mainAxisSpacing: mainAxisSpacing,
+          crossAxisSpacing: crossAxisSpacing,
+          lastChildLayoutTypeBuilder: lastChildLayoutTypeBuilder,
+          collectGarbage: collectGarbage,
+          viewportBuilder: viewportBuilder,
+          closeToTrailing: closeToTrailing,
+        ),
+        super(key: key, delegate: SliverChildListDelegate(children));
 
   /// The delegate that controls the size and position of the children.
   final SliverWaterfallFlowDelegate gridDelegate;
 
   @override
   RenderSliverWaterfallFlow createRenderObject(BuildContext context) {
-    final SliverMultiBoxAdaptorElement element = context as SliverMultiBoxAdaptorElement;
+    final SliverMultiBoxAdaptorElement element =
+        context as SliverMultiBoxAdaptorElement;
     return RenderSliverWaterfallFlow(
         childManager: element, gridDelegate: gridDelegate);
   }
@@ -138,4 +139,3 @@ class SliverWaterfallFlow extends SliverMultiBoxAdaptorWidget {
     renderObject.gridDelegate = gridDelegate;
   }
 }
-

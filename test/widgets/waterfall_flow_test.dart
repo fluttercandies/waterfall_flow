@@ -13,16 +13,19 @@ void main() {
       ));
 
       expect(
-        tester.getSize(find.widgetWithText(Container, "0.He'd have you all unravel at the")),
+        tester.getSize(find.widgetWithText(
+            Container, "0.He'd have you all unravel at the")),
         const Size(400.0, 50.0),
       );
 
-      expect(tester.getSize(find.widgetWithText(Container, '1.Heed not the rabble')),
+      expect(
+        tester.getSize(find.widgetWithText(Container, '1.Heed not the rabble')),
         const Size(400.0, 70.0),
       );
 
       expect(
-        tester.getSize(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getSize(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Size(400.0, 90.0),
       );
 
@@ -32,7 +35,8 @@ void main() {
       );
 
       expect(
-        tester.getSize(find.widgetWithText(Container, '4.Revolution is coming...')),
+        tester.getSize(
+            find.widgetWithText(Container, '4.Revolution is coming...')),
         const Size(400.0, 80.0),
       );
 
@@ -43,24 +47,27 @@ void main() {
     });
 
     testWidgets('the position of each child at TextDirection.ltr',
-      (WidgetTester tester) async {
+        (WidgetTester tester) async {
       await tester.pumpWidget(materialAppBoilerplate(
         child: masonryGridViewWithChildrenBoilerplate(crossAxisCount: 2),
         textDirection: TextDirection.ltr,
       ));
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, "0.He'd have you all unravel at the")),
+        tester.getTopLeft(find.widgetWithText(
+            Container, "0.He'd have you all unravel at the")),
         const Offset(0.0, 0.0),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '1.Heed not the rabble')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '1.Heed not the rabble')),
         const Offset(400.0, 0.0),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(0.0, 50.0),
       );
 
@@ -70,35 +77,41 @@ void main() {
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '4.Revolution is coming...')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '4.Revolution is coming...')),
         const Offset(400.0, 130.0),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '5.Revolution, they...')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '5.Revolution, they...')),
         const Offset(0.0, 140.0),
       );
     });
 
     testWidgets('the position of each child at TextDirection.rtl',
-      (WidgetTester tester) async {
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: masonryGridViewWithChildrenBoilerplate(crossAxisCount: 2),
-        textDirection: TextDirection.rtl),
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: masonryGridViewWithChildrenBoilerplate(crossAxisCount: 2),
+            textDirection: TextDirection.rtl),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, "0.He'd have you all unravel at the")),
+        tester.getTopLeft(find.widgetWithText(
+            Container, "0.He'd have you all unravel at the")),
         const Offset(400.0, 0.0),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '1.Heed not the rabble')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '1.Heed not the rabble')),
         const Offset(0.0, 0.0),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(400.0, 50.0),
       );
 
@@ -108,30 +121,34 @@ void main() {
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '4.Revolution is coming...')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '4.Revolution is coming...')),
         const Offset(0.0, 130.0),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '5.Revolution, they...')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '5.Revolution, they...')),
         const Offset(400.0, 140.0),
       );
     });
 
     testWidgets('crossAxisCount change test', (WidgetTester tester) async {
       int crossAxisCount = 2;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: MasonryTestPage(
-          crossAxisCount: crossAxisCount,
-          setState: (_MasonryTestPageState state) {
-            state._crossAxisCount = crossAxisCount;
-          },
-        ),
-        textDirection: TextDirection.ltr),
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: MasonryTestPage(
+              crossAxisCount: crossAxisCount,
+              setState: (_MasonryTestPageState state) {
+                state._crossAxisCount = crossAxisCount;
+              },
+            ),
+            textDirection: TextDirection.ltr),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(0.0, 50.0),
       );
 
@@ -139,26 +156,29 @@ void main() {
       await setStateBoilerplate(tester);
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(400.0, 0.0),
       );
     });
 
     testWidgets('crossAxisSpacing change test', (WidgetTester tester) async {
       double crossAxisSpacing = 10;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: MasonryTestPage(
-          crossAxisSpacing: crossAxisSpacing,
-          crossAxisCount: 2,
-          setState: (_MasonryTestPageState state) {
-            state._crossAxisSpacing = crossAxisSpacing;
-          },
-        ),
-        textDirection: TextDirection.ltr),
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: MasonryTestPage(
+              crossAxisSpacing: crossAxisSpacing,
+              crossAxisCount: 2,
+              setState: (_MasonryTestPageState state) {
+                state._crossAxisSpacing = crossAxisSpacing;
+              },
+            ),
+            textDirection: TextDirection.ltr),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(0.0, 50.0),
       );
 
@@ -171,7 +191,8 @@ void main() {
       await setStateBoilerplate(tester);
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(0.0, 50.0),
       );
 
@@ -183,19 +204,21 @@ void main() {
 
     testWidgets('mainAxisSpacing change test', (WidgetTester tester) async {
       double mainAxisSpacing = 10;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: MasonryTestPage(
-          mainAxisSpacing: mainAxisSpacing,
-          crossAxisCount: 2,
-          setState: (_MasonryTestPageState state) {
-            state._mainAxisSpacing = mainAxisSpacing;
-          },
-        ),
-        textDirection: TextDirection.ltr),
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: MasonryTestPage(
+              mainAxisSpacing: mainAxisSpacing,
+              crossAxisCount: 2,
+              setState: (_MasonryTestPageState state) {
+                state._mainAxisSpacing = mainAxisSpacing;
+              },
+            ),
+            textDirection: TextDirection.ltr),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(0.0, 60.0),
       );
 
@@ -208,7 +231,8 @@ void main() {
       await setStateBoilerplate(tester);
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(0.0, 70.0),
       );
 
@@ -220,18 +244,20 @@ void main() {
 
     testWidgets('maxCrossAxisExtent change test', (WidgetTester tester) async {
       double maxCrossAxisExtent = 400;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: MasonryTestPage(
-          maxCrossAxisExtent: maxCrossAxisExtent,
-          setState: (_MasonryTestPageState state) {
-            state._maxCrossAxisExtent = maxCrossAxisExtent;
-          },
-        ),
-        textDirection: TextDirection.ltr),
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: MasonryTestPage(
+              maxCrossAxisExtent: maxCrossAxisExtent,
+              setState: (_MasonryTestPageState state) {
+                state._maxCrossAxisExtent = maxCrossAxisExtent;
+              },
+            ),
+            textDirection: TextDirection.ltr),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(0.0, 50.0),
       );
 
@@ -239,7 +265,8 @@ void main() {
       await setStateBoilerplate(tester);
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(400.0, 0.0),
       );
     });
@@ -247,21 +274,25 @@ void main() {
     testWidgets('Vertical are primary by default', (WidgetTester tester) async {
       final WaterfallFlow view = WaterfallFlow(
         scrollDirection: Axis.vertical,
-        gridDelegate: const SliverWaterfallFlowDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+        gridDelegate: const SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3),
       );
       expect(view.primary, isTrue);
     });
 
-    testWidgets('with controllers are non-primary by default', (WidgetTester tester) async {
+    testWidgets('with controllers are non-primary by default',
+        (WidgetTester tester) async {
       final WaterfallFlow view = WaterfallFlow(
         controller: ScrollController(),
         scrollDirection: Axis.vertical,
-        gridDelegate: const SliverWaterfallFlowDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+        gridDelegate: const SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3),
       );
       expect(view.primary, isFalse);
     });
 
-    testWidgets('sets PrimaryScrollController when primary', (WidgetTester tester) async {
+    testWidgets('sets PrimaryScrollController when primary',
+        (WidgetTester tester) async {
       final ScrollController primaryScrollController = ScrollController();
       await tester.pumpWidget(
         Directionality(
@@ -270,7 +301,9 @@ void main() {
             controller: primaryScrollController,
             child: WaterfallFlow(
               primary: true,
-              gridDelegate: const SliverWaterfallFlowDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+              gridDelegate:
+                  const SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3),
             ),
           ),
         ),
@@ -280,11 +313,13 @@ void main() {
     });
 
     testWidgets('dismiss keyboard onDrag test', (WidgetTester tester) async {
-      final List<FocusNode> focusNodes = List<FocusNode>.generate(50, (int i) => FocusNode());
+      final List<FocusNode> focusNodes =
+          List<FocusNode>.generate(50, (int i) => FocusNode());
       await tester.pumpWidget(textFieldBoilerplate(
         child: WaterfallFlow(
           padding: const EdgeInsets.all(0),
-          gridDelegate: const SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+          gridDelegate:
+              const SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
           ),
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -293,14 +328,14 @@ void main() {
               height: 50,
               color: Colors.green,
               child: TextField(
-                focusNode: focusNode,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                )),
+                  focusNode: focusNode,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  )),
             );
           }).toList(),
-       ),
+        ),
       ));
 
       final Finder finder = find.byType(TextField).first;
@@ -313,8 +348,10 @@ void main() {
       expect(textField.focusNode.hasFocus, isFalse);
     });
 
-    testWidgets('count dismiss keyboard onDrag test',(WidgetTester tester) async {
-      final List<FocusNode> focusNodes = List<FocusNode>.generate(50, (int i) => FocusNode());
+    testWidgets('count dismiss keyboard onDrag test',
+        (WidgetTester tester) async {
+      final List<FocusNode> focusNodes =
+          List<FocusNode>.generate(50, (int i) => FocusNode());
       await tester.pumpWidget(textFieldBoilerplate(
         child: WaterfallFlow.count(
           padding: const EdgeInsets.all(0),
@@ -325,11 +362,11 @@ void main() {
               height: 50,
               color: Colors.green,
               child: TextField(
-                focusNode: focusNode,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                )),
+                  focusNode: focusNode,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  )),
             );
           }).toList(),
         ),
@@ -345,8 +382,10 @@ void main() {
       expect(textField.focusNode.hasFocus, isFalse);
     });
 
-    testWidgets('extent dismiss keyboard onDrag test',(WidgetTester tester) async {
-      final List<FocusNode> focusNodes = List<FocusNode>.generate(50, (int i) => FocusNode());
+    testWidgets('extent dismiss keyboard onDrag test',
+        (WidgetTester tester) async {
+      final List<FocusNode> focusNodes =
+          List<FocusNode>.generate(50, (int i) => FocusNode());
       await tester.pumpWidget(textFieldBoilerplate(
         child: WaterfallFlow.extent(
           padding: const EdgeInsets.all(0),
@@ -357,11 +396,11 @@ void main() {
               height: 50,
               color: Colors.green,
               child: TextField(
-                focusNode: focusNode,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                )),
+                  focusNode: focusNode,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  )),
             );
           }).toList(),
         ),
@@ -378,11 +417,13 @@ void main() {
     });
 
     testWidgets('dismiss keyboard manual test', (WidgetTester tester) async {
-      final List<FocusNode> focusNodes = List<FocusNode>.generate(50, (int i) => FocusNode());
+      final List<FocusNode> focusNodes =
+          List<FocusNode>.generate(50, (int i) => FocusNode());
       await tester.pumpWidget(textFieldBoilerplate(
         child: WaterfallFlow(
           padding: const EdgeInsets.all(0),
-          gridDelegate: const SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+          gridDelegate:
+              const SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
           ),
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
@@ -391,11 +432,11 @@ void main() {
               height: 50,
               color: Colors.green,
               child: TextField(
-                focusNode: focusNode,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                )),
+                  focusNode: focusNode,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  )),
             );
           }).toList(),
         ),
@@ -411,8 +452,10 @@ void main() {
       expect(textField.focusNode.hasFocus, isTrue);
     });
 
-    testWidgets('count dismiss keyboard manual test', (WidgetTester tester) async {
-      final List<FocusNode> focusNodes = List<FocusNode>.generate(50, (int i) => FocusNode());
+    testWidgets('count dismiss keyboard manual test',
+        (WidgetTester tester) async {
+      final List<FocusNode> focusNodes =
+          List<FocusNode>.generate(50, (int i) => FocusNode());
       await tester.pumpWidget(textFieldBoilerplate(
         child: WaterfallFlow.count(
           padding: const EdgeInsets.all(0),
@@ -423,11 +466,11 @@ void main() {
               height: 50,
               color: Colors.green,
               child: TextField(
-                focusNode: focusNode,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                )),
+                  focusNode: focusNode,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  )),
             );
           }).toList(),
         ),
@@ -443,8 +486,10 @@ void main() {
       expect(textField.focusNode.hasFocus, isTrue);
     });
 
-    testWidgets('extend dismiss keyboard manual test', (WidgetTester tester) async {
-      final List<FocusNode> focusNodes = List<FocusNode>.generate(50, (int i) => FocusNode());
+    testWidgets('extend dismiss keyboard manual test',
+        (WidgetTester tester) async {
+      final List<FocusNode> focusNodes =
+          List<FocusNode>.generate(50, (int i) => FocusNode());
       await tester.pumpWidget(textFieldBoilerplate(
         child: WaterfallFlow.extent(
           padding: const EdgeInsets.all(0),
@@ -455,11 +500,11 @@ void main() {
               height: 50,
               color: Colors.green,
               child: TextField(
-                focusNode: focusNode,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                )),
+                  focusNode: focusNode,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  )),
             );
           }).toList(),
         ),
@@ -478,13 +523,14 @@ void main() {
     testWidgets('itemCount change test', (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
       int itemCount = 100;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: MasonryTestPage(
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: MasonryTestPage(
           controller: controller,
           crossAxisCount: 4,
           items: List<int>.generate(itemCount, (int index) => index),
           setState: (_MasonryTestPageState state) {
-             state._items = List<int>.generate(itemCount, (int index) => index);
+            state._items = List<int>.generate(itemCount, (int index) => index);
           },
           builder: true,
         )),
@@ -534,13 +580,14 @@ void main() {
       final ScrollController controller = ScrollController();
       int start;
       int end;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: MasonryTestPage(
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: MasonryTestPage(
           controller: controller,
           crossAxisCount: 4,
           items: List<int>.generate(100, (int index) => index),
           setState: (_MasonryTestPageState state) {
-             state._items.removeRange(start, end);
+            state._items.removeRange(start, end);
           },
           builder: true,
         )),
@@ -583,16 +630,18 @@ void main() {
 
     // code coverage: [RenderSliverMasonryGrid]
     // if (data.layoutOffset < -precisionErrorTolerance)
-    testWidgets('the child who out of viewport change big test', (WidgetTester tester) async {
+    testWidgets('the child who out of viewport change big test',
+        (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
       double size;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: MasonryTestPage(
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: MasonryTestPage(
           controller: controller,
           crossAxisCount: 4,
           items: List<int>.generate(100, (int index) => index),
           sizeBuilder: (int index) {
-            if(index == 1 && size !=null) {
+            if (index == 1 && size != null) {
               return size;
             }
             return null;
@@ -694,16 +743,18 @@ void main() {
 
     // code coverage: [RenderSliverMasonryGrid]
     // if (earliestUsefulChild == null) {
-    testWidgets('the child who out of viewport change small sroll into 0 test', (WidgetTester tester) async {
+    testWidgets('the child who out of viewport change small sroll into 0 test',
+        (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
       double size;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: MasonryTestPage(
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: MasonryTestPage(
           controller: controller,
           crossAxisCount: 4,
           items: List<int>.generate(100, (int index) => index),
           sizeBuilder: (int index) {
-            if(index == 0 && size !=null) {
+            if (index == 0 && size != null) {
               return size;
             }
             return null;
@@ -805,16 +856,19 @@ void main() {
 
     // code coverage: [RenderSliverMasonryGrid]
     // if (earliestUsefulChild == null) {
-    testWidgets('the child who out of viewport change small sroll into 100 test', (WidgetTester tester) async {
+    testWidgets(
+        'the child who out of viewport change small sroll into 100 test',
+        (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
       double size;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: MasonryTestPage(
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: MasonryTestPage(
           controller: controller,
           crossAxisCount: 4,
           items: List<int>.generate(100, (int index) => index),
           sizeBuilder: (int index) {
-            if(index == 1 && size !=null) {
+            if (index == 1 && size != null) {
               return size;
             }
             return null;
@@ -910,22 +964,24 @@ void main() {
 
     // code coverage: [RenderSliverMasonryGrid]
     // if (data.layoutOffset < -precisionErrorTolerance)
-    testWidgets('insert child out of viewport test', (WidgetTester tester) async {
+    testWidgets('insert child out of viewport test',
+        (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
       double size;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: MasonryTestPage(
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: MasonryTestPage(
           controller: controller,
           crossAxisCount: 4,
           items: List<int>.generate(100, (int index) => index),
           sizeBuilder: (int index) {
-            if(index == 0 && size !=null) {
+            if (index == 0 && size != null) {
               return size;
             }
             return null;
           },
           setState: (_MasonryTestPageState state) {
-             state._items.insert(0, 999);
+            state._items.insert(0, 999);
           },
           builder: true,
         )),
@@ -1022,22 +1078,24 @@ void main() {
       );
     });
 
-    testWidgets('remove child out of viewport test', (WidgetTester tester) async {
+    testWidgets('remove child out of viewport test',
+        (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
       int removeIndex;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: MasonryTestPage(
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: MasonryTestPage(
           controller: controller,
           crossAxisCount: 4,
           items: List<int>.generate(100, (int index) => index),
           sizeBuilder: (int index) {
-            if(removeIndex !=null && index >= removeIndex) {
+            if (removeIndex != null && index >= removeIndex) {
               return (((index + 1) % 4) + 1) * 100.0;
             }
             return null;
           },
           setState: (_MasonryTestPageState state) {
-             state._items.remove(removeIndex);
+            state._items.remove(removeIndex);
           },
           builder: true,
         )),
@@ -1143,7 +1201,7 @@ Widget masonryGridViewWithChildrenBoilerplate({
   double maxCrossAxisExtent,
   ScrollController controller,
 }) {
-  final List<Widget> children = <Widget> [
+  final List<Widget> children = <Widget>[
     Container(
       padding: const EdgeInsets.all(8),
       child: const Text("0.He'd have you all unravel at the"),
@@ -1182,7 +1240,7 @@ Widget masonryGridViewWithChildrenBoilerplate({
     ),
   ];
 
-  if(maxCrossAxisExtent != null) {
+  if (maxCrossAxisExtent != null) {
     return WaterfallFlow.extent(
       maxCrossAxisExtent: maxCrossAxisExtent,
       crossAxisSpacing: crossAxisSpacing,
@@ -1210,17 +1268,17 @@ Widget masonryGridViewBuilderBoilerplate({
   List<int> items,
   double Function(int index) sizeBuilder,
 }) {
-  final SliverWaterfallFlowDelegate delegate = maxCrossAxisExtent != null ?
-    SliverWaterfallFlowDelegateWithMaxCrossAxisExtent(
-      maxCrossAxisExtent: maxCrossAxisExtent,
-      mainAxisSpacing: mainAxisSpacing,
-      crossAxisSpacing: crossAxisSpacing,
-    ) :
-    SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-      crossAxisCount: crossAxisCount,
-      mainAxisSpacing: mainAxisSpacing,
-      crossAxisSpacing: crossAxisSpacing,
-    );
+  final SliverWaterfallFlowDelegate delegate = maxCrossAxisExtent != null
+      ? SliverWaterfallFlowDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: maxCrossAxisExtent,
+          mainAxisSpacing: mainAxisSpacing,
+          crossAxisSpacing: crossAxisSpacing,
+        )
+      : SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,
+          mainAxisSpacing: mainAxisSpacing,
+          crossAxisSpacing: crossAxisSpacing,
+        );
 
   return WaterfallFlow.builder(
     gridDelegate: delegate,
@@ -1229,7 +1287,8 @@ Widget masonryGridViewBuilderBoilerplate({
         child: Text(
           '${items[index]}',
         ),
-        height: sizeBuilder?.call(index) ?? ((index % crossAxisCount) + 1) * 100.0,
+        height:
+            sizeBuilder?.call(index) ?? ((index % crossAxisCount) + 1) * 100.0,
       );
     },
     itemCount: items.length,
@@ -1313,7 +1372,7 @@ class _MasonryTestPageState extends State<MasonryTestPage> {
   void initState() {
     _crossAxisCount = widget.crossAxisCount;
     _mainAxisSpacing = widget.mainAxisSpacing;
-    _crossAxisSpacing =widget.crossAxisSpacing;
+    _crossAxisSpacing = widget.crossAxisSpacing;
     _textDirection = widget.textDirection;
     _maxCrossAxisExtent = widget.maxCrossAxisExtent;
     _items = widget.items;
@@ -1325,23 +1384,23 @@ class _MasonryTestPageState extends State<MasonryTestPage> {
     return Scaffold(
       body: Directionality(
         textDirection: _textDirection,
-        child: widget.builder ?
-        masonryGridViewBuilderBoilerplate(
-          crossAxisCount: _crossAxisCount,
-          mainAxisSpacing: _mainAxisSpacing,
-          crossAxisSpacing: _crossAxisSpacing,
-          maxCrossAxisExtent: _maxCrossAxisExtent,
-          controller: widget.controller,
-          items: _items,
-          sizeBuilder: widget.sizeBuilder,
-        ) :
-        masonryGridViewWithChildrenBoilerplate(
-          crossAxisCount: _crossAxisCount,
-          mainAxisSpacing: _mainAxisSpacing,
-          crossAxisSpacing: _crossAxisSpacing,
-          maxCrossAxisExtent: _maxCrossAxisExtent,
-          controller: widget.controller,
-        ),
+        child: widget.builder
+            ? masonryGridViewBuilderBoilerplate(
+                crossAxisCount: _crossAxisCount,
+                mainAxisSpacing: _mainAxisSpacing,
+                crossAxisSpacing: _crossAxisSpacing,
+                maxCrossAxisExtent: _maxCrossAxisExtent,
+                controller: widget.controller,
+                items: _items,
+                sizeBuilder: widget.sizeBuilder,
+              )
+            : masonryGridViewWithChildrenBoilerplate(
+                crossAxisCount: _crossAxisCount,
+                mainAxisSpacing: _mainAxisSpacing,
+                crossAxisSpacing: _crossAxisSpacing,
+                maxCrossAxisExtent: _maxCrossAxisExtent,
+                controller: widget.controller,
+              ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -1361,26 +1420,26 @@ Future<void> setStateBoilerplate(WidgetTester tester) async {
 }
 
 class MaterialLocalizationsDelegate
-  extends LocalizationsDelegate<MaterialLocalizations> {
+    extends LocalizationsDelegate<MaterialLocalizations> {
   @override
   bool isSupported(Locale locale) => true;
 
   @override
   Future<MaterialLocalizations> load(Locale locale) =>
-    DefaultMaterialLocalizations.load(locale);
+      DefaultMaterialLocalizations.load(locale);
 
   @override
   bool shouldReload(MaterialLocalizationsDelegate old) => false;
 }
 
 class WidgetsLocalizationsDelegate
-  extends LocalizationsDelegate<WidgetsLocalizations> {
+    extends LocalizationsDelegate<WidgetsLocalizations> {
   @override
   bool isSupported(Locale locale) => true;
 
   @override
   Future<WidgetsLocalizations> load(Locale locale) =>
-    DefaultWidgetsLocalizations.load(locale);
+      DefaultWidgetsLocalizations.load(locale);
 
   @override
   bool shouldReload(WidgetsLocalizationsDelegate old) => false;

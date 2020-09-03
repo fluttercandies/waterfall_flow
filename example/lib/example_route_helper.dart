@@ -7,6 +7,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import 'example_route.dart';
@@ -89,6 +90,7 @@ Route<dynamic> onGenerateRouteHelper(
   RouteSettings settings, {
   Widget notFoundFallback,
   Object arguments,
+  WidgetBuilder builder,
 }) {
   arguments ??= settings.arguments;
 
@@ -104,7 +106,7 @@ Route<dynamic> onGenerateRouteHelper(
       showStatusBar: routeResult.showStatusBar,
     );
   }
-  final Widget page = routeResult.widget ?? notFoundFallback;
+  Widget page = routeResult.widget ?? notFoundFallback;
   if (page == null) {
     throw Exception(
       '''Route "${settings.name}" returned null. Route Widget must never return null, 
@@ -118,6 +120,10 @@ Route<dynamic> onGenerateRouteHelper(
     if (builder != null) {
       return builder(page);
     }
+  }
+
+  if (builder != null) {
+    page = builder(page, routeResult);
   }
 
   switch (routeResult.pageRouteType) {
@@ -142,12 +148,12 @@ Route<dynamic> onGenerateRouteHelper(
             page,
       );
     default:
-      return Platform.isIOS
-          ? CupertinoPageRoute<dynamic>(
+      return kIsWeb || !Platform.isIOS
+          ? MaterialPageRoute<dynamic>(
               settings: settings,
               builder: (BuildContext _) => page,
             )
-          : MaterialPageRoute<dynamic>(
+          : CupertinoPageRoute<dynamic>(
               settings: settings,
               builder: (BuildContext _) => page,
             );
@@ -170,3 +176,6 @@ class FFRouteSettings extends RouteSettings {
   final String routeName;
   final bool showStatusBar;
 }
+
+/// Signature for a function that creates a widget, e.g.
+typedef WidgetBuilder = Widget Function(Widget child, RouteResult routeResult);

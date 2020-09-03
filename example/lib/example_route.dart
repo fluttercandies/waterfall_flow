@@ -5,12 +5,11 @@
 
 import 'package:flutter/widgets.dart';
 
-import 'package:flutter_candies_demo_library/flutter_candies_demo_library_route.dart';
-import 'pages/custom_scrollView_demo.dart';
-import 'pages/known_sized_demo.dart';
+import 'pages/complex/known_sized_demo.dart';
+import 'pages/complex/variable_sized_demo.dart';
 import 'pages/main_page.dart';
-import 'pages/random_sized_demo.dart';
-import 'pages/variable_sized_demo.dart';
+import 'pages/simple/custom_scrollView_demo.dart';
+import 'pages/simple/random_sized_demo.dart';
 
 // ignore_for_file: argument_type_not_assignable
 RouteResult getRouteResult({String name, Map<String, dynamic> arguments}) {
@@ -21,6 +20,15 @@ RouteResult getRouteResult({String name, Map<String, dynamic> arguments}) {
         widget: CustomScrollviewDemo(),
         routeName: 'custom_scrollview',
         description: 'show how to build waterfall flow in CustomScrollview.',
+        exts: <String, dynamic>{'group': 'Simple', 'order': 1},
+      );
+    case 'fluttercandies://demogrouppage':
+      return RouteResult(
+        name: name,
+        widget: DemoGroupPage(
+          keyValue: arguments['keyValue'],
+        ),
+        routeName: 'DemoGroupPage',
       );
     case 'fluttercandies://known-sized':
       return RouteResult(
@@ -29,24 +37,13 @@ RouteResult getRouteResult({String name, Map<String, dynamic> arguments}) {
         routeName: 'known-sized',
         description:
             'show how to build a known-sized item with waterfall flow list.',
+        exts: <String, dynamic>{'group': 'Complex', 'order': 1},
       );
     case 'fluttercandies://mainpage':
       return RouteResult(
         name: name,
         widget: MainPage(),
         routeName: 'MainPage',
-      );
-    case 'fluttercandies://picswiper':
-      return RouteResult(
-        name: name,
-        widget: PicSwiper(
-          index: arguments['index'],
-          pics: arguments['pics'],
-          tuChongItem: arguments['tuChongItem'],
-        ),
-        showStatusBar: false,
-        routeName: 'PicSwiper',
-        pageRouteType: PageRouteType.transparent,
       );
     case 'fluttercandies://random-sized':
       return RouteResult(
@@ -55,6 +52,7 @@ RouteResult getRouteResult({String name, Map<String, dynamic> arguments}) {
         routeName: 'random-sized',
         description:
             'show how to build random-sized item with waterfall flow list.',
+        exts: <String, dynamic>{'group': 'Simple', 'order': 0},
       );
     case 'fluttercandies://variable-sized':
       return RouteResult(
@@ -63,6 +61,7 @@ RouteResult getRouteResult({String name, Map<String, dynamic> arguments}) {
         routeName: 'variable-sized',
         description:
             'show how to build a variable-sized item with waterfall flow list.',
+        exts: <String, dynamic>{'group': 'Complex', 'order': 1},
       );
     default:
       return const RouteResult(name: 'flutterCandies://notfound');

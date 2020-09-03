@@ -8,22 +8,26 @@ void main() {
     testWidgets('the size of each child', (WidgetTester tester) async {
       await tester.pumpWidget(materialAppBoilerplate(
         child: customScrollViewBoilerplate(
-          sliverMasonryGrid: sliverMasonryGridWithChildrenBoilerplate(crossAxisCount: 2),
+          sliverMasonryGrid:
+              sliverMasonryGridWithChildrenBoilerplate(crossAxisCount: 2),
         ),
         textDirection: TextDirection.ltr,
       ));
 
       expect(
-        tester.getSize(find.widgetWithText(Container, "0.He'd have you all unravel at the")),
+        tester.getSize(find.widgetWithText(
+            Container, "0.He'd have you all unravel at the")),
         const Size(400.0, 50.0),
       );
 
-      expect(tester.getSize(find.widgetWithText(Container, '1.Heed not the rabble')),
+      expect(
+        tester.getSize(find.widgetWithText(Container, '1.Heed not the rabble')),
         const Size(400.0, 70.0),
       );
 
       expect(
-        tester.getSize(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getSize(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Size(400.0, 90.0),
       );
 
@@ -33,7 +37,8 @@ void main() {
       );
 
       expect(
-        tester.getSize(find.widgetWithText(Container, '4.Revolution is coming...')),
+        tester.getSize(
+            find.widgetWithText(Container, '4.Revolution is coming...')),
         const Size(400.0, 80.0),
       );
 
@@ -44,26 +49,30 @@ void main() {
     });
 
     testWidgets('the position of each child at TextDirection.ltr',
-      (WidgetTester tester) async {
+        (WidgetTester tester) async {
       await tester.pumpWidget(materialAppBoilerplate(
         child: customScrollViewBoilerplate(
-          sliverMasonryGrid: sliverMasonryGridWithChildrenBoilerplate(crossAxisCount: 2),
+          sliverMasonryGrid:
+              sliverMasonryGridWithChildrenBoilerplate(crossAxisCount: 2),
         ),
         textDirection: TextDirection.ltr,
       ));
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, "0.He'd have you all unravel at the")),
+        tester.getTopLeft(find.widgetWithText(
+            Container, "0.He'd have you all unravel at the")),
         const Offset(0.0, 0.0),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '1.Heed not the rabble')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '1.Heed not the rabble')),
         const Offset(400.0, 0.0),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(0.0, 50.0),
       );
 
@@ -73,37 +82,44 @@ void main() {
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '4.Revolution is coming...')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '4.Revolution is coming...')),
         const Offset(400.0, 130.0),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '5.Revolution, they...')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '5.Revolution, they...')),
         const Offset(0.0, 140.0),
       );
     });
 
     testWidgets('the position of each child at TextDirection.rtl',
-      (WidgetTester tester) async {
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: customScrollViewBoilerplate(
-          sliverMasonryGrid: sliverMasonryGridWithChildrenBoilerplate(crossAxisCount: 2),
-        ),
-        textDirection: TextDirection.rtl),
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: customScrollViewBoilerplate(
+              sliverMasonryGrid:
+                  sliverMasonryGridWithChildrenBoilerplate(crossAxisCount: 2),
+            ),
+            textDirection: TextDirection.rtl),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, "0.He'd have you all unravel at the")),
+        tester.getTopLeft(find.widgetWithText(
+            Container, "0.He'd have you all unravel at the")),
         const Offset(400.0, 0.0),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '1.Heed not the rabble')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '1.Heed not the rabble')),
         const Offset(0.0, 0.0),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(400.0, 50.0),
       );
 
@@ -113,30 +129,34 @@ void main() {
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '4.Revolution is coming...')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '4.Revolution is coming...')),
         const Offset(0.0, 130.0),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '5.Revolution, they...')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '5.Revolution, they...')),
         const Offset(400.0, 140.0),
       );
     });
 
     testWidgets('crossAxisCount change test', (WidgetTester tester) async {
       int crossAxisCount = 2;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: SliverMasonryTestPage(
-          crossAxisCount: crossAxisCount,
-          setState: (_SliverMasonryTestPageState state) {
-            state._crossAxisCount = crossAxisCount;
-          },
-        ),
-        textDirection: TextDirection.ltr),
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: SliverMasonryTestPage(
+              crossAxisCount: crossAxisCount,
+              setState: (_SliverMasonryTestPageState state) {
+                state._crossAxisCount = crossAxisCount;
+              },
+            ),
+            textDirection: TextDirection.ltr),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(0.0, 50.0),
       );
 
@@ -144,26 +164,29 @@ void main() {
       await setStateBoilerplate(tester);
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(400.0, 0.0),
       );
     });
 
     testWidgets('crossAxisSpacing change test', (WidgetTester tester) async {
       double crossAxisSpacing = 10;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: SliverMasonryTestPage(
-          crossAxisSpacing: crossAxisSpacing,
-          crossAxisCount: 2,
-          setState: (_SliverMasonryTestPageState state) {
-            state._crossAxisSpacing = crossAxisSpacing;
-          },
-        ),
-        textDirection: TextDirection.ltr),
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: SliverMasonryTestPage(
+              crossAxisSpacing: crossAxisSpacing,
+              crossAxisCount: 2,
+              setState: (_SliverMasonryTestPageState state) {
+                state._crossAxisSpacing = crossAxisSpacing;
+              },
+            ),
+            textDirection: TextDirection.ltr),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(0.0, 50.0),
       );
 
@@ -176,7 +199,8 @@ void main() {
       await setStateBoilerplate(tester);
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(0.0, 50.0),
       );
 
@@ -188,19 +212,21 @@ void main() {
 
     testWidgets('mainAxisSpacing test', (WidgetTester tester) async {
       double mainAxisSpacing = 10;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: SliverMasonryTestPage(
-          mainAxisSpacing: mainAxisSpacing,
-          crossAxisCount: 2,
-          setState: (_SliverMasonryTestPageState state) {
-            state._mainAxisSpacing = mainAxisSpacing;
-          },
-        ),
-        textDirection: TextDirection.ltr),
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: SliverMasonryTestPage(
+              mainAxisSpacing: mainAxisSpacing,
+              crossAxisCount: 2,
+              setState: (_SliverMasonryTestPageState state) {
+                state._mainAxisSpacing = mainAxisSpacing;
+              },
+            ),
+            textDirection: TextDirection.ltr),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(0.0, 60.0),
       );
 
@@ -213,7 +239,8 @@ void main() {
       await setStateBoilerplate(tester);
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(0.0, 70.0),
       );
 
@@ -225,19 +252,21 @@ void main() {
 
     testWidgets('maxCrossAxisExtent change test', (WidgetTester tester) async {
       double maxCrossAxisExtent = 400;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: SliverMasonryTestPage(
-          maxCrossAxisExtent: maxCrossAxisExtent,
-          crossAxisCount: 2,
-          setState: (_SliverMasonryTestPageState state) {
-            state._maxCrossAxisExtent = maxCrossAxisExtent;
-          },
-        ),
-        textDirection: TextDirection.ltr),
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: SliverMasonryTestPage(
+              maxCrossAxisExtent: maxCrossAxisExtent,
+              crossAxisCount: 2,
+              setState: (_SliverMasonryTestPageState state) {
+                state._maxCrossAxisExtent = maxCrossAxisExtent;
+              },
+            ),
+            textDirection: TextDirection.ltr),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(0.0, 50.0),
       );
 
@@ -245,7 +274,8 @@ void main() {
       await setStateBoilerplate(tester);
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(400.0, 0.0),
       );
     });
@@ -253,13 +283,14 @@ void main() {
     testWidgets('itemCount change test', (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
       int itemCount = 100;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: SliverMasonryTestPage(
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: SliverMasonryTestPage(
           controller: controller,
           crossAxisCount: 4,
           items: List<int>.generate(itemCount, (int index) => index),
           setState: (_SliverMasonryTestPageState state) {
-             state._items = List<int>.generate(itemCount, (int index) => index);
+            state._items = List<int>.generate(itemCount, (int index) => index);
           },
           builder: true,
         )),
@@ -309,13 +340,14 @@ void main() {
       final ScrollController controller = ScrollController();
       int start;
       int end;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: SliverMasonryTestPage(
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: SliverMasonryTestPage(
           controller: controller,
           crossAxisCount: 4,
           items: List<int>.generate(100, (int index) => index),
           setState: (_SliverMasonryTestPageState state) {
-             state._items.removeRange(start, end);
+            state._items.removeRange(start, end);
           },
           builder: true,
         )),
@@ -358,16 +390,18 @@ void main() {
 
     // code coverage: [RenderSliverMasonryGrid]
     // if (data.layoutOffset < -precisionErrorTolerance)
-    testWidgets('the child who out of viewport change big test', (WidgetTester tester) async {
+    testWidgets('the child who out of viewport change big test',
+        (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
       double size;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: SliverMasonryTestPage(
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: SliverMasonryTestPage(
           controller: controller,
           crossAxisCount: 4,
           items: List<int>.generate(100, (int index) => index),
           sizeBuilder: (int index) {
-            if(index == 1 && size !=null) {
+            if (index == 1 && size != null) {
               return size;
             }
             return null;
@@ -469,16 +503,18 @@ void main() {
 
     // code coverage: [RenderSliverMasonryGrid]
     // if (earliestUsefulChild == null) {
-    testWidgets('the child who out of viewport change small sroll into 0 test', (WidgetTester tester) async {
+    testWidgets('the child who out of viewport change small sroll into 0 test',
+        (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
       double size;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: SliverMasonryTestPage(
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: SliverMasonryTestPage(
           controller: controller,
           crossAxisCount: 4,
           items: List<int>.generate(100, (int index) => index),
           sizeBuilder: (int index) {
-            if(index == 0 && size !=null) {
+            if (index == 0 && size != null) {
               return size;
             }
             return null;
@@ -580,16 +616,19 @@ void main() {
 
     // code coverage: [RenderSliverMasonryGrid]
     // if (earliestUsefulChild == null) {
-    testWidgets('the child who out of viewport change small sroll into 100 test', (WidgetTester tester) async {
+    testWidgets(
+        'the child who out of viewport change small sroll into 100 test',
+        (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
       double size;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: SliverMasonryTestPage(
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: SliverMasonryTestPage(
           controller: controller,
           crossAxisCount: 4,
           items: List<int>.generate(100, (int index) => index),
           sizeBuilder: (int index) {
-            if(index == 1 && size !=null) {
+            if (index == 1 && size != null) {
               return size;
             }
             return null;
@@ -685,22 +724,24 @@ void main() {
 
     // code coverage: [RenderSliverMasonryGrid]
     // if (data.layoutOffset < -precisionErrorTolerance)
-    testWidgets('insert child out of viewport test', (WidgetTester tester) async {
+    testWidgets('insert child out of viewport test',
+        (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
       double size;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: SliverMasonryTestPage(
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: SliverMasonryTestPage(
           controller: controller,
           crossAxisCount: 4,
           items: List<int>.generate(100, (int index) => index),
           sizeBuilder: (int index) {
-            if(index == 0 && size !=null) {
+            if (index == 0 && size != null) {
               return size;
             }
             return null;
           },
           setState: (_SliverMasonryTestPageState state) {
-             state._items.insert(0, 999);
+            state._items.insert(0, 999);
           },
           builder: true,
         )),
@@ -797,22 +838,24 @@ void main() {
       );
     });
 
-    testWidgets('remove child out of viewport test', (WidgetTester tester) async {
+    testWidgets('remove child out of viewport test',
+        (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
       int removeIndex;
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: SliverMasonryTestPage(
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: SliverMasonryTestPage(
           controller: controller,
           crossAxisCount: 4,
           items: List<int>.generate(100, (int index) => index),
           sizeBuilder: (int index) {
-            if(removeIndex !=null && index >= removeIndex) {
+            if (removeIndex != null && index >= removeIndex) {
               return (((index + 1) % 4) + 1) * 100.0;
             }
             return null;
           },
           setState: (_SliverMasonryTestPageState state) {
-             state._items.remove(removeIndex);
+            state._items.remove(removeIndex);
           },
           builder: true,
         )),
@@ -910,31 +953,33 @@ void main() {
     });
 
     testWidgets('test with other slivers', (WidgetTester tester) async {
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: SliverMasonryTestPage(
-          crossAxisCount: 2,
-          headerSlivers: <Widget>[
-            SliverToBoxAdapter(
-              child: Container(
-                height: 200.0,
-                color: Colors.red,
-              ),
-            )
-          ],
-          footSlivers: <Widget>[
-            SliverToBoxAdapter(
-              child: Container(
-                height: 200.0,
-                color: Colors.blue,
-              ),
-            )
-          ],
-        ),
-        textDirection: TextDirection.ltr),
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: SliverMasonryTestPage(
+              crossAxisCount: 2,
+              headerSlivers: <Widget>[
+                SliverToBoxAdapter(
+                  child: Container(
+                    height: 200.0,
+                    color: Colors.red,
+                  ),
+                )
+              ],
+              footSlivers: <Widget>[
+                SliverToBoxAdapter(
+                  child: Container(
+                    height: 200.0,
+                    color: Colors.blue,
+                  ),
+                )
+              ],
+            ),
+            textDirection: TextDirection.ltr),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(0.0, 250.0),
       );
 
@@ -946,42 +991,44 @@ void main() {
 
     testWidgets('insert other slivers test', (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
-      await tester.pumpWidget(materialAppBoilerplate(
-        child: SliverMasonryTestPage(
-          controller: controller,
-          crossAxisCount: 2,
-          headerSlivers: <Widget>[
-            SliverToBoxAdapter(
-              child: Container(
-                height: 200.0,
-                color: Colors.red,
-              ),
-            )
-          ],
-          footSlivers: <Widget>[
-            SliverToBoxAdapter(
-              child: Container(
-                height: 200.0,
-                color: Colors.blue,
-              ),
-            )
-          ],
-          setState: (_SliverMasonryTestPageState state) {
-            state._headerSlivers.add(
-              SliverToBoxAdapter(
-                child: Container(
-                  height: 200.0,
-                  color: Colors.yellow,
-                ),
-              ),
-            );
-          },
-        ),
-        textDirection: TextDirection.ltr),
+      await tester.pumpWidget(
+        materialAppBoilerplate(
+            child: SliverMasonryTestPage(
+              controller: controller,
+              crossAxisCount: 2,
+              headerSlivers: <Widget>[
+                SliverToBoxAdapter(
+                  child: Container(
+                    height: 200.0,
+                    color: Colors.red,
+                  ),
+                )
+              ],
+              footSlivers: <Widget>[
+                SliverToBoxAdapter(
+                  child: Container(
+                    height: 200.0,
+                    color: Colors.blue,
+                  ),
+                )
+              ],
+              setState: (_SliverMasonryTestPageState state) {
+                state._headerSlivers.add(
+                  SliverToBoxAdapter(
+                    child: Container(
+                      height: 200.0,
+                      color: Colors.yellow,
+                    ),
+                  ),
+                );
+              },
+            ),
+            textDirection: TextDirection.ltr),
       );
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, '2.Sound of screams but the')),
+        tester.getTopLeft(
+            find.widgetWithText(Container, '2.Sound of screams but the')),
         const Offset(0.0, 250.0),
       );
 
@@ -992,14 +1039,17 @@ void main() {
 
       controller.jumpTo(10000);
       await tester.pumpAndSettle();
-      expect(find.widgetWithText(Container, "0.He'd have you all unravel at the"), findsOneWidget);
+      expect(
+          find.widgetWithText(Container, "0.He'd have you all unravel at the"),
+          findsOneWidget);
 
       await setStateBoilerplate(tester);
       controller.jumpTo(0);
       await tester.pumpAndSettle();
 
       expect(
-        tester.getTopLeft(find.widgetWithText(Container, "0.He'd have you all unravel at the")),
+        tester.getTopLeft(find.widgetWithText(
+            Container, "0.He'd have you all unravel at the")),
         const Offset(0.0, 400.0),
       );
     });
@@ -1014,17 +1064,17 @@ SliverWaterfallFlow masonryGridBoilerplate({
   List<int> items,
   double Function(int index) sizeBuilder,
 }) {
-  final SliverWaterfallFlowDelegate delegate = maxCrossAxisExtent != null ?
-    SliverWaterfallFlowDelegateWithMaxCrossAxisExtent(
-      maxCrossAxisExtent: maxCrossAxisExtent,
-      mainAxisSpacing: mainAxisSpacing,
-      crossAxisSpacing: crossAxisSpacing,
-    ) :
-    SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-      crossAxisCount: crossAxisCount,
-      mainAxisSpacing: mainAxisSpacing,
-      crossAxisSpacing: crossAxisSpacing,
-    );
+  final SliverWaterfallFlowDelegate delegate = maxCrossAxisExtent != null
+      ? SliverWaterfallFlowDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: maxCrossAxisExtent,
+          mainAxisSpacing: mainAxisSpacing,
+          crossAxisSpacing: crossAxisSpacing,
+        )
+      : SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,
+          mainAxisSpacing: mainAxisSpacing,
+          crossAxisSpacing: crossAxisSpacing,
+        );
 
   return SliverWaterfallFlow(
     gridDelegate: delegate,
@@ -1035,7 +1085,8 @@ SliverWaterfallFlow masonryGridBoilerplate({
           child: Text(
             '${items[index]}',
           ),
-          height: sizeBuilder?.call(index) ?? ((index % crossAxisCount) + 1) * 100.0,
+          height: sizeBuilder?.call(index) ??
+              ((index % crossAxisCount) + 1) * 100.0,
         );
       },
       childCount: items.length,
@@ -1049,8 +1100,7 @@ SliverWaterfallFlow sliverMasonryGridWithChildrenBoilerplate({
   double mainAxisSpacing = 0.0,
   double maxCrossAxisExtent,
 }) {
-
-  final List<Widget> children = <Widget> [
+  final List<Widget> children = <Widget>[
     Container(
       padding: const EdgeInsets.all(8),
       child: const Text("0.He'd have you all unravel at the"),
@@ -1089,19 +1139,19 @@ SliverWaterfallFlow sliverMasonryGridWithChildrenBoilerplate({
     ),
   ];
 
-  return maxCrossAxisExtent != null ?
-    SliverWaterfallFlow.extent(
-      maxCrossAxisExtent: maxCrossAxisExtent,
-      crossAxisSpacing: crossAxisSpacing,
-      mainAxisSpacing: mainAxisSpacing,
-      children: children,
-    ):
-    SliverWaterfallFlow.count(
-      crossAxisCount: crossAxisCount,
-      crossAxisSpacing: crossAxisSpacing,
-      mainAxisSpacing: mainAxisSpacing,
-      children: children,
-    );
+  return maxCrossAxisExtent != null
+      ? SliverWaterfallFlow.extent(
+          maxCrossAxisExtent: maxCrossAxisExtent,
+          crossAxisSpacing: crossAxisSpacing,
+          mainAxisSpacing: mainAxisSpacing,
+          children: children,
+        )
+      : SliverWaterfallFlow.count(
+          crossAxisCount: crossAxisCount,
+          crossAxisSpacing: crossAxisSpacing,
+          mainAxisSpacing: mainAxisSpacing,
+          children: children,
+        );
 }
 
 Widget customScrollViewBoilerplate({
@@ -1109,20 +1159,21 @@ Widget customScrollViewBoilerplate({
   List<Widget> footSlivers,
   SliverWaterfallFlow sliverMasonryGrid,
   ScrollController controller,
-  }) {
+}) {
   return CustomScrollView(
     controller: controller,
     slivers: <Widget>[
       if (headerSlivers != null) ...headerSlivers,
       sliverMasonryGrid,
       if (footSlivers != null) ...footSlivers,
-  ],);
+    ],
+  );
 }
 
 Widget materialAppBoilerplate({
   Widget child,
   TextDirection textDirection = TextDirection.ltr,
-  }) {
+}) {
   return MaterialApp(
     home: Directionality(
       textDirection: textDirection,
@@ -1180,7 +1231,7 @@ class _SliverMasonryTestPageState extends State<SliverMasonryTestPage> {
   void initState() {
     _crossAxisCount = widget.crossAxisCount;
     _mainAxisSpacing = widget.mainAxisSpacing;
-    _crossAxisSpacing =widget.crossAxisSpacing;
+    _crossAxisSpacing = widget.crossAxisSpacing;
     _textDirection = widget.textDirection;
     _maxCrossAxisExtent = widget.maxCrossAxisExtent;
     _items = widget.items;
@@ -1188,32 +1239,32 @@ class _SliverMasonryTestPageState extends State<SliverMasonryTestPage> {
     _footSlivers = widget.footSlivers;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Directionality(
-        textDirection: _textDirection,
-        child: customScrollViewBoilerplate(
-          controller: widget.controller,
-          headerSlivers: _headerSlivers,
-          footSlivers: _footSlivers,
-          sliverMasonryGrid: widget.builder ?
-            masonryGridBoilerplate(
-              crossAxisCount: _crossAxisCount,
-              mainAxisSpacing: _mainAxisSpacing,
-              crossAxisSpacing: _crossAxisSpacing,
-              maxCrossAxisExtent: _maxCrossAxisExtent,
-              items: _items,
-              sizeBuilder: widget.sizeBuilder,
-            ) :
-            sliverMasonryGridWithChildrenBoilerplate(
-              crossAxisCount: _crossAxisCount,
-              mainAxisSpacing: _mainAxisSpacing,
-              crossAxisSpacing: _crossAxisSpacing,
-              maxCrossAxisExtent: _maxCrossAxisExtent,
-            ),
-        )
-      ),
+          textDirection: _textDirection,
+          child: customScrollViewBoilerplate(
+            controller: widget.controller,
+            headerSlivers: _headerSlivers,
+            footSlivers: _footSlivers,
+            sliverMasonryGrid: widget.builder
+                ? masonryGridBoilerplate(
+                    crossAxisCount: _crossAxisCount,
+                    mainAxisSpacing: _mainAxisSpacing,
+                    crossAxisSpacing: _crossAxisSpacing,
+                    maxCrossAxisExtent: _maxCrossAxisExtent,
+                    items: _items,
+                    sizeBuilder: widget.sizeBuilder,
+                  )
+                : sliverMasonryGridWithChildrenBoilerplate(
+                    crossAxisCount: _crossAxisCount,
+                    mainAxisSpacing: _mainAxisSpacing,
+                    crossAxisSpacing: _crossAxisSpacing,
+                    maxCrossAxisExtent: _maxCrossAxisExtent,
+                  ),
+          )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
