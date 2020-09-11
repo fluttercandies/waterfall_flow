@@ -39,14 +39,14 @@ abstract class SliverWaterfallFlowDelegate extends ExtendedListDelegate {
     CollectGarbage collectGarbage,
     ViewportBuilder viewportBuilder,
     bool closeToTrailing = false,
-  }) : assert(mainAxisSpacing != null && mainAxisSpacing >= 0),
-       assert(crossAxisSpacing != null && crossAxisSpacing >= 0),
-       super(
-         lastChildLayoutTypeBuilder: lastChildLayoutTypeBuilder,
-         collectGarbage: collectGarbage,
-         viewportBuilder: viewportBuilder,
-         closeToTrailing: closeToTrailing,
-       );
+  })  : assert(mainAxisSpacing != null && mainAxisSpacing >= 0),
+        assert(crossAxisSpacing != null && crossAxisSpacing >= 0),
+        super(
+          lastChildLayoutTypeBuilder: lastChildLayoutTypeBuilder,
+          collectGarbage: collectGarbage,
+          viewportBuilder: viewportBuilder,
+          closeToTrailing: closeToTrailing,
+        );
 
   /// The number of logical pixels between each child along the main axis.
   final double mainAxisSpacing;
@@ -56,12 +56,18 @@ abstract class SliverWaterfallFlowDelegate extends ExtendedListDelegate {
 
   /// Return the offset of the child in the non-scrolling axis.
   double getCrossAxisOffset(SliverConstraints constraints, int crossAxisIndex) {
-    final bool reverseCrossAxis = axisDirectionIsReversed(constraints.crossAxisDirection);
+    final bool reverseCrossAxis =
+        axisDirectionIsReversed(constraints.crossAxisDirection);
     final int crossAxisCount = getCrossAxisCount(constraints);
-    final double childUsableCrossAxisExtent = getChildUsableCrossAxisExtent(constraints);
-    final int actualCrossAxisIndex = (reverseCrossAxis && crossAxisCount > 1) ? crossAxisCount - 1 - crossAxisIndex : crossAxisIndex;
+    final double childUsableCrossAxisExtent =
+        getChildUsableCrossAxisExtent(constraints);
+    final int actualCrossAxisIndex = (reverseCrossAxis && crossAxisCount > 1)
+        ? crossAxisCount - 1 - crossAxisIndex
+        : crossAxisIndex;
 
-    return actualCrossAxisIndex % crossAxisCount * (childUsableCrossAxisExtent + crossAxisSpacing);
+    return actualCrossAxisIndex %
+        crossAxisCount *
+        (childUsableCrossAxisExtent + crossAxisSpacing);
   }
 
   /// Return usable cross-axis extent of each child.
@@ -69,7 +75,8 @@ abstract class SliverWaterfallFlowDelegate extends ExtendedListDelegate {
   /// It doesn't contain [crossAxisSpacing].
   double getChildUsableCrossAxisExtent(SliverConstraints constraints) {
     final int crossAxisCount = getCrossAxisCount(constraints);
-    final double usableCrossAxisExtent = max(0.0, constraints.crossAxisExtent - crossAxisSpacing * (crossAxisCount - 1));
+    final double usableCrossAxisExtent = max(0.0,
+        constraints.crossAxisExtent - crossAxisSpacing * (crossAxisCount - 1));
     return usableCrossAxisExtent / crossAxisCount;
   }
 
@@ -83,8 +90,9 @@ abstract class SliverWaterfallFlowDelegate extends ExtendedListDelegate {
   /// `oldDelegate` and return true if the fields are such that the layout would
   /// be different.
   bool shouldRelayout(SliverWaterfallFlowDelegate oldDelegate) {
-    return oldDelegate.mainAxisSpacing != mainAxisSpacing
-        || oldDelegate.crossAxisSpacing != crossAxisSpacing;
+    return oldDelegate.mainAxisSpacing != mainAxisSpacing ||
+        oldDelegate.crossAxisSpacing != crossAxisSpacing ||
+        oldDelegate.closeToTrailing != closeToTrailing;
   }
 
   LastChildLayoutType getLastChildLayoutType(int index) {
@@ -113,7 +121,8 @@ abstract class SliverWaterfallFlowDelegate extends ExtendedListDelegate {
 ///    tiles.
 ///  * [RenderSliverWaterfallFlow], which uses this delegate to control the layout of its
 ///    tiles.
-class SliverWaterfallFlowDelegateWithFixedCrossAxisCount extends SliverWaterfallFlowDelegate {
+class SliverWaterfallFlowDelegateWithFixedCrossAxisCount
+    extends SliverWaterfallFlowDelegate {
   /// Creates a delegate that makes masonry layouts with a fixed number of tiles in
   /// the cross axis.
   ///
@@ -128,15 +137,15 @@ class SliverWaterfallFlowDelegateWithFixedCrossAxisCount extends SliverWaterfall
     CollectGarbage collectGarbage,
     ViewportBuilder viewportBuilder,
     bool closeToTrailing = false,
-  }) : assert(crossAxisCount != null && crossAxisCount > 0),
-       super(
-         mainAxisSpacing: mainAxisSpacing,
-         crossAxisSpacing: crossAxisSpacing,
-         lastChildLayoutTypeBuilder: lastChildLayoutTypeBuilder,
-         collectGarbage: collectGarbage,
-         viewportBuilder: viewportBuilder,
-         closeToTrailing: closeToTrailing,
-       );
+  })  : assert(crossAxisCount != null && crossAxisCount > 0),
+        super(
+          mainAxisSpacing: mainAxisSpacing,
+          crossAxisSpacing: crossAxisSpacing,
+          lastChildLayoutTypeBuilder: lastChildLayoutTypeBuilder,
+          collectGarbage: collectGarbage,
+          viewportBuilder: viewportBuilder,
+          closeToTrailing: closeToTrailing,
+        );
 
   /// The number of children in the cross axis.
   final int crossAxisCount;
@@ -148,13 +157,13 @@ class SliverWaterfallFlowDelegateWithFixedCrossAxisCount extends SliverWaterfall
 
   @override
   bool shouldRelayout(SliverWaterfallFlowDelegate oldDelegate) {
-    if(oldDelegate.runtimeType != runtimeType) {
+    if (oldDelegate.runtimeType != runtimeType) {
       return true;
     }
 
-    return oldDelegate is SliverWaterfallFlowDelegateWithFixedCrossAxisCount
-       && (oldDelegate.crossAxisCount != crossAxisCount
-       || super.shouldRelayout(oldDelegate));
+    return oldDelegate is SliverWaterfallFlowDelegateWithFixedCrossAxisCount &&
+        (oldDelegate.crossAxisCount != crossAxisCount ||
+            super.shouldRelayout(oldDelegate));
   }
 }
 
@@ -181,7 +190,8 @@ class SliverWaterfallFlowDelegateWithFixedCrossAxisCount extends SliverWaterfall
 ///    tiles.
 ///  * [RenderSliverWaterfallFlow], which uses this delegate to control the layout of its
 ///    tiles.
-class SliverWaterfallFlowDelegateWithMaxCrossAxisExtent extends SliverWaterfallFlowDelegate {
+class SliverWaterfallFlowDelegateWithMaxCrossAxisExtent
+    extends SliverWaterfallFlowDelegate {
   /// Creates a delegate that makes masonry layouts with tiles that have a maximum
   /// cross-axis extent.
   ///
@@ -195,14 +205,14 @@ class SliverWaterfallFlowDelegateWithMaxCrossAxisExtent extends SliverWaterfallF
     CollectGarbage collectGarbage,
     ViewportBuilder viewportBuilder,
     bool closeToTrailing = false,
-  }) : assert(maxCrossAxisExtent != null && maxCrossAxisExtent >= 0),
-       super(
-         mainAxisSpacing: mainAxisSpacing,
-         crossAxisSpacing: crossAxisSpacing,
-         lastChildLayoutTypeBuilder: lastChildLayoutTypeBuilder,
-         collectGarbage: collectGarbage,
-         viewportBuilder: viewportBuilder,
-         closeToTrailing: closeToTrailing,
+  })  : assert(maxCrossAxisExtent != null && maxCrossAxisExtent >= 0),
+        super(
+          mainAxisSpacing: mainAxisSpacing,
+          crossAxisSpacing: crossAxisSpacing,
+          lastChildLayoutTypeBuilder: lastChildLayoutTypeBuilder,
+          collectGarbage: collectGarbage,
+          viewportBuilder: viewportBuilder,
+          closeToTrailing: closeToTrailing,
         );
 
   /// The maximum extent of tiles in the cross axis.
@@ -220,18 +230,20 @@ class SliverWaterfallFlowDelegateWithMaxCrossAxisExtent extends SliverWaterfallF
 
   @override
   int getCrossAxisCount(SliverConstraints constraints) {
-    return (constraints.crossAxisExtent / (maxCrossAxisExtent + crossAxisSpacing)).ceil();
+    return (constraints.crossAxisExtent /
+            (maxCrossAxisExtent + crossAxisSpacing))
+        .ceil();
   }
 
   @override
   bool shouldRelayout(SliverWaterfallFlowDelegate oldDelegate) {
-    if(oldDelegate.runtimeType != runtimeType) {
+    if (oldDelegate.runtimeType != runtimeType) {
       return true;
     }
 
-    return oldDelegate is SliverWaterfallFlowDelegateWithMaxCrossAxisExtent
-       && (oldDelegate.maxCrossAxisExtent != maxCrossAxisExtent
-       || super.shouldRelayout(oldDelegate));
+    return oldDelegate is SliverWaterfallFlowDelegateWithMaxCrossAxisExtent &&
+        (oldDelegate.maxCrossAxisExtent != maxCrossAxisExtent ||
+            super.shouldRelayout(oldDelegate));
   }
 }
 
@@ -309,6 +321,9 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
   }
 
   @override
+  ExtendedListDelegate get extendedListDelegate => _gridDelegate;
+
+  @override
   void setupParentData(RenderObject child) {
     if (child.parentData is! SliverWaterfallFlowParentData)
       child.parentData = SliverWaterfallFlowParentData();
@@ -381,7 +396,7 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
     handleCloseToTrailingBegin(_gridDelegate?.closeToTrailing ?? false);
     // In case,the itemCount is changed, clear all,
     final SliverWaterfallFlowParentData firstChildParentData =
-      firstChild.parentData as SliverWaterfallFlowParentData;
+        firstChild.parentData as SliverWaterfallFlowParentData;
     // In case of the itemCount is changed, clear all leading children,
     // avoid calculate with dirty leading children.
     if (firstChildParentData.index == 0) {
@@ -429,7 +444,8 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
       }
       final int minLeadingIndex = crossAxisChildrenData.minLeadingIndex;
       while (child != null && minLeadingIndex < indexOf(child)) {
-        crossAxisChildrenData.insertLeading(child: child, paintExtentOf: paintExtentOf);
+        crossAxisChildrenData.insertLeading(
+            child: child, paintExtentOf: paintExtentOf);
         child = childBefore(child);
       }
 
@@ -438,9 +454,9 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
         earliestUsefulChild =
             insertAndLayoutLeadingChild(childConstraints, parentUsesSize: true);
 
-
         if (earliestUsefulChild == null) {
-          final SliverWaterfallFlowParentData data = firstChild.parentData as SliverWaterfallFlowParentData;
+          final SliverWaterfallFlowParentData data =
+              firstChild.parentData as SliverWaterfallFlowParentData;
           assert(data.index == 0);
           // In case of some child is changed small and we ran out of children
           // before reaching the scroll offset.
@@ -471,9 +487,11 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
           // avoid calculate with dirty leading children.
           while (earliestUsefulChild != null) {
             assert(firstChild == earliestUsefulChild);
-            earliestUsefulChild = insertAndLayoutLeadingChild(childConstraints, parentUsesSize: true);
+            earliestUsefulChild = insertAndLayoutLeadingChild(childConstraints,
+                parentUsesSize: true);
           }
-          final SliverWaterfallFlowParentData data = firstChild.parentData as SliverWaterfallFlowParentData;
+          final SliverWaterfallFlowParentData data =
+              firstChild.parentData as SliverWaterfallFlowParentData;
           assert(data.index == 0);
           crossAxisChildrenData.clear();
           earliestUsefulChild = firstChild;
@@ -515,10 +533,10 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
     RenderBox child = earliestUsefulChild;
     int index = indexOf(child);
     crossAxisChildrenData.insert(
-        child: child,
-        childTrailingLayoutOffset: childTrailingLayoutOffset,
-        paintExtentOf: paintExtentOf,
-      );
+      child: child,
+      childTrailingLayoutOffset: childTrailingLayoutOffset,
+      paintExtentOf: paintExtentOf,
+    );
 
     bool advance() {
       // returns true if we advanced, false if we have no more children
@@ -586,8 +604,9 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
         // We ran out of children before reaching the scroll offset.
         // We must inform our parent that this sliver cannot fulfill
         // its contract and that we need a max scroll offset correction.
-        final double extent = crossAxisChildrenData.maxChildTrailingLayoutOffset;
-        collectGarbage(childCount,0);
+        final double extent =
+            crossAxisChildrenData.maxChildTrailingLayoutOffset;
+        collectGarbage(childCount, 0);
         geometry = SliverGeometry(
           scrollExtent: extent,
           paintExtent: 0.0,
@@ -621,11 +640,14 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
       final int crossAxisCount = _gridDelegate.getCrossAxisCount(constraints);
       while (
           // Now find the first child that ends after our end.
-          crossAxisChildrenData.minChildTrailingLayoutOffset < targetEndScrollOffset
-          // Make sure leading children are all laid out.
-       || crossAxisChildrenData.leadingChildren.length < crossAxisCount
-       || crossAxisChildrenData.leadingChildren.length > childCount
-       || (child.parentData as SliverWaterfallFlowParentData).index < crossAxisCount - 1) {
+          crossAxisChildrenData.minChildTrailingLayoutOffset <
+                  targetEndScrollOffset
+              // Make sure leading children are all laid out.
+              ||
+              crossAxisChildrenData.leadingChildren.length < crossAxisCount ||
+              crossAxisChildrenData.leadingChildren.length > childCount ||
+              (child.parentData as SliverWaterfallFlowParentData).index <
+                  crossAxisCount - 1) {
         if (!advance()) {
           reachedEnd = true;
           break;
@@ -677,8 +699,8 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
     }
 
     ///zmt
-    final double result = handleCloseToTrailingEnd(
-        _gridDelegate?.closeToTrailing ?? false, endScrollOffset);
+    final double result =
+        handleCloseToTrailingEnd(closeToTrailing, endScrollOffset);
     if (result != endScrollOffset) {
       endScrollOffset = result;
       estimatedMaxScrollOffset = result;
@@ -723,9 +745,12 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
   /// layouts will not change suddenly when scroll.
   void _clearIfNeed() {
     if (_previousCrossAxisChildrenData != null) {
-      if (_previousCrossAxisChildrenData.crossAxisCount != gridDelegate.getCrossAxisCount(constraints)
-       || _previousCrossAxisChildrenData.gridDelegate.mainAxisSpacing != gridDelegate.mainAxisSpacing
-       || _previousCrossAxisChildrenData.constraints.crossAxisExtent != constraints.crossAxisExtent) {
+      if (_previousCrossAxisChildrenData.crossAxisCount !=
+              gridDelegate.getCrossAxisCount(constraints) ||
+          _previousCrossAxisChildrenData.gridDelegate.mainAxisSpacing !=
+              gridDelegate.mainAxisSpacing ||
+          _previousCrossAxisChildrenData.constraints.crossAxisExtent !=
+              constraints.crossAxisExtent) {
         _previousCrossAxisChildrenData = null;
         collectGarbage(childCount, 0);
       }
@@ -744,8 +769,10 @@ class _CrossAxisChildrenData {
     @required this.gridDelegate,
     @required this.constraints,
     List<SliverWaterfallFlowParentData> leadingChildren,
-  }) : leadingChildren = leadingChildren?.toList() ?? <SliverWaterfallFlowParentData>[],
-       trailingChildren = leadingChildren?.toList() ?? <SliverWaterfallFlowParentData>[];
+  })  : leadingChildren =
+            leadingChildren?.toList() ?? <SliverWaterfallFlowParentData>[],
+        trailingChildren =
+            leadingChildren?.toList() ?? <SliverWaterfallFlowParentData>[];
 
   /// The parent data of leading children.
   final List<SliverWaterfallFlowParentData> leadingChildren;
@@ -769,7 +796,8 @@ class _CrossAxisChildrenData {
     @required double Function(RenderBox child) childTrailingLayoutOffset,
     @required double Function(RenderBox child) paintExtentOf,
   }) {
-    final SliverWaterfallFlowParentData data = child.parentData as SliverWaterfallFlowParentData;
+    final SliverWaterfallFlowParentData data =
+        child.parentData as SliverWaterfallFlowParentData;
     final LastChildLayoutType lastChildLayoutType =
         gridDelegate.getLastChildLayoutType(data.index);
 
@@ -781,7 +809,8 @@ class _CrossAxisChildrenData {
         final double size = paintExtentOf(child);
         if (lastChildLayoutType == LastChildLayoutType.fullCrossAxisExtent ||
             maxChildTrailingLayoutOffset + size >
-                constraints.remainingPaintExtent) {
+                constraints.remainingPaintExtent ||
+            gridDelegate.closeToTrailing) {
           data.layoutOffset = maxChildTrailingLayoutOffset;
         } else {
           data.layoutOffset = constraints.remainingPaintExtent - size;
@@ -796,7 +825,8 @@ class _CrossAxisChildrenData {
       if (leadingChildren.length != crossAxisCount) {
         data.crossAxisIndex ??= leadingChildren.length;
 
-        data.crossAxisOffset = gridDelegate.getCrossAxisOffset(constraints, data.crossAxisIndex);
+        data.crossAxisOffset =
+            gridDelegate.getCrossAxisOffset(constraints, data.crossAxisIndex);
 
         data.layoutOffset = 0.0;
         data.indexes.clear();
@@ -807,8 +837,10 @@ class _CrossAxisChildrenData {
       // The child after the leadings should be put into the trailings.
       else {
         if (data.crossAxisIndex != null) {
-          final SliverWaterfallFlowParentData item = trailingChildren.firstWhere(
-            (SliverWaterfallFlowParentData x) => x.index > data.index && x.crossAxisIndex == data.crossAxisIndex,
+          final SliverWaterfallFlowParentData item =
+              trailingChildren.firstWhere(
+            (SliverWaterfallFlowParentData x) =>
+                x.index > data.index && x.crossAxisIndex == data.crossAxisIndex,
             orElse: () => null,
           );
 
@@ -821,17 +853,24 @@ class _CrossAxisChildrenData {
         }
         // Find the shortest one and laid out after it.
         final SliverWaterfallFlowParentData min = trailingChildren.reduce(
-          (SliverWaterfallFlowParentData current, SliverWaterfallFlowParentData next) =>
-          current.trailingLayoutOffset < next.trailingLayoutOffset ||
-          (current.trailingLayoutOffset == next.trailingLayoutOffset && current.crossAxisIndex < next.crossAxisIndex)
-          ? current : next,
+          (SliverWaterfallFlowParentData current,
+                  SliverWaterfallFlowParentData next) =>
+              current.trailingLayoutOffset < next.trailingLayoutOffset ||
+                      (current.trailingLayoutOffset ==
+                              next.trailingLayoutOffset &&
+                          current.crossAxisIndex < next.crossAxisIndex)
+                  ? current
+                  : next,
         );
 
-        data.layoutOffset = min.trailingLayoutOffset + gridDelegate.mainAxisSpacing;
+        data.layoutOffset =
+            min.trailingLayoutOffset + gridDelegate.mainAxisSpacing;
         data.crossAxisIndex = min.crossAxisIndex;
-        data.crossAxisOffset = gridDelegate.getCrossAxisOffset(constraints, data.crossAxisIndex);
+        data.crossAxisOffset =
+            gridDelegate.getCrossAxisOffset(constraints, data.crossAxisIndex);
 
-        for (final SliverWaterfallFlowParentData parentData in trailingChildren) {
+        for (final SliverWaterfallFlowParentData parentData
+            in trailingChildren) {
           parentData.indexes.remove(min.index);
         }
 
@@ -843,7 +882,8 @@ class _CrossAxisChildrenData {
       }
     }
 
-    data.crossAxisOffset = gridDelegate.getCrossAxisOffset(constraints, data.crossAxisIndex);
+    data.crossAxisOffset =
+        gridDelegate.getCrossAxisOffset(constraints, data.crossAxisIndex);
     data.trailingLayoutOffset = childTrailingLayoutOffset(child);
   }
 
@@ -853,9 +893,9 @@ class _CrossAxisChildrenData {
     @required RenderBox child,
     @required double Function(RenderBox child) paintExtentOf,
   }) {
-    final SliverWaterfallFlowParentData data = child.parentData as SliverWaterfallFlowParentData;
+    final SliverWaterfallFlowParentData data =
+        child.parentData as SliverWaterfallFlowParentData;
     if (!leadingChildren.contains(data)) {
-
       final SliverWaterfallFlowParentData leading = leadingChildren.firstWhere(
         (SliverWaterfallFlowParentData x) => x.indexes.contains(data.index),
         orElse: () => null,
@@ -867,10 +907,12 @@ class _CrossAxisChildrenData {
       }
 
       // Laid out the child before the leading.
-      data.trailingLayoutOffset = leading.layoutOffset - gridDelegate.mainAxisSpacing;
+      data.trailingLayoutOffset =
+          leading.layoutOffset - gridDelegate.mainAxisSpacing;
       data.layoutOffset = data.trailingLayoutOffset - paintExtentOf(child);
       data.crossAxisIndex = leading.crossAxisIndex;
-      data.crossAxisOffset = gridDelegate.getCrossAxisOffset(constraints, data.crossAxisIndex);
+      data.crossAxisOffset =
+          gridDelegate.getCrossAxisOffset(constraints, data.crossAxisIndex);
       data.indexes = leading.indexes;
 
       leadingChildren.remove(leading);
@@ -881,69 +923,79 @@ class _CrossAxisChildrenData {
   }
 
   double get maxLeadingLayoutOffset {
-    if(leadingChildren.isEmpty) {
+    if (leadingChildren.isEmpty) {
       return 0.0;
     }
 
-    return leadingChildren.reduce(
-      (SliverWaterfallFlowParentData current, SliverWaterfallFlowParentData next) =>
-      current.layoutOffset >= next.layoutOffset ? current : next
-    ).layoutOffset;
+    return leadingChildren
+        .reduce((SliverWaterfallFlowParentData current,
+                SliverWaterfallFlowParentData next) =>
+            current.layoutOffset >= next.layoutOffset ? current : next)
+        .layoutOffset;
   }
 
   double get minChildTrailingLayoutOffset {
-    if(trailingChildren.isEmpty) {
+    if (trailingChildren.isEmpty) {
       return 0.0;
     }
 
-    return trailingChildren.reduce(
-      (SliverWaterfallFlowParentData current, SliverWaterfallFlowParentData next) =>
-      current.trailingLayoutOffset <= next.trailingLayoutOffset ? current : next
-    ).trailingLayoutOffset;
+    return trailingChildren
+        .reduce((SliverWaterfallFlowParentData current,
+                SliverWaterfallFlowParentData next) =>
+            current.trailingLayoutOffset <= next.trailingLayoutOffset
+                ? current
+                : next)
+        .trailingLayoutOffset;
   }
 
   double get maxChildTrailingLayoutOffset {
-    if(trailingChildren.isEmpty) {
+    if (trailingChildren.isEmpty) {
       return 0.0;
     }
 
-    return trailingChildren.reduce(
-      (SliverWaterfallFlowParentData current, SliverWaterfallFlowParentData next) =>
-      current.trailingLayoutOffset >= next.trailingLayoutOffset ? current : next
-    ).trailingLayoutOffset;
+    return trailingChildren
+        .reduce((SliverWaterfallFlowParentData current,
+                SliverWaterfallFlowParentData next) =>
+            current.trailingLayoutOffset >= next.trailingLayoutOffset
+                ? current
+                : next)
+        .trailingLayoutOffset;
   }
 
   int get minLeadingIndex {
-    if(leadingChildren.isEmpty) {
+    if (leadingChildren.isEmpty) {
       return -1;
     }
 
-    return leadingChildren.reduce(
-      (SliverWaterfallFlowParentData current, SliverWaterfallFlowParentData next) =>
-      current.index < next.index ? current : next
-    ).index;
+    return leadingChildren
+        .reduce((SliverWaterfallFlowParentData current,
+                SliverWaterfallFlowParentData next) =>
+            current.index < next.index ? current : next)
+        .index;
   }
 
   int get maxLeadingIndex {
-    if(leadingChildren.isEmpty) {
+    if (leadingChildren.isEmpty) {
       return -1;
     }
 
-    return leadingChildren.reduce(
-      (SliverWaterfallFlowParentData current, SliverWaterfallFlowParentData next) =>
-      current.index > next.index ? current : next
-    ).index;
+    return leadingChildren
+        .reduce((SliverWaterfallFlowParentData current,
+                SliverWaterfallFlowParentData next) =>
+            current.index > next.index ? current : next)
+        .index;
   }
 
   int get minTrailingIndex {
-    if(trailingChildren.isEmpty) {
+    if (trailingChildren.isEmpty) {
       return -1;
     }
 
-    return trailingChildren.reduce(
-      (SliverWaterfallFlowParentData current, SliverWaterfallFlowParentData next) =>
-      current.index < next.index ? current : next
-    ).index;
+    return trailingChildren
+        .reduce((SliverWaterfallFlowParentData current,
+                SliverWaterfallFlowParentData next) =>
+            current.index < next.index ? current : next)
+        .index;
   }
 
   void clear() {
