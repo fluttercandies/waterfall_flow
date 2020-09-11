@@ -91,7 +91,8 @@ abstract class SliverWaterfallFlowDelegate extends ExtendedListDelegate {
   /// be different.
   bool shouldRelayout(SliverWaterfallFlowDelegate oldDelegate) {
     return oldDelegate.mainAxisSpacing != mainAxisSpacing ||
-        oldDelegate.crossAxisSpacing != crossAxisSpacing;
+        oldDelegate.crossAxisSpacing != crossAxisSpacing ||
+        oldDelegate.closeToTrailing != closeToTrailing;
   }
 
   LastChildLayoutType getLastChildLayoutType(int index) {
@@ -318,6 +319,9 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
     }
     _gridDelegate = value;
   }
+
+  @override
+  ExtendedListDelegate get extendedListDelegate => _gridDelegate;
 
   @override
   void setupParentData(RenderObject child) {
@@ -694,8 +698,8 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
     }
 
     ///zmt
-    final double result = handleCloseToTrailingEnd(
-        _gridDelegate?.closeToTrailing ?? false, endScrollOffset);
+    final double result =
+        handleCloseToTrailingEnd(closeToTrailing, endScrollOffset);
     if (result != endScrollOffset) {
       endScrollOffset = result;
       estimatedMaxScrollOffset = result;
@@ -805,7 +809,8 @@ class _CrossAxisChildrenData {
         final double size = paintExtentOf(child);
         if (lastChildLayoutType == LastChildLayoutType.fullCrossAxisExtent ||
             maxChildTrailingLayoutOffset + size >
-                constraints.remainingPaintExtent) {
+                constraints.remainingPaintExtent ||
+            gridDelegate.closeToTrailing) {
           data.layoutOffset = maxChildTrailingLayoutOffset;
         } else {
           data.layoutOffset = constraints.remainingPaintExtent - size;

@@ -29,10 +29,11 @@ dependencies:
   pull_to_refresh_notification: any
   like_button: any
   extended_sliver: ^1.0.1
-  
+
 dependency_overrides:
   waterfall_flow:
     path: ../
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
