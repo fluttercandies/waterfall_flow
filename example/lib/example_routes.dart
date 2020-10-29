@@ -32,9 +32,9 @@ class Routes {
   ///
   /// [routeName] : 'DemoGroupPage'
   ///
-  /// [arguments] : [keyValue]
+  /// [constructors] :
   ///
-  /// [argumentTypes] : [List<DemoRouteResult>]
+  /// DemoGroupPage : [MapEntry<String, List<DemoRouteResult>> keyValue]
   static const String fluttercandiesDemogrouppage =
       'fluttercandies://demogrouppage';
 
@@ -54,6 +54,10 @@ class Routes {
   /// [name] : 'fluttercandies://mainpage'
   ///
   /// [routeName] : 'MainPage'
+  ///
+  /// [constructors] :
+  ///
+  /// MainPage : []
   static const String fluttercandiesMainpage = 'fluttercandies://mainpage';
 
   /// 'show how to build random-sized item with waterfall flow list.'

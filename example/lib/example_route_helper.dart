@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:ff_annotation_route/ff_annotation_route.dart';
 
 import 'example_route.dart';
 
@@ -55,7 +56,7 @@ class FFTransparentPageRoute<T> extends PageRouteBuilder<T> {
     RouteSettings settings,
     @required RoutePageBuilder pageBuilder,
     RouteTransitionsBuilder transitionsBuilder = _defaultTransitionsBuilder,
-    Duration transitionDuration = const Duration(milliseconds: 300),
+    Duration transitionDuration = const Duration(milliseconds: 150),
     bool barrierDismissible = false,
     Color barrierColor,
     String barrierLabel,
@@ -83,7 +84,13 @@ Widget _defaultTransitionsBuilder(
   Animation<double> secondaryAnimation,
   Widget child,
 ) {
-  return child;
+  return FadeTransition(
+    opacity: CurvedAnimation(
+      parent: animation,
+      curve: Curves.easeOut,
+    ),
+    child: child,
+  );
 }
 
 Route<dynamic> onGenerateRouteHelper(
@@ -109,7 +116,7 @@ Route<dynamic> onGenerateRouteHelper(
   Widget page = routeResult.widget ?? notFoundFallback;
   if (page == null) {
     throw Exception(
-      '''Route "${settings.name}" returned null. Route Widget must never return null, 
+      '''Route "${settings.name}" returned null. Route Widget must never return null,
           maybe the reason is that route name did not match with right path.
           You can use parameter[notFoundFallback] to avoid this ugly error.''',
     );

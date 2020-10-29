@@ -603,15 +603,27 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
         // We ran out of children before reaching the scroll offset.
         // We must inform our parent that this sliver cannot fulfill
         // its contract and that we need a max scroll offset correction.
+
+        // we want to make sure we keep the trailingChildren around so we know the end scroll offset
+
+        final int minTrailingIndex =
+            _previousCrossAxisChildrenData.minTrailingIndex;
+        for (final int index in leadingGarbages) {
+          if (index >= minTrailingIndex) {
+            leadingGarbage -= 1;
+          }
+        }
+        collectGarbage(leadingGarbage, 0);
+
         final double extent =
             crossAxisChildrenData.maxChildTrailingLayoutOffset;
-        collectGarbage(childCount, 0);
+
         geometry = SliverGeometry(
           scrollExtent: extent,
           paintExtent: 0.0,
           maxPaintExtent: extent,
         );
-        _previousCrossAxisChildrenData = null;
+        //_previousCrossAxisChildrenData = null;
         return;
       }
     }

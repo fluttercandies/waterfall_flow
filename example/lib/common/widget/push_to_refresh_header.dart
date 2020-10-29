@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui' as ui show Image;
 
+import 'package:example/common/assets.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
@@ -96,7 +97,7 @@ class RefreshImage extends StatelessWidget {
   Widget build(BuildContext context) {
     const double imageSize = 40;
     return ExtendedImage.asset(
-      'assets/flutterCandies_grey.png',
+      Assets.assets_fluttercandies_grey_png,
       width: imageSize,
       height: imageSize,
       afterPaintImage: (Canvas canvas, Rect rect, ui.Image image, Paint paint) {

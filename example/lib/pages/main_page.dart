@@ -107,8 +107,6 @@ class MainPage extends StatelessWidget {
 @FFRoute(
   name: 'fluttercandies://demogrouppage',
   routeName: 'DemoGroupPage',
-  argumentNames: <String>['keyValue'],
-  argumentTypes: <String>['List<DemoRouteResult>'],
 )
 class DemoGroupPage extends StatelessWidget {
   DemoGroupPage({MapEntry<String, List<DemoRouteResult>> keyValue})

@@ -1,3 +1,4 @@
+import 'package:example/common/assets.dart';
 import 'package:example/common/data/tu_chong_repository.dart';
 import 'package:example/common/data/tu_chong_source.dart';
 import 'package:extended_image/extended_image.dart';
@@ -13,7 +14,7 @@ Widget buildWaterfallFlowItem(BuildContext c, TuChongItem item, int index,
       ExtendedImage.network(
         item.imageUrl,
         shape: BoxShape.rectangle,
-        clearMemoryCacheWhenDispose: true,
+        //clearMemoryCacheWhenDispose: true,
         border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
         borderRadius: const BorderRadius.all(
           Radius.circular(10.0),
@@ -143,7 +144,7 @@ Widget buildBottomWidget(TuChongItem item, {bool showAvatar = true}) {
               return null;
             }
             return Image.asset(
-              'assets/avatar.jpg',
+              Assets.assets_avatar_jpg,
             );
           },
         ),
