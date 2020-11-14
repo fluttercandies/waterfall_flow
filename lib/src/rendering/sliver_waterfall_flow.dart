@@ -474,7 +474,10 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
 
         final SliverWaterfallFlowParentData data =
             earliestUsefulChild.parentData as SliverWaterfallFlowParentData;
-
+        // item after leadings
+        if (data.layoutOffset == null) {
+          continue;
+        }
         // firstChildScrollOffset may contain double precision error
         if (data.layoutOffset < -precisionErrorTolerance) {
           // The first child doesn't fit within the viewport (underflow) and
@@ -605,14 +608,17 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
         // its contract and that we need a max scroll offset correction.
 
         // we want to make sure we keep the trailingChildren around so we know the end scroll offset
-
-        final int minTrailingIndex =
-            _previousCrossAxisChildrenData.minTrailingIndex;
-        for (final int index in leadingGarbages) {
-          if (index >= minTrailingIndex) {
-            leadingGarbage -= 1;
+        // if _previousCrossAxisChildrenData is null, we should re-calculate it from index 0.
+        if (_previousCrossAxisChildrenData != null) {
+          final int minTrailingIndex =
+              _previousCrossAxisChildrenData.minTrailingIndex;
+          for (final int index in leadingGarbages) {
+            if (index >= minTrailingIndex) {
+              leadingGarbage -= 1;
+            }
           }
         }
+
         collectGarbage(leadingGarbage, 0);
 
         final double extent =

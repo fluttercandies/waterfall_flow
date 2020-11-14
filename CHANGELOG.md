@@ -1,3 +1,7 @@
+## 2.0.5
+
+* getter 'minTrailingIndex' was called on null(#18)
+
 ## 2.0.4
 
 * keep the trailingChildren around when run out of children before reaching the scroll offset(#14)
