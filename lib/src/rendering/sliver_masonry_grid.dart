@@ -403,7 +403,10 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
         crossAxisChildrenData.insertLeading(child: earliestUsefulChild, paintExtentOf: paintExtentOf);
 
         final SliverMasonryGridParentData data = earliestUsefulChild.parentData as SliverMasonryGridParentData;
-
+        // item after leadings
+        if (data.layoutOffset == null) {
+          continue;
+        }
         // firstChildScrollOffset may contain double precision error
         if (data.layoutOffset < -precisionErrorTolerance) {
           // The first child doesn't fit within the viewport (underflow) and
@@ -514,14 +517,28 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
         // We ran out of children before reaching the scroll offset.
         // We must inform our parent that this sliver cannot fulfill
         // its contract and that we need a max scroll offset correction.
-        final double extent = crossAxisChildrenData.maxChildTrailingLayoutOffset;
-        collectGarbage(childCount,0);
+       // we want to make sure we keep the trailingChildren around so we know the end scroll offset
+        // if _previousCrossAxisChildrenData is null, we should re-calculate it from index 0.
+        if (_previousCrossAxisChildrenData != null) {
+          final int minTrailingIndex =
+              _previousCrossAxisChildrenData.minTrailingIndex;
+          for (final int index in leadingGarbages) {
+            if (index >= minTrailingIndex) {
+              leadingGarbage -= 1;
+            }
+          }
+        }
+        collectGarbage(leadingGarbage, 0);
+
+        final double extent =
+            crossAxisChildrenData.maxChildTrailingLayoutOffset;
+
         geometry = SliverGeometry(
           scrollExtent: extent,
           paintExtent: 0.0,
           maxPaintExtent: extent,
         );
-        _previousCrossAxisChildrenData = null;
+        //_previousCrossAxisChildrenData = null;
         return;
       }
     }
