@@ -34,7 +34,7 @@ class Routes {
   ///
   /// [constructors] :
   ///
-  /// DemoGroupPage : [MapEntry<String, List<DemoRouteResult>> keyValue]
+  /// DemoGroupPage : [MapEntry<String, List<DemoRouteResult>>(required) keyValue]
   static const String fluttercandiesDemogrouppage =
       'fluttercandies://demogrouppage';
 

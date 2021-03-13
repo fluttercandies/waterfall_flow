@@ -50389,5 +50389,5 @@ Map<String, dynamic> _mock = <String, dynamic>{
   'result': 'SUCCESS'
 };
 
-TuChongSource _mockSource;
-TuChongSource get mockSource => _mockSource ??= TuChongSource.fromJson(_mock);
+TuChongSource _mockSource = TuChongSource.fromJson(_mock);
+TuChongSource get mockSource => _mockSource;

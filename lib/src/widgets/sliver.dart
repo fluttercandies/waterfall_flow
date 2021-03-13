@@ -57,9 +57,9 @@ class SliverWaterfallFlow extends SliverMultiBoxAdaptorWidget {
   /// Creates a sliver that places multiple box children in a two dimensional
   /// arrangement and masonry layout.
   const SliverWaterfallFlow({
-    Key key,
-    @required SliverChildDelegate delegate,
-    @required this.gridDelegate,
+    Key? key,
+    required SliverChildDelegate delegate,
+    required this.gridDelegate,
   }) : super(key: key, delegate: delegate);
 
   /// Creates a sliver that places multiple box children in a two dimensional
@@ -72,14 +72,14 @@ class SliverWaterfallFlow extends SliverMultiBoxAdaptorWidget {
   ///
   ///  * [new WaterfallFlow.count], the equivalent constructor for [WaterfallFlow] widgets.
   SliverWaterfallFlow.count({
-    Key key,
-    @required int crossAxisCount,
+    Key? key,
+    required int crossAxisCount,
     double mainAxisSpacing = 0.0,
     double crossAxisSpacing = 0.0,
     List<Widget> children = const <Widget>[],
-    LastChildLayoutTypeBuilder lastChildLayoutTypeBuilder,
-    CollectGarbage collectGarbage,
-    ViewportBuilder viewportBuilder,
+    LastChildLayoutTypeBuilder? lastChildLayoutTypeBuilder,
+    CollectGarbage? collectGarbage,
+    ViewportBuilder? viewportBuilder,
     bool closeToTrailing = false,
   })  : gridDelegate = SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
@@ -102,14 +102,14 @@ class SliverWaterfallFlow extends SliverMultiBoxAdaptorWidget {
   ///
   ///  * [new MasonryGridView.extent], the equivalent constructor for [MasonryGridView] widgets.
   SliverWaterfallFlow.extent({
-    Key key,
-    @required double maxCrossAxisExtent,
+    Key? key,
+    required double maxCrossAxisExtent,
     double mainAxisSpacing = 0.0,
     double crossAxisSpacing = 0.0,
     List<Widget> children = const <Widget>[],
-    LastChildLayoutTypeBuilder lastChildLayoutTypeBuilder,
-    CollectGarbage collectGarbage,
-    ViewportBuilder viewportBuilder,
+    LastChildLayoutTypeBuilder? lastChildLayoutTypeBuilder,
+    CollectGarbage? collectGarbage,
+    ViewportBuilder? viewportBuilder,
     bool closeToTrailing = false,
   })  : gridDelegate = SliverWaterfallFlowDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: maxCrossAxisExtent,

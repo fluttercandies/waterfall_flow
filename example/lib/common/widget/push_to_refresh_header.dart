@@ -13,25 +13,25 @@ double refreshHeight = maxDragOffset / 1.5;
 
 class PullToRefreshHeader extends StatelessWidget {
   const PullToRefreshHeader(this.info, this.lastRefreshTime, {this.color});
-  final PullToRefreshScrollNotificationInfo info;
-  final DateTime lastRefreshTime;
-  final Color color;
+  final PullToRefreshScrollNotificationInfo? info;
+  final DateTime? lastRefreshTime;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     if (info == null) {
       return Container();
     }
     String text = '';
-    if (info.mode == RefreshIndicatorMode.armed) {
+    if (info!.mode == RefreshIndicatorMode.armed) {
       text = 'Release to refresh';
-    } else if (info.mode == RefreshIndicatorMode.refresh ||
-        info.mode == RefreshIndicatorMode.snap) {
+    } else if (info!.mode == RefreshIndicatorMode.refresh ||
+        info!.mode == RefreshIndicatorMode.snap) {
       text = 'Loading...';
-    } else if (info.mode == RefreshIndicatorMode.done) {
+    } else if (info!.mode == RefreshIndicatorMode.done) {
       text = 'Refresh completed.';
-    } else if (info.mode == RefreshIndicatorMode.drag) {
+    } else if (info!.mode == RefreshIndicatorMode.drag) {
       text = 'Pull to refresh';
-    } else if (info.mode == RefreshIndicatorMode.canceled) {
+    } else if (info!.mode == RefreshIndicatorMode.canceled) {
       text = 'Cancel refresh';
     }
 
@@ -105,7 +105,7 @@ class RefreshImage extends StatelessWidget {
         final double imageWidth = image.width.toDouble();
         final Size size = rect.size;
         final double y = (1 - min(top / (refreshHeight - hideHeight), 1)) *
-            imageHeight as double;
+            imageHeight;
 
         canvas.drawImageRect(
             image,

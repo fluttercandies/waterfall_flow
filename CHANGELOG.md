@@ -1,3 +1,7 @@
+## 3.0.0
+
+* support null-safety
+
 ## 2.0.5
 
 * getter 'minTrailingIndex' was called on null(#18)

@@ -216,26 +216,26 @@ class WaterfallFlow extends BoxScrollView {
   /// [SliverChildListDelegate.addRepaintBoundaries] property. Both must not be
   /// null.
   WaterfallFlow({
-    Key key,
+    Key? key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
-    ScrollController controller,
-    bool primary,
-    ScrollPhysics physics,
+    ScrollController? controller,
+    bool? primary,
+    ScrollPhysics? physics,
     bool shrinkWrap = false,
-    EdgeInsetsGeometry padding,
-    @required this.gridDelegate,
+    EdgeInsetsGeometry? padding,
+    required this.gridDelegate,
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
-    double cacheExtent,
+    double? cacheExtent,
     List<Widget> children = const <Widget>[],
-    int semanticChildCount,
+    int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
-  })  : assert(gridDelegate != null),
-        childrenDelegate = SliverChildListDelegate(
+    String? restorationId,
+  })  : childrenDelegate = SliverChildListDelegate(
           children,
           addAutomaticKeepAlives: addAutomaticKeepAlives,
           addRepaintBoundaries: addRepaintBoundaries,
@@ -254,6 +254,7 @@ class WaterfallFlow extends BoxScrollView {
           semanticChildCount: semanticChildCount ?? children.length,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
+          restorationId: restorationId,
         );
 
   /// Creates a scrollable, 2D array of widgets whose size is variable in the main axis
@@ -277,27 +278,27 @@ class WaterfallFlow extends BoxScrollView {
   /// [SliverChildBuilderDelegate.addRepaintBoundaries] property. Both must not
   /// be null.
   WaterfallFlow.builder({
-    Key key,
+    Key? key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
-    ScrollController controller,
-    bool primary,
-    ScrollPhysics physics,
+    ScrollController? controller,
+    bool? primary,
+    ScrollPhysics? physics,
     bool shrinkWrap = false,
-    EdgeInsetsGeometry padding,
-    @required this.gridDelegate,
-    @required IndexedWidgetBuilder itemBuilder,
-    int itemCount,
+    EdgeInsetsGeometry? padding,
+    required this.gridDelegate,
+    required IndexedWidgetBuilder itemBuilder,
+    int? itemCount,
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
-    double cacheExtent,
-    int semanticChildCount,
+    double? cacheExtent,
+    int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
-  })  : assert(gridDelegate != null),
-        childrenDelegate = SliverChildBuilderDelegate(
+    String? restorationId,
+  })  : childrenDelegate = SliverChildBuilderDelegate(
           itemBuilder,
           childCount: itemCount,
           addAutomaticKeepAlives: addAutomaticKeepAlives,
@@ -317,6 +318,7 @@ class WaterfallFlow extends BoxScrollView {
           semanticChildCount: semanticChildCount ?? itemCount,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
+          restorationId: restorationId,
         );
 
   /// Creates a scrollable, 2D array of widgets whose size is variable in the main axis
@@ -327,24 +329,23 @@ class WaterfallFlow extends BoxScrollView {
   ///
   /// The [gridDelegate] and [childrenDelegate] arguments must not be null.
   const WaterfallFlow.custom({
-    Key key,
+    Key? key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
-    ScrollController controller,
-    bool primary,
-    ScrollPhysics physics,
+    ScrollController? controller,
+    bool? primary,
+    ScrollPhysics? physics,
     bool shrinkWrap = false,
-    EdgeInsetsGeometry padding,
-    @required this.gridDelegate,
-    @required this.childrenDelegate,
-    double cacheExtent,
-    int semanticChildCount,
+    EdgeInsetsGeometry? padding,
+    required this.gridDelegate,
+    required this.childrenDelegate,
+    double? cacheExtent,
+    int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
-  })  : assert(gridDelegate != null),
-        assert(childrenDelegate != null),
-        super(
+    String? restorationId,
+  }) : super(
           key: key,
           scrollDirection: scrollDirection,
           reverse: reverse,
@@ -357,6 +358,7 @@ class WaterfallFlow extends BoxScrollView {
           semanticChildCount: semanticChildCount,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
+          restorationId: restorationId,
         );
 
   /// Creates a scrollable, 2D array of widgets whose size is variable in the main axis
@@ -374,30 +376,31 @@ class WaterfallFlow extends BoxScrollView {
   ///
   ///  * [new SliverWaterfallFlow.count], the equivalent constructor for [SliverWaterfallFlow].
   WaterfallFlow.count({
-    Key key,
+    Key? key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
-    ScrollController controller,
-    bool primary,
-    ScrollPhysics physics,
+    ScrollController? controller,
+    bool? primary,
+    ScrollPhysics? physics,
     bool shrinkWrap = false,
-    EdgeInsetsGeometry padding,
-    @required int crossAxisCount,
+    EdgeInsetsGeometry? padding,
+    required int crossAxisCount,
     double mainAxisSpacing = 0.0,
     double crossAxisSpacing = 0.0,
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
-    double cacheExtent,
+    double? cacheExtent,
     List<Widget> children = const <Widget>[],
-    int semanticChildCount,
+    int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
-    LastChildLayoutTypeBuilder lastChildLayoutTypeBuilder,
-    CollectGarbage collectGarbage,
-    ViewportBuilder viewportBuilder,
+    LastChildLayoutTypeBuilder? lastChildLayoutTypeBuilder,
+    CollectGarbage? collectGarbage,
+    ViewportBuilder? viewportBuilder,
     bool closeToTrailing = false,
+    String? restorationId,
   })  : gridDelegate = SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
           mainAxisSpacing: mainAxisSpacing,
@@ -426,6 +429,7 @@ class WaterfallFlow extends BoxScrollView {
           semanticChildCount: semanticChildCount ?? children.length,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
+          restorationId: restorationId,
         );
 
   /// Creates a scrollable, 2D array of widgets in masonry layout with tiles
@@ -443,29 +447,30 @@ class WaterfallFlow extends BoxScrollView {
   ///
   ///  * [SliverGrid.extent], the equivalent constructor for [SliverGrid].
   WaterfallFlow.extent({
-    Key key,
+    Key? key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
-    ScrollController controller,
-    bool primary,
-    ScrollPhysics physics,
+    ScrollController? controller,
+    bool? primary,
+    ScrollPhysics? physics,
     bool shrinkWrap = false,
-    EdgeInsetsGeometry padding,
-    @required double maxCrossAxisExtent,
+    EdgeInsetsGeometry? padding,
+    required double maxCrossAxisExtent,
     double mainAxisSpacing = 0.0,
     double crossAxisSpacing = 0.0,
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
     List<Widget> children = const <Widget>[],
-    int semanticChildCount,
+    int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
-    LastChildLayoutTypeBuilder lastChildLayoutTypeBuilder,
-    CollectGarbage collectGarbage,
-    ViewportBuilder viewportBuilder,
+    LastChildLayoutTypeBuilder? lastChildLayoutTypeBuilder,
+    CollectGarbage? collectGarbage,
+    ViewportBuilder? viewportBuilder,
     bool closeToTrailing = false,
+    String? restorationId,
   })  : gridDelegate = SliverWaterfallFlowDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: maxCrossAxisExtent,
           mainAxisSpacing: mainAxisSpacing,
@@ -493,6 +498,7 @@ class WaterfallFlow extends BoxScrollView {
           semanticChildCount: semanticChildCount ?? children.length,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
+          restorationId: restorationId,
         );
 
   /// A delegate that controls the masonry layout of the children within the [WaterfallFlow].

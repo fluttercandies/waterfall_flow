@@ -1,4 +1,4 @@
-// @dart = 2.8
+
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
@@ -341,11 +341,11 @@ void main() {
       final Finder finder = find.byType(TextField).first;
       final TextField textField = tester.widget(finder);
       await tester.showKeyboard(finder);
-      expect(textField.focusNode.hasFocus, isTrue);
+      expect(textField.focusNode!.hasFocus, isTrue);
 
       await tester.drag(finder, const Offset(0.0, -40.0));
       await tester.pumpAndSettle();
-      expect(textField.focusNode.hasFocus, isFalse);
+      expect(textField.focusNode!.hasFocus, isFalse);
     });
 
     testWidgets('count dismiss keyboard onDrag test',
@@ -375,11 +375,11 @@ void main() {
       final Finder finder = find.byType(TextField).first;
       final TextField textField = tester.widget(finder);
       await tester.showKeyboard(finder);
-      expect(textField.focusNode.hasFocus, isTrue);
+      expect(textField.focusNode!.hasFocus, isTrue);
 
       await tester.drag(finder, const Offset(0.0, -40.0));
       await tester.pumpAndSettle();
-      expect(textField.focusNode.hasFocus, isFalse);
+      expect(textField.focusNode!.hasFocus, isFalse);
     });
 
     testWidgets('extent dismiss keyboard onDrag test',
@@ -409,11 +409,11 @@ void main() {
       final Finder finder = find.byType(TextField).first;
       final TextField textField = tester.widget(finder);
       await tester.showKeyboard(finder);
-      expect(textField.focusNode.hasFocus, isTrue);
+      expect(textField.focusNode!.hasFocus, isTrue);
 
       await tester.drag(finder, const Offset(0.0, -40.0));
       await tester.pumpAndSettle();
-      expect(textField.focusNode.hasFocus, isFalse);
+      expect(textField.focusNode!.hasFocus, isFalse);
     });
 
     testWidgets('dismiss keyboard manual test', (WidgetTester tester) async {
@@ -445,11 +445,11 @@ void main() {
       final Finder finder = find.byType(TextField).first;
       final TextField textField = tester.widget(finder);
       await tester.showKeyboard(finder);
-      expect(textField.focusNode.hasFocus, isTrue);
+      expect(textField.focusNode!.hasFocus, isTrue);
 
       await tester.drag(finder, const Offset(0.0, -40.0));
       await tester.pumpAndSettle();
-      expect(textField.focusNode.hasFocus, isTrue);
+      expect(textField.focusNode!.hasFocus, isTrue);
     });
 
     testWidgets('count dismiss keyboard manual test',
@@ -479,11 +479,11 @@ void main() {
       final Finder finder = find.byType(TextField).first;
       final TextField textField = tester.widget(finder);
       await tester.showKeyboard(finder);
-      expect(textField.focusNode.hasFocus, isTrue);
+      expect(textField.focusNode!.hasFocus, isTrue);
 
       await tester.drag(finder, const Offset(0.0, -40.0));
       await tester.pumpAndSettle();
-      expect(textField.focusNode.hasFocus, isTrue);
+      expect(textField.focusNode!.hasFocus, isTrue);
     });
 
     testWidgets('extend dismiss keyboard manual test',
@@ -513,11 +513,11 @@ void main() {
       final Finder finder = find.byType(TextField).first;
       final TextField textField = tester.widget(finder);
       await tester.showKeyboard(finder);
-      expect(textField.focusNode.hasFocus, isTrue);
+      expect(textField.focusNode!.hasFocus, isTrue);
 
       await tester.drag(finder, const Offset(0.0, -40.0));
       await tester.pumpAndSettle();
-      expect(textField.focusNode.hasFocus, isTrue);
+      expect(textField.focusNode!.hasFocus, isTrue);
     });
 
     testWidgets('itemCount change test', (WidgetTester tester) async {
@@ -578,8 +578,8 @@ void main() {
 
     testWidgets('items removeRange test', (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
-      int start;
-      int end;
+      late int start;
+      late int end;
       await tester.pumpWidget(
         materialAppBoilerplate(
             child: MasonryTestPage(
@@ -587,7 +587,7 @@ void main() {
           crossAxisCount: 4,
           items: List<int>.generate(100, (int index) => index),
           setState: (_MasonryTestPageState state) {
-            state._items.removeRange(start, end);
+            state._items!.removeRange(start, end);
           },
           builder: true,
         )),
@@ -633,7 +633,7 @@ void main() {
     testWidgets('the child who out of viewport change big test',
         (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
-      double size;
+      double? size;
       await tester.pumpWidget(
         materialAppBoilerplate(
             child: MasonryTestPage(
@@ -746,7 +746,7 @@ void main() {
     testWidgets('the child who out of viewport change small sroll into 0 test',
         (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
-      double size;
+      double? size;
       await tester.pumpWidget(
         materialAppBoilerplate(
             child: MasonryTestPage(
@@ -860,7 +860,7 @@ void main() {
         'the child who out of viewport change small sroll into 100 test',
         (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
-      double size;
+      double? size;
       await tester.pumpWidget(
         materialAppBoilerplate(
             child: MasonryTestPage(
@@ -967,7 +967,7 @@ void main() {
     testWidgets('insert child out of viewport test',
         (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
-      double size;
+      double? size;
       await tester.pumpWidget(
         materialAppBoilerplate(
             child: MasonryTestPage(
@@ -981,7 +981,7 @@ void main() {
             return null;
           },
           setState: (_MasonryTestPageState state) {
-            state._items.insert(0, 999);
+            state._items!.insert(0, 999);
           },
           builder: true,
         )),
@@ -1081,7 +1081,7 @@ void main() {
     testWidgets('remove child out of viewport test',
         (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
-      int removeIndex;
+      int? removeIndex;
       await tester.pumpWidget(
         materialAppBoilerplate(
             child: MasonryTestPage(
@@ -1095,7 +1095,7 @@ void main() {
             return null;
           },
           setState: (_MasonryTestPageState state) {
-            state._items.remove(removeIndex);
+            state._items!.remove(removeIndex);
           },
           builder: true,
         )),
@@ -1198,8 +1198,8 @@ Widget masonryGridViewWithChildrenBoilerplate({
   int crossAxisCount = 2,
   double crossAxisSpacing = 0.0,
   double mainAxisSpacing = 0.0,
-  double maxCrossAxisExtent,
-  ScrollController controller,
+  double? maxCrossAxisExtent,
+  ScrollController? controller,
 }) {
   final List<Widget> children = <Widget>[
     Container(
@@ -1263,10 +1263,10 @@ Widget masonryGridViewBuilderBoilerplate({
   int crossAxisCount = 4,
   double crossAxisSpacing = 0.0,
   double mainAxisSpacing = 0.0,
-  double maxCrossAxisExtent,
-  ScrollController controller,
-  List<int> items,
-  double Function(int index) sizeBuilder,
+  double? maxCrossAxisExtent,
+  ScrollController? controller,
+  required List<int> items,
+  double? Function(int index)? sizeBuilder,
 }) {
   final SliverWaterfallFlowDelegate delegate = maxCrossAxisExtent != null
       ? SliverWaterfallFlowDelegateWithMaxCrossAxisExtent(
@@ -1297,7 +1297,7 @@ Widget masonryGridViewBuilderBoilerplate({
 }
 
 Widget materialAppBoilerplate(
-    {Widget child, TextDirection textDirection = TextDirection.ltr}) {
+    {Widget? child, TextDirection textDirection = TextDirection.ltr}) {
   return MaterialApp(
     home: Directionality(
       textDirection: textDirection,
@@ -1311,7 +1311,7 @@ Widget materialAppBoilerplate(
   );
 }
 
-Widget textFieldBoilerplate({Widget child}) {
+Widget textFieldBoilerplate({Widget? child}) {
   return MaterialApp(
     home: Localizations(
       locale: const Locale('en', 'US'),
@@ -1351,23 +1351,23 @@ class MasonryTestPage extends StatefulWidget {
   final double mainAxisSpacing;
   final double crossAxisSpacing;
   final TextDirection textDirection;
-  final double maxCrossAxisExtent;
-  final List<int> items;
-  final ScrollController controller;
-  final void Function(_MasonryTestPageState setState) setState;
+  final double? maxCrossAxisExtent;
+  final List<int>? items;
+  final ScrollController? controller;
+  final void Function(_MasonryTestPageState setState)? setState;
   final bool builder;
-  final double Function(int index) sizeBuilder;
+  final double? Function(int index)? sizeBuilder;
   @override
   _MasonryTestPageState createState() => _MasonryTestPageState();
 }
 
 class _MasonryTestPageState extends State<MasonryTestPage> {
-  int _crossAxisCount;
-  double _crossAxisSpacing;
-  double _mainAxisSpacing;
-  TextDirection _textDirection;
-  double _maxCrossAxisExtent;
-  List<int> _items;
+  late int _crossAxisCount;
+  late double _crossAxisSpacing;
+  late double _mainAxisSpacing;
+  late TextDirection _textDirection;
+  double? _maxCrossAxisExtent;
+  List<int>? _items;
   @override
   void initState() {
     _crossAxisCount = widget.crossAxisCount;
@@ -1391,7 +1391,7 @@ class _MasonryTestPageState extends State<MasonryTestPage> {
                 crossAxisSpacing: _crossAxisSpacing,
                 maxCrossAxisExtent: _maxCrossAxisExtent,
                 controller: widget.controller,
-                items: _items,
+                items: _items!,
                 sizeBuilder: widget.sizeBuilder,
               )
             : masonryGridViewWithChildrenBoilerplate(

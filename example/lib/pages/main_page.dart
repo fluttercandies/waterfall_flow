@@ -1,6 +1,7 @@
 import 'package:example/example_routes.dart';
+import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:ff_annotation_route/ff_annotation_route.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:collection/collection.dart';
 import '../example_route.dart';
@@ -18,9 +19,9 @@ class MainPage extends StatelessWidget {
     routeNames.remove(Routes.fluttercandiesDemogrouppage);
     routesGroup.addAll(groupBy<DemoRouteResult, String>(
         routeNames
-            .map<RouteResult>((String name) => getRouteResult(name: name))
-            .where((RouteResult element) => element.exts != null)
-            .map<DemoRouteResult>((RouteResult e) => DemoRouteResult(e))
+            .map<FFRouteSettings>((String name) => getRouteSettings(name: name))
+            .where((FFRouteSettings element) => element.exts != null)
+            .map<DemoRouteResult>((FFRouteSettings e) => DemoRouteResult(e))
             .toList()
               ..sort((DemoRouteResult a, DemoRouteResult b) =>
                   b.group.compareTo(a.group)),
@@ -40,7 +41,7 @@ class MainPage extends StatelessWidget {
           ButtonTheme(
             minWidth: 0.0,
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: FlatButton(
+            child: TextButton(
               child: const Text(
                 'Github',
                 style: TextStyle(
@@ -57,9 +58,11 @@ class MainPage extends StatelessWidget {
           ButtonTheme(
             padding: const EdgeInsets.only(right: 10.0),
             minWidth: 0.0,
-            child: FlatButton(
-              child:
-                  Image.network('https://pub.idqqimg.com/wpa/images/group.png'),
+            child: TextButton(
+              child: kIsWeb
+                  ? const Text('QQ')
+                  : Image.network(
+                      'https://pub.idqqimg.com/wpa/images/group.png'),
               onPressed: () {
                 launch('https://jq.qq.com/?_wv=1027&k=5bcc0gy');
               },
@@ -109,7 +112,7 @@ class MainPage extends StatelessWidget {
   routeName: 'DemoGroupPage',
 )
 class DemoGroupPage extends StatelessWidget {
-  DemoGroupPage({MapEntry<String, List<DemoRouteResult>> keyValue})
+  DemoGroupPage({required MapEntry<String, List<DemoRouteResult>> keyValue})
       : routes = keyValue.value
           ..sort((DemoRouteResult a, DemoRouteResult b) =>
               a.order.compareTo(b.order)),
@@ -133,17 +136,17 @@ class DemoGroupPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    (index + 1).toString() + '.' + page.routeResult.routeName,
+                    (index + 1).toString() + '.' + page.routeResult.routeName!,
                     //style: TextStyle(inherit: false),
                   ),
                   Text(
-                    page.routeResult.description,
+                    page.routeResult.description!,
                     style: const TextStyle(color: Colors.grey),
                   )
                 ],
               ),
               onTap: () {
-                Navigator.pushNamed(context, page.routeResult.name);
+                Navigator.pushNamed(context, page.routeResult.name!);
               },
             ),
           );
@@ -157,10 +160,10 @@ class DemoGroupPage extends StatelessWidget {
 class DemoRouteResult {
   DemoRouteResult(
     this.routeResult,
-  )   : order = routeResult.exts['order'] as int,
-        group = routeResult.exts['group'] as String;
+  )   : order = routeResult.exts!['order'] as int,
+        group = routeResult.exts!['group'] as String;
 
   final int order;
   final String group;
-  final RouteResult routeResult;
+  final FFRouteSettings routeResult;
 }

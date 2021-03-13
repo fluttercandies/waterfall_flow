@@ -1,4 +1,4 @@
-// @dart = 2.8
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
@@ -338,8 +338,8 @@ void main() {
 
     testWidgets('items removeRange test', (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
-      int start;
-      int end;
+      late int start;
+      late int end;
       await tester.pumpWidget(
         materialAppBoilerplate(
             child: SliverMasonryTestPage(
@@ -347,7 +347,7 @@ void main() {
           crossAxisCount: 4,
           items: List<int>.generate(100, (int index) => index),
           setState: (_SliverMasonryTestPageState state) {
-            state._items.removeRange(start, end);
+            state._items!.removeRange(start, end);
           },
           builder: true,
         )),
@@ -393,7 +393,7 @@ void main() {
     testWidgets('the child who out of viewport change big test',
         (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
-      double size;
+      double? size;
       await tester.pumpWidget(
         materialAppBoilerplate(
             child: SliverMasonryTestPage(
@@ -506,7 +506,7 @@ void main() {
     testWidgets('the child who out of viewport change small sroll into 0 test',
         (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
-      double size;
+      double? size;
       await tester.pumpWidget(
         materialAppBoilerplate(
             child: SliverMasonryTestPage(
@@ -620,7 +620,7 @@ void main() {
         'the child who out of viewport change small sroll into 100 test',
         (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
-      double size;
+      double? size;
       await tester.pumpWidget(
         materialAppBoilerplate(
             child: SliverMasonryTestPage(
@@ -727,7 +727,7 @@ void main() {
     testWidgets('insert child out of viewport test',
         (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
-      double size;
+      double? size;
       await tester.pumpWidget(
         materialAppBoilerplate(
             child: SliverMasonryTestPage(
@@ -741,7 +741,7 @@ void main() {
             return null;
           },
           setState: (_SliverMasonryTestPageState state) {
-            state._items.insert(0, 999);
+            state._items!.insert(0, 999);
           },
           builder: true,
         )),
@@ -841,7 +841,7 @@ void main() {
     testWidgets('remove child out of viewport test',
         (WidgetTester tester) async {
       final ScrollController controller = ScrollController();
-      int removeIndex;
+      int? removeIndex;
       await tester.pumpWidget(
         materialAppBoilerplate(
             child: SliverMasonryTestPage(
@@ -855,7 +855,7 @@ void main() {
             return null;
           },
           setState: (_SliverMasonryTestPageState state) {
-            state._items.remove(removeIndex);
+            state._items!.remove(removeIndex);
           },
           builder: true,
         )),
@@ -1013,7 +1013,7 @@ void main() {
                 )
               ],
               setState: (_SliverMasonryTestPageState state) {
-                state._headerSlivers.add(
+                state._headerSlivers!.add(
                   SliverToBoxAdapter(
                     child: Container(
                       height: 200.0,
@@ -1060,9 +1060,9 @@ SliverWaterfallFlow masonryGridBoilerplate({
   int crossAxisCount = 4,
   double crossAxisSpacing = 0.0,
   double mainAxisSpacing = 0.0,
-  double maxCrossAxisExtent,
-  List<int> items,
-  double Function(int index) sizeBuilder,
+  double? maxCrossAxisExtent,
+  required List<int> items,
+  double? Function(int index)? sizeBuilder,
 }) {
   final SliverWaterfallFlowDelegate delegate = maxCrossAxisExtent != null
       ? SliverWaterfallFlowDelegateWithMaxCrossAxisExtent(
@@ -1098,7 +1098,7 @@ SliverWaterfallFlow sliverMasonryGridWithChildrenBoilerplate({
   int crossAxisCount = 2,
   double crossAxisSpacing = 0.0,
   double mainAxisSpacing = 0.0,
-  double maxCrossAxisExtent,
+  double? maxCrossAxisExtent,
 }) {
   final List<Widget> children = <Widget>[
     Container(
@@ -1155,10 +1155,10 @@ SliverWaterfallFlow sliverMasonryGridWithChildrenBoilerplate({
 }
 
 Widget customScrollViewBoilerplate({
-  List<Widget> headerSlivers,
-  List<Widget> footSlivers,
-  SliverWaterfallFlow sliverMasonryGrid,
-  ScrollController controller,
+  List<Widget>? headerSlivers,
+  List<Widget>? footSlivers,
+  required SliverWaterfallFlow sliverMasonryGrid,
+  ScrollController? controller,
 }) {
   return CustomScrollView(
     controller: controller,
@@ -1171,7 +1171,7 @@ Widget customScrollViewBoilerplate({
 }
 
 Widget materialAppBoilerplate({
-  Widget child,
+  Widget? child,
   TextDirection textDirection = TextDirection.ltr,
 }) {
   return MaterialApp(
@@ -1206,27 +1206,27 @@ class SliverMasonryTestPage extends StatefulWidget {
   final double mainAxisSpacing;
   final double crossAxisSpacing;
   final TextDirection textDirection;
-  final double maxCrossAxisExtent;
-  final List<int> items;
-  final ScrollController controller;
-  final void Function(_SliverMasonryTestPageState setState) setState;
+  final double? maxCrossAxisExtent;
+  final List<int>? items;
+  final ScrollController? controller;
+  final void Function(_SliverMasonryTestPageState setState)? setState;
   final bool builder;
-  final List<Widget> headerSlivers;
-  final List<Widget> footSlivers;
-  final double Function(int index) sizeBuilder;
+  final List<Widget>? headerSlivers;
+  final List<Widget>? footSlivers;
+  final double? Function(int index)? sizeBuilder;
   @override
   _SliverMasonryTestPageState createState() => _SliverMasonryTestPageState();
 }
 
 class _SliverMasonryTestPageState extends State<SliverMasonryTestPage> {
-  int _crossAxisCount;
-  double _crossAxisSpacing;
-  double _mainAxisSpacing;
-  TextDirection _textDirection;
-  double _maxCrossAxisExtent;
-  List<Widget> _headerSlivers;
-  List<Widget> _footSlivers;
-  List<int> _items;
+  late int _crossAxisCount;
+  late double _crossAxisSpacing;
+  late double _mainAxisSpacing;
+  late TextDirection _textDirection;
+  double? _maxCrossAxisExtent;
+  List<Widget>? _headerSlivers;
+  List<Widget>? _footSlivers;
+  List<int>? _items;
   @override
   void initState() {
     _crossAxisCount = widget.crossAxisCount;
@@ -1255,7 +1255,7 @@ class _SliverMasonryTestPageState extends State<SliverMasonryTestPage> {
                     mainAxisSpacing: _mainAxisSpacing,
                     crossAxisSpacing: _crossAxisSpacing,
                     maxCrossAxisExtent: _maxCrossAxisExtent,
-                    items: _items,
+                    items: _items!,
                     sizeBuilder: widget.sizeBuilder,
                   )
                 : sliverMasonryGridWithChildrenBoilerplate(

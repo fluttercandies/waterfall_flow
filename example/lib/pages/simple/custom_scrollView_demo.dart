@@ -2,7 +2,7 @@
 ///  create by zmtzawqlp on 2019/11/19
 ///
 import 'dart:math';
-import 'package:ff_annotation_route/ff_annotation_route.dart';
+import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
 import 'package:flutter/material.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 

@@ -1,8 +1,8 @@
+
 ///
 ///  create by zmtzawqlp on 2019/11/20
 ///
-
-import 'package:ff_annotation_route/ff_annotation_route.dart';
+import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
@@ -29,7 +29,7 @@ class KnownSizedDemo extends StatefulWidget {
 
 class _KnownSizedDemoState extends State<KnownSizedDemo> {
   TuChongRepository listSourceRepository = TuChongRepository();
-  DateTime dateTimeNow;
+  DateTime? dateTimeNow;
   @override
   void dispose() {
     super.dispose();
@@ -47,7 +47,7 @@ class _KnownSizedDemoState extends State<KnownSizedDemo> {
         slivers: <Widget>[
           SliverToBoxAdapter(
             child: PullToRefreshContainer(
-                (PullToRefreshScrollNotificationInfo info) {
+                (PullToRefreshScrollNotificationInfo? info) {
               return PullToRefreshHeader(info, dateTimeNow);
             }),
           ),
