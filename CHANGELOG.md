@@ -1,3 +1,7 @@
+## 3.0.1
+
+* add clipBehavior
+
 ## 3.0.0
 
 * support null-safety

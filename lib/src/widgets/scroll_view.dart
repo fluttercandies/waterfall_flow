@@ -235,6 +235,7 @@ class WaterfallFlow extends BoxScrollView {
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
     String? restorationId,
+    Clip clipBehavior = Clip.hardEdge,
   })  : childrenDelegate = SliverChildListDelegate(
           children,
           addAutomaticKeepAlives: addAutomaticKeepAlives,
@@ -255,6 +256,7 @@ class WaterfallFlow extends BoxScrollView {
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
           restorationId: restorationId,
+          clipBehavior: clipBehavior,
         );
 
   /// Creates a scrollable, 2D array of widgets whose size is variable in the main axis
@@ -298,6 +300,7 @@ class WaterfallFlow extends BoxScrollView {
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
     String? restorationId,
+    Clip clipBehavior = Clip.hardEdge,
   })  : childrenDelegate = SliverChildBuilderDelegate(
           itemBuilder,
           childCount: itemCount,
@@ -319,6 +322,7 @@ class WaterfallFlow extends BoxScrollView {
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
           restorationId: restorationId,
+          clipBehavior: clipBehavior,
         );
 
   /// Creates a scrollable, 2D array of widgets whose size is variable in the main axis
@@ -345,6 +349,7 @@ class WaterfallFlow extends BoxScrollView {
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
     String? restorationId,
+    Clip clipBehavior = Clip.hardEdge,
   }) : super(
           key: key,
           scrollDirection: scrollDirection,
@@ -359,6 +364,7 @@ class WaterfallFlow extends BoxScrollView {
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
           restorationId: restorationId,
+          clipBehavior: clipBehavior,
         );
 
   /// Creates a scrollable, 2D array of widgets whose size is variable in the main axis
@@ -401,6 +407,7 @@ class WaterfallFlow extends BoxScrollView {
     ViewportBuilder? viewportBuilder,
     bool closeToTrailing = false,
     String? restorationId,
+    Clip clipBehavior = Clip.hardEdge,
   })  : gridDelegate = SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
           mainAxisSpacing: mainAxisSpacing,
@@ -430,6 +437,7 @@ class WaterfallFlow extends BoxScrollView {
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
           restorationId: restorationId,
+          clipBehavior: clipBehavior,
         );
 
   /// Creates a scrollable, 2D array of widgets in masonry layout with tiles
@@ -471,6 +479,7 @@ class WaterfallFlow extends BoxScrollView {
     ViewportBuilder? viewportBuilder,
     bool closeToTrailing = false,
     String? restorationId,
+    Clip clipBehavior = Clip.hardEdge,
   })  : gridDelegate = SliverWaterfallFlowDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: maxCrossAxisExtent,
           mainAxisSpacing: mainAxisSpacing,
@@ -499,6 +508,7 @@ class WaterfallFlow extends BoxScrollView {
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
           restorationId: restorationId,
+          clipBehavior: clipBehavior,
         );
 
   /// A delegate that controls the masonry layout of the children within the [WaterfallFlow].
