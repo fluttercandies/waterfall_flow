@@ -27,10 +27,10 @@ class MyApp extends StatelessWidget {
               return ffRouteSettings;
             }
             return ffRouteSettings.copyWith(
-                widget: CommonWidget(
-              child: ffRouteSettings.widget,
-              title: ffRouteSettings.routeName,
-            ));
+                builder: () => CommonWidget(
+                      child: ffRouteSettings.builder(),
+                      title: ffRouteSettings.routeName,
+                    ));
           },
         );
       },

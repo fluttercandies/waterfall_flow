@@ -20,7 +20,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   extended_image: any
   extended_sliver: any
-  ff_annotation_route_library: any
+  ff_annotation_route_library: ^3.0.0
   flutter:
     sdk: flutter
   # The following adds the Cupertino Icons font to your application.
