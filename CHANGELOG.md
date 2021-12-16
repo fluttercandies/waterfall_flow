@@ -1,3 +1,7 @@
+## 3.0.2
+
+* fix order is not right when network is not good.
+
 ## 3.0.1
 
 * add clipBehavior

@@ -301,7 +301,7 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
   RenderSliverWaterfallFlow({
     required RenderSliverBoxChildManager childManager,
     required SliverWaterfallFlowDelegate gridDelegate,
-  })   : _gridDelegate = gridDelegate,
+  })  : _gridDelegate = gridDelegate,
         super(childManager: childManager);
 
   /// It stores parent data of the leading and trailing.
@@ -841,7 +841,7 @@ class _CrossAxisChildrenData {
 
     if (!leadingChildren.contains(data)) {
       if (leadingChildren.length != crossAxisCount) {
-        data.crossAxisIndex ??= leadingChildren.length;
+        data.crossAxisIndex = leadingChildren.length;
 
         data.crossAxisOffset =
             gridDelegate.getCrossAxisOffset(constraints, data.crossAxisIndex);
