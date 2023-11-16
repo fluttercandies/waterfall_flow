@@ -1,3 +1,8 @@
+## 3.0.3
+
+* fix closeToTrailing hittest issue. #38
+
+
 ## 3.0.2
 
 * fix order is not right when network is not good.

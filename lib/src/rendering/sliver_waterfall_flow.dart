@@ -723,7 +723,7 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
       estimatedMaxScrollOffset = result;
     }
 
-    final double paintExtent = calculatePaintOffset(
+    double paintExtent = calculatePaintOffset(
       constraints,
       from: childScrollOffset(firstChild!)!,
       to: endScrollOffset,
@@ -737,6 +737,11 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
         constraints.scrollOffset + constraints.remainingPaintExtent;
     //zmt
     callViewportBuilder(viewportBuilder: _gridDelegate.viewportBuilder);
+
+    // fix hittest
+    if (closeToTrailing) {
+      paintExtent += closeToTrailingDistance;
+    }
 
     geometry = SliverGeometry(
       scrollExtent: estimatedMaxScrollOffset,

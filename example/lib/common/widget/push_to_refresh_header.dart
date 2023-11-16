@@ -22,16 +22,16 @@ class PullToRefreshHeader extends StatelessWidget {
       return Container();
     }
     String text = '';
-    if (info!.mode == RefreshIndicatorMode.armed) {
+    if (info!.mode == PullToRefreshIndicatorMode.armed) {
       text = 'Release to refresh';
-    } else if (info!.mode == RefreshIndicatorMode.refresh ||
-        info!.mode == RefreshIndicatorMode.snap) {
+    } else if (info!.mode == PullToRefreshIndicatorMode.refresh ||
+        info!.mode == PullToRefreshIndicatorMode.snap) {
       text = 'Loading...';
-    } else if (info!.mode == RefreshIndicatorMode.done) {
+    } else if (info!.mode == PullToRefreshIndicatorMode.done) {
       text = 'Refresh completed.';
-    } else if (info!.mode == RefreshIndicatorMode.drag) {
+    } else if (info!.mode == PullToRefreshIndicatorMode.drag) {
       text = 'Pull to refresh';
-    } else if (info!.mode == RefreshIndicatorMode.canceled) {
+    } else if (info!.mode == PullToRefreshIndicatorMode.canceled) {
       text = 'Cancel refresh';
     }
 
@@ -104,8 +104,8 @@ class RefreshImage extends StatelessWidget {
         final double imageHeight = image.height.toDouble();
         final double imageWidth = image.width.toDouble();
         final Size size = rect.size;
-        final double y = (1 - min(top / (refreshHeight - hideHeight), 1)) *
-            imageHeight;
+        final double y =
+            (1 - min(top / (refreshHeight - hideHeight), 1)) * imageHeight;
 
         canvas.drawImageRect(
             image,

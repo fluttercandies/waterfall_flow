@@ -23,8 +23,8 @@ class MainPage extends StatelessWidget {
             .where((FFRouteSettings element) => element.exts != null)
             .map<DemoRouteResult>((FFRouteSettings e) => DemoRouteResult(e))
             .toList()
-              ..sort((DemoRouteResult a, DemoRouteResult b) =>
-                  b.group.compareTo(a.group)),
+          ..sort((DemoRouteResult a, DemoRouteResult b) =>
+              b.group.compareTo(a.group)),
         (DemoRouteResult x) => x.group));
   }
   final Map<String, List<DemoRouteResult>> routesGroup =
