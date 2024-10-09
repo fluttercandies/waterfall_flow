@@ -37,9 +37,9 @@ dependencies:
 
 ## Easy to use
 
-| ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/waterfall_flow/random_sized.gif) | ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/waterfall_flow/custom_scrollView.gif) |
+| ![img](https://raw.githubusercontent.com/fluttercandies/flutter_candies/master/gif/waterfall_flow/random_sized.gif) | ![img](https://raw.githubusercontent.com/fluttercandies/flutter_candies/master/gif/waterfall_flow/custom_scrollView.gif) |
 | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/waterfall_flow/known_sized.gif)  | ![img](https://github.com/fluttercandies/flutter_candies/tree/master/gif/waterfall_flow/variable_sized.gif)    |
+| ![img](https://raw.githubusercontent.com/fluttercandies/flutter_candies/master/gif/waterfall_flow/known_sized.gif)  | ![img](https://raw.githubusercontent.com/fluttercandies/flutter_candies/master/gif/waterfall_flow/variable_sized.gif)    |
 
 you can define waterfall flow layout within SliverWaterfallFlowDelegate.
 
