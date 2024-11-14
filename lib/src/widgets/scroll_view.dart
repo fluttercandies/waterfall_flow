@@ -289,7 +289,7 @@ class WaterfallFlow extends BoxScrollView {
     bool shrinkWrap = false,
     EdgeInsetsGeometry? padding,
     required this.gridDelegate,
-    required IndexedWidgetBuilder itemBuilder,
+    required NullableIndexedWidgetBuilder itemBuilder,
     int? itemCount,
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
@@ -328,7 +328,7 @@ class WaterfallFlow extends BoxScrollView {
   /// Creates a scrollable, 2D array of widgets whose size is variable in the main axis
   /// with both a custom [SliverGridDelegate] and a custom [SliverChildDelegate].
   ///
-  /// To use an [IndexedWidgetBuilder] callback to build children, either use
+  /// To use an [NullableIndexedWidgetBuilder] callback to build children, either use
   /// a [SliverChildBuilderDelegate] or use the [WaterfallFlow.builder] constructor.
   ///
   /// The [gridDelegate] and [childrenDelegate] arguments must not be null.
