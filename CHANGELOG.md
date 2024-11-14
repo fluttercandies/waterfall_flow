@@ -1,3 +1,7 @@
+## 3.1.0
+
+*  Changed IndexedWidgetBuilder to NullableIndexedWidgetBuilder (#42)
+
 ## 3.0.3
 
 * fix closeToTrailing hittest issue. #38
