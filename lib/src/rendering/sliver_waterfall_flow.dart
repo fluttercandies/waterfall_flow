@@ -875,15 +875,16 @@ class _CrossAxisChildrenData {
         }
         // Find the shortest one and laid out after it.
         final SliverWaterfallFlowParentData min = trailingChildren.reduce(
-          (SliverWaterfallFlowParentData current,
-                  SliverWaterfallFlowParentData next) =>
-              current.trailingLayoutOffset < next.trailingLayoutOffset ||
-                      (current.trailingLayoutOffset ==
-                              next.trailingLayoutOffset &&
-                          current.crossAxisIndex! < next.crossAxisIndex!)
-                  ? current
-                  : next,
-        );
+            (SliverWaterfallFlowParentData current,
+                SliverWaterfallFlowParentData next) {
+          return current.trailingLayoutOffset
+                      .lessThan(next.trailingLayoutOffset) ||
+                  (current.trailingLayoutOffset
+                          .equalTo(next.trailingLayoutOffset) &&
+                      current.crossAxisIndex! < next.crossAxisIndex!)
+              ? current
+              : next;
+        });
 
         data.layoutOffset =
             min.trailingLayoutOffset + gridDelegate.mainAxisSpacing;
@@ -1030,5 +1031,47 @@ class _CrossAxisChildrenData {
   void setLeading() {
     leadingChildren.clear();
     leadingChildren.addAll(trailingChildren);
+  }
+}
+
+extension _DoubleExtension on double {
+  // ignore: unused_element
+  bool get isZero => abs() < precisionErrorTolerance;
+  int compare(double other, {double precision = precisionErrorTolerance}) {
+    if (isNaN || other.isNaN) {
+      throw UnsupportedError('Compared with Infinity or NaN');
+    }
+    final double n = this - other;
+    if (n.abs() < precision) {
+      return 0;
+    }
+    return n < 0 ? -1 : 1;
+  }
+
+  // ignore: unused_element
+  bool greaterThan(double other, {double precision = precisionErrorTolerance}) {
+    return compare(other, precision: precision) > 0;
+  }
+
+  // ignore: unused_element
+  bool lessThan(double other, {double precision = precisionErrorTolerance}) {
+    return compare(other, precision: precision) < 0;
+  }
+
+  // ignore: unused_element
+  bool equalTo(double other, {double precision = precisionErrorTolerance}) {
+    return compare(other, precision: precision) == 0;
+  }
+
+  // ignore: unused_element
+  bool greaterThanOrEqualTo(double other,
+      {double precision = precisionErrorTolerance}) {
+    return compare(other, precision: precision) >= 0;
+  }
+
+  // ignore: unused_element
+  bool lessThanOrEqualTo(double other,
+      {double precision = precisionErrorTolerance}) {
+    return compare(other, precision: precision) <= 0;
   }
 }

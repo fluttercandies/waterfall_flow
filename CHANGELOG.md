@@ -1,3 +1,7 @@
+## 3.1.1
+
+* Fix the issue caused by Dart's precision limitations.(#44)
+
 ## 3.1.0
 
 *  Changed IndexedWidgetBuilder to NullableIndexedWidgetBuilder (#42)
