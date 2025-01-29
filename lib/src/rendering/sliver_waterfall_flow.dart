@@ -443,7 +443,7 @@ class RenderSliverWaterfallFlow extends RenderSliverMultiBoxAdaptor
         child = childAfter(child);
       }
       final int? minLeadingIndex = crossAxisChildrenData.minLeadingIndex;
-      while (child != null && minLeadingIndex! < indexOf(child)) {
+      while (child != null && child.hasSize && minLeadingIndex! < indexOf(child)) {
         crossAxisChildrenData.insertLeading(
             child: child, paintExtentOf: paintExtentOf);
         child = childBefore(child);
