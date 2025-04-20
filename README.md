@@ -1,6 +1,6 @@
 # waterfall_flow
 
-[![pub package](https://img.shields.io/pub/v/waterfall_flow.svg)](https://pub.dartlang.org/packages/waterfall_flow) [![GitHub stars](https://img.shields.io/github/stars/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/stargazers) [![GitHub forks](https://img.shields.io/github/forks/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/network)  [![GitHub license](https://img.shields.io/github/license/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/blob/master/LICENSE)  [![GitHub issues](https://img.shields.io/github/issues/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/issues) <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5bcc0gy"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="flutter-candies" title="flutter-candies"></a>
+[![pub package](https://img.shields.io/pub/v/waterfall_flow.svg)](https://pub.dartlang.org/packages/waterfall_flow) [![GitHub stars](https://img.shields.io/github/stars/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/stargazers) [![GitHub forks](https://img.shields.io/github/forks/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/network)  [![GitHub license](https://img.shields.io/github/license/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/blob/master/LICENSE)  [![GitHub issues](https://img.shields.io/github/issues/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/issues) <a href="https://qm.qq.com/q/ZyJbSVjfSU"><img src="https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Ffluttercandies%2F.github%2Frefs%2Fheads%2Fmain%2Fdata.yml&query=%24.qq_group_number&style=for-the-badge&label=QQ%E7%BE%A4&logo=qq&color=1DACE8" /></a>
 
 A Flutter grid view easy to build waterfall flow layout quickly.
 
@@ -38,7 +38,7 @@ dependencies:
 ## Easy to use
 
 | ![img](https://raw.githubusercontent.com/fluttercandies/flutter_candies/master/gif/waterfall_flow/random_sized.gif) | ![img](https://raw.githubusercontent.com/fluttercandies/flutter_candies/master/gif/waterfall_flow/custom_scrollView.gif) |
-| --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | ![img](https://raw.githubusercontent.com/fluttercandies/flutter_candies/master/gif/waterfall_flow/known_sized.gif)  | ![img](https://raw.githubusercontent.com/fluttercandies/flutter_candies/master/gif/waterfall_flow/variable_sized.gif)    |
 
 you can define waterfall flow layout within SliverWaterfallFlowDelegate.
@@ -57,14 +57,14 @@ you can define waterfall flow layout within SliverWaterfallFlowDelegate.
 
 * SliverWaterfallFlowDelegate
 
-| parameter          | description                                    | default  |
-| ------------------ | ---------------------------------------------- | -------- |
-| mainAxisSpacing            | The number of logical pixels between each child along the main axis.                | 0.0      |
-| crossAxisSpacing           | The number of logical pixels between each child along the cross axis.               | 0.0      |
-| collectGarbage             | Call when collect garbage, return indexs to collect                                 | -        |
-| lastChildLayoutTypeBuilder | The builder to get layout type of last child ,Notice: it should only for last child | -        |
-| viewportBuilder            | The builder to get indexs in viewport                                               | -        |
-| closeToTrailing            | Whether make layout close to trailing                                               | false    |
+| parameter                  | description                                                                         | default |
+| -------------------------- | ----------------------------------------------------------------------------------- | ------- |
+| mainAxisSpacing            | The number of logical pixels between each child along the main axis.                | 0.0     |
+| crossAxisSpacing           | The number of logical pixels between each child along the cross axis.               | 0.0     |
+| collectGarbage             | Call when collect garbage, return indexs to collect                                 | -       |
+| lastChildLayoutTypeBuilder | The builder to get layout type of last child ,Notice: it should only for last child | -       |
+| viewportBuilder            | The builder to get indexs in viewport                                               | -       |
+| closeToTrailing            | Whether make layout close to trailing                                               | false   |
 
 ```dart
             WaterfallFlow.builder(

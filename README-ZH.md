@@ -1,7 +1,7 @@
 # waterfall_flow
 
 
-[![pub package](https://img.shields.io/pub/v/waterfall_flow.svg)](https://pub.dartlang.org/packages/waterfall_flow) [![GitHub stars](https://img.shields.io/github/stars/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/stargazers) [![GitHub forks](https://img.shields.io/github/forks/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/network)  [![GitHub license](https://img.shields.io/github/license/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/blob/master/LICENSE)  [![GitHub issues](https://img.shields.io/github/issues/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/issues) <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5bcc0gy"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="flutter-candies" title="flutter-candies"></a>
+[![pub package](https://img.shields.io/pub/v/waterfall_flow.svg)](https://pub.dartlang.org/packages/waterfall_flow) [![GitHub stars](https://img.shields.io/github/stars/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/stargazers) [![GitHub forks](https://img.shields.io/github/forks/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/network)  [![GitHub license](https://img.shields.io/github/license/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/blob/master/LICENSE)  [![GitHub issues](https://img.shields.io/github/issues/fluttercandies/waterfall_flow)](https://github.com/fluttercandies/waterfall_flow/issues) <a href="https://qm.qq.com/q/ZyJbSVjfSU"><img src="https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Ffluttercandies%2F.github%2Frefs%2Fheads%2Fmain%2Fdata.yml&query=%24.qq_group_number&style=for-the-badge&label=QQ%E7%BE%A4&logo=qq&color=1DACE8" /></a>
 
 能够快速构建瀑布流布局的列表.
 
@@ -39,33 +39,33 @@ dependencies:
 ## 简单使用
 
 | ![img](https://raw.githubusercontent.com/fluttercandies/flutter_candies/master/gif/waterfall_flow/random_sized.gif) | ![img](https://raw.githubusercontent.com/fluttercandies/flutter_candies/master/gif/waterfall_flow/custom_scrollView.gif) |
-| --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | ![img](https://raw.githubusercontent.com/fluttercandies/flutter_candies/master/gif/waterfall_flow/known_sized.gif)  | ![img](https://raw.githubusercontent.com/fluttercandies/flutter_candies/master/gif/waterfall_flow/variable_sized.gif)    |
 
 你可以通过设置SliverWaterfallFlowDelegate参数来定义瀑布流
 
 * SliverWaterfallFlowDelegateWithFixedCrossAxisCount
 
-| 参数      | 描述          | 默认 |
-| -------------- | -------------------- | ------- |
-| crossAxisCount | 横轴的等长度元素数量 | 必填    |
+| 参数           | 描述                 | 默认 |
+| -------------- | -------------------- | ---- |
+| crossAxisCount | 横轴的等长度元素数量 | 必填 |
 
 * SliverWaterfallFlowDelegateWithMaxCrossAxisExtent
 
-| 参数          | 描述                                    | 默认  |
-| ------------------ | ---------------------------------------------- | -------- |
+| 参数               | 描述                | 默认     |
+| ------------------ | ------------------- | -------- |
 | maxCrossAxisExtent | 横轴元素最大的大小. | required |
 
 * SliverWaterfallFlowDelegate
 
-| 参数          | 描述                                    | 默认  |
-| ------------------ | ---------------------------------------------- | -------- |
-| mainAxisSpacing            | 主轴元素之间的距离                     | 0.0|
-| crossAxisSpacing           | 横轴元素之间的距离                     | 0.0|
-| collectGarbage             | 元素回收时候的回调                     | -  |
-| lastChildLayoutTypeBuilder | 最后一个元素的布局样式(详情请查看后面) | -   |
-| viewportBuilder            | 可视区域中元素indexes变化时的回调      | -   |
-| closeToTrailing            | 可否让布局紧贴trailing(详情请查看后面) | false|
+| 参数                       | 描述                                   | 默认  |
+| -------------------------- | -------------------------------------- | ----- |
+| mainAxisSpacing            | 主轴元素之间的距离                     | 0.0   |
+| crossAxisSpacing           | 横轴元素之间的距离                     | 0.0   |
+| collectGarbage             | 元素回收时候的回调                     | -     |
+| lastChildLayoutTypeBuilder | 最后一个元素的布局样式(详情请查看后面) | -     |
+| viewportBuilder            | 可视区域中元素indexes变化时的回调      | -     |
+| closeToTrailing            | 可否让布局紧贴trailing(详情请查看后面) | false |
 
 ```dart
             WaterfallFlow.builder(
